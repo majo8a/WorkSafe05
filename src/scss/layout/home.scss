@@ -1,0 +1,66 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+blog-header {
+    background-color: v.$azulPastel; /* azul pastel */
+    padding: 2rem 6rem; /* ajusta el espacio superior/inferior y lateral */
+}
+
+.titulo-blog {
+    font-family: v.$fuentePrincipal;
+    color: v.$azulMarino;
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: right;
+    margin: 0; /* eliminamos margen para que el padding del contenedor sea efectivo */
+}
+
+/* Contenedor flex para alinear imagen y texto */
+.blog-container{
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem; /* espacio entre imagen y texto */
+    margin: 2rem;
+}
+.blog-contenido{
+    background-color: v.$azulPastel;
+}
+
+.img-blog{
+    width: 600px; /* más pequeño para que quede al lado del texto */
+    height: auto;
+    border-radius: 1rem;
+}
+
+.blog-text{
+    flex: 1; /* ocupa el resto del espacio */
+}
+
+.blog{
+    font-size: 1.8rem;
+    line-height: 1.6;
+    text-align: justify;
+    font-family: v.$fuentePrincipal;
+}
+.subrayado{
+    color: v.$verde;
+    font-weight: bold;
+}
+.inicioTest{
+    background-color: v.$azulMarino;
+    color: v.$blanco;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-family: v.$fuentePrincipal;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    margin-top: 1rem;
+    transition: background-color .3s ease;
+    border: none;
+}
+
+.inicioTest:hover{
+    cursor: pointer;
+    color: v.$negro;
+    background-color: v.$azul;
+}

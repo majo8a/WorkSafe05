@@ -1,0 +1,26 @@
+{
+  "name": "worksafe05",
+  "version": "1.0.0",
+  "description": "Formulario bajo la NOM-035",
+  "main": "gulpfile.js",
+  "type": "module",
+  "scripts": {
+    "sass": "sass --watch src/scss:build/css",
+    "dev": "gulp dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/majo8a/WorkSafe05.git"
+  },
+  "author": "Maria Jose Ochoa Uscanga | Adan Noe Corro Rojas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/majo8a/WorkSafe05/issues"
+  },
+  "homepage": "https://github.com/majo8a/WorkSafe05#readme",
+  "devDependencies": {
+    "gulp": "^5.0.1",
+    "gulp-sass": "^6.0.1",
+    "sass": "^1.92.1"
+  }
+}

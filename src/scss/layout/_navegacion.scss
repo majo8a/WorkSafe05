@@ -1,0 +1,124 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.navegador {
+    background-color: v.$blanco;
+    width: 100%;
+}
+.barra-pestanas {
+    background-color: v.$blanco;
+}
+.contenedor {
+    max-width: 120rem;
+    width: 90%;
+    margin: 0 auto;
+}
+.nav-tabs {
+    border-bottom: 2px solid v.$azul;
+    height: 100%;
+}
+.nav-tabs .nav-link {
+    color: v.$negro;
+}
+.nav-tabs .nav-link.active {
+    background-color: v.$azul;
+    color: v.$blanco;
+    border-color: v.$azul v.$azul v.$azulPastel;
+}
+
+.navbar-brand img {
+    height: 80px;
+    margin-right: 10px;
+}
+.system-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.system-subtitle {
+    font-size: 1.3rem;
+    color: #555;
+}
+.nav-tabs .nav-link.active {
+    background-color: v.$azul;
+    border-color: v.$azul v.$azul v.$azul;
+}
+.nav-link:hover{
+    color: v.$blanco;
+    background-color: v.$azul;
+}
+.nav-logo{
+    height: 200px;
+    width: auto;
+}
+.iconos {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.user-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: v.$negro;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+.user-link:hover {
+    color: v.$azul;
+}
+.icon {
+    width: 30px;
+    height: 30px;
+    stroke: v.$negro;
+    transition: stroke 0.3s;
+}
+.usuario{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.user-link:hover .icon {
+    stroke: v.$blanco
+}
+/* LISTA DESPLEGABLE */
+.dropdown-toggle::after {
+    content: " \25BC";
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+.dropdown:hover .dropdown-toggle::after {
+    content: " \25B2"; /* Cambia la flecha hacia arriba cuando el menú esté activo */
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: v.$azul;
+    min-width: 50px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+.dropdown-content a {
+    text-align: center;
+    color: v.$blanco;
+    padding: 12px 16px;
+    display: block;
+    text-align: left;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-toggle:hover, .dropdown-content a:hover {
+    background-color: v.$azul;
+    color: v.$blanco;
+    text-shadow: 2px 2px 4px v.$azulMarino;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+}
