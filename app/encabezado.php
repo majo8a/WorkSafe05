@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorkSafe035</title>
-    <link rel="preload" href="css/normalize.css" as="style">
-    <link rel="stylesheet" href="css/normalize.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Dosis:wght@200..800&display=swap" rel="stylesheet">
@@ -35,10 +34,6 @@
               <circle cx="12" cy="7" r="4" />
               <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
             </svg>
-            <?php
-            session_start();
-            echo $_SESSION['usuario'];
-            ?>
           </div>
           <div class="dropdown-content">
             <a style="font-size: 18px" href="logout.php">Cerrar sesión</a>
