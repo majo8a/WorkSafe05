@@ -2,18 +2,12 @@
 error_reporting(E_ALL);
 require_once '../conexion.php';
 
-// Obtiene el JSON enviado por POST
-$obj = json_decode(file_get_contents("php://input"));
-
-$stmt = $db->prepare("SELECT id_cuestionario, nombre, descripcion, version, estado, fecha_creacion, id_usuario_creador 
-                      FROM Cuestionario 
-                      WHERE id_cuestionario = ?");
-$stmt->bind_param('i', $obj->id_cuestionario);
+$stmt = $db->prepare("SELECT id_cuestionario, nombre, descripcion, version, estado, fecha_creacion, id_usuario_creador FROM Cuestionario");
 $stmt->execute();
 $stmt->bind_result($id_cuestionario, $nombre, $descripcion, $version, $estado, $fecha_creacion, $id_usuario_creador);
 
 $arr = array();
-if ($stmt->fetch()) {
+while ($stmt->fetch()) {
   $arr[] = array(
     'id_cuestionario' => $id_cuestionario,
     'nombre' => $nombre,

@@ -2,27 +2,34 @@
 error_reporting(E_ALL);
 require_once '../conexion.php';
 
+// Obtiene el JSON enviado por POST
 $obj = json_decode(file_get_contents("php://input"));
 
-if (!isset($obj->id_pregunta) || !is_numeric($obj->id_pregunta)) {
-  echo json_encode(["status" => "error", "message" => "El ID de la pregunta es obligatorio"]);
-  exit;
-}
-
-$stmt = $db->prepare("
-    SELECT p.*, c.nombre as nombre_cuestionario
-    FROM Pregunta p
-    LEFT JOIN Cuestionario c ON p.id_cuestionario = c.id_cuestionario
-    WHERE p.id_pregunta=?
-");
-$stmt->bind_param("i", $obj->id_pregunta);
+$stmt = $db->prepare("SELECT id_pregunta, id_cuestionario, texto_pregunta, tipo_calificacion, orden, puntaje_maximo, obligatoria, dimension, dominio, categoria, grupo_aplicacion, id_pregunta_dependeDe, condicion 
+                      FROM Pregunta 
+                      WHERE id_pregunta = ?");
+$stmt->bind_param('i', $obj->id_pregunta);
 $stmt->execute();
-$result = $stmt->get_result();
+$stmt->bind_result($id_pregunta, $id_cuestionario, $texto_pregunta, $tipo_calificacion, $orden, $puntaje_maximo, $obligatoria, $dimension, $dominio, $categoria, $grupo_aplicacion, $id_pregunta_dependeDe, $condicion);
 
-if ($row = $result->fetch_assoc()) {
-  echo json_encode($row);
-} else {
-  echo json_encode(["status" => "error", "message" => "Pregunta no encontrada"]);
+$arr = array();
+if ($stmt->fetch()) {
+  $arr[] = array(
+    'id_pregunta' => $id_pregunta,
+    'id_cuestionario' => $id_cuestionario,
+    'texto_pregunta' => $texto_pregunta,
+    'tipo_calificacion' => $tipo_calificacion,
+    'orden' => $orden,
+    'puntaje_maximo' => $puntaje_maximo,
+    'obligatoria' => $obligatoria,
+    'dimension' => $dimension,
+    'dominio' => $dominio,
+    'categoria' => $categoria,
+    'grupo_aplicacion' => $grupo_aplicacion,
+    'id_pregunta_dependeDe' => $id_pregunta_dependeDe,
+    'condicion' => $condicion
+  );
 }
 
 $stmt->close();
+echo json_encode($arr);

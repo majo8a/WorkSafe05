@@ -2,16 +2,18 @@
 error_reporting(E_ALL);
 require_once '../conexion.php';
 
-// Preparar SELECT
 $stmt = $db->prepare("SELECT id_rol, nombre_rol, descripcion FROM Rol");
 $stmt->execute();
-$result = $stmt->get_result();
+$stmt->bind_result($id_rol, $nombre_rol, $descripcion);
 
-$roles = [];
-while ($row = $result->fetch_assoc()) {
-  $roles[] = $row;
+$arr = array();
+while ($stmt->fetch()) {
+  $arr[] = array(
+    'id_rol' => $id_rol,
+    'nombre_rol' => $nombre_rol,
+    'descripcion' => $descripcion
+  );
 }
 
 $stmt->close();
-
-echo json_encode($roles);
+echo json_encode($arr);

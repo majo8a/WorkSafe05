@@ -2,29 +2,24 @@
 error_reporting(E_ALL);
 require_once '../conexion.php';
 
+// Obtiene el JSON enviado por POST
 $obj = json_decode(file_get_contents("php://input"));
 
-// Validar ID
-if (!isset($obj->id_rol) || !is_numeric($obj->id_rol)) {
-  echo json_encode([
-    "status" => "error",
-    "message" => "El ID del rol es obligatorio y debe ser numérico"
-  ]);
-  exit;
-}
-
-$stmt = $db->prepare("SELECT id_rol, nombre_rol, descripcion FROM Rol WHERE id_rol = ?");
-$stmt->bind_param("i", $obj->id_rol);
+$stmt = $db->prepare("SELECT id_rol, nombre_rol, descripcion 
+                      FROM Rol 
+                      WHERE id_rol = ?");
+$stmt->bind_param('i', $obj->id_rol);
 $stmt->execute();
-$result = $stmt->get_result();
+$stmt->bind_result($id_rol, $nombre_rol, $descripcion);
 
-if ($row = $result->fetch_assoc()) {
-  echo json_encode($row);
-} else {
-  echo json_encode([
-    "status" => "error",
-    "message" => "Rol no encontrado"
-  ]);
+$arr = array();
+if ($stmt->fetch()) {
+  $arr[] = array(
+    'id_rol' => $id_rol,
+    'nombre_rol' => $nombre_rol,
+    'descripcion' => $descripcion
+  );
 }
 
 $stmt->close();
+echo json_encode($arr);

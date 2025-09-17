@@ -2,36 +2,30 @@
 error_reporting(E_ALL);
 require_once '../conexion.php';
 
+// Obtiene el JSON enviado por POST
 $obj = json_decode(file_get_contents("php://input"));
 
-// Validar ID
-if (!isset($obj->id_usuario) || !is_numeric($obj->id_usuario)) {
-  echo json_encode([
-    "status" => "error",
-    "message" => "El ID del usuario es obligatorio y debe ser numérico"
-  ]);
-  exit;
-}
-
-// Preparar SELECT
-$stmt = $db->prepare("
-    SELECT u.id_usuario, u.nombre_completo, u.correo, u.telefono, 
-           u.autenticacion_dos_factores, u.activo, u.id_rol, r.nombre_rol, u.fecha_registro
-    FROM Usuario u
-    LEFT JOIN Rol r ON u.id_rol = r.id_rol
-    WHERE u.id_usuario = ?
-");
-$stmt->bind_param("i", $obj->id_usuario);
+$stmt = $db->prepare("SELECT id_usuario, nombre_completo, correo, telefono, password_hash, autenticacion_dos_factores, activo, id_rol, fecha_registro 
+                      FROM Usuario 
+                      WHERE id_usuario = ?");
+$stmt->bind_param('i', $obj->id_usuario);
 $stmt->execute();
-$result = $stmt->get_result();
+$stmt->bind_result($id_usuario, $nombre_completo, $correo, $telefono, $password_hash, $autenticacion_dos_factores, $activo, $id_rol, $fecha_registro);
 
-if ($row = $result->fetch_assoc()) {
-  echo json_encode($row);
-} else {
-  echo json_encode([
-    "status" => "error",
-    "message" => "Usuario no encontrado"
-  ]);
+$arr = array();
+if ($stmt->fetch()) {
+  $arr[] = array(
+    'id_usuario' => $id_usuario,
+    'nombre_completo' => $nombre_completo,
+    'correo' => $correo,
+    'telefono' => $telefono,
+    'password_hash' => $password_hash,
+    'autenticacion_dos_factores' => $autenticacion_dos_factores,
+    'activo' => $activo,
+    'id_rol' => $id_rol,
+    'fecha_registro' => $fecha_registro
+  );
 }
 
 $stmt->close();
+echo json_encode($arr);
