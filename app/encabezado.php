@@ -7,11 +7,12 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Dosis:wght@200..800&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">  
     <link rel="stylesheet" href="../build/css/app.css">
     <link rel="icon" href="../src/img/logo.png" type="image/x-icon">
 
@@ -20,7 +21,7 @@
   <nav class="navbar px-3 border-bottom w-100">
     <div class="contenedor d-flex justify-content-between align-items-center">
       <a class="navbar-brand d-flex align-items-center" href="home.php">
-        <img class="nav-logo" src="..src/img/logo-sinfondo.png" alt="Logo">
+        <img class="nav-logo" src="../src/img/logo-sinfondo.png" alt="Logo">
         <div>
           <div class="system-title">EPSINOM-035</div>
           <div class="system-subtitle">Evaluación psicosocial con base en la NOM-035</div>

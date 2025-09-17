@@ -1,49 +1,51 @@
 @use 'base/variables' as v;
 @use 'base/mixins' as m;
 
-blog-header {
-    background-color: v.$azulPastel; /* azul pastel */
-    padding: 2rem 6rem; /* ajusta el espacio superior/inferior y lateral */
-}
-
 .titulo-blog {
-    font-family: v.$fuente_principal;
+    font-family: v.$fuente_secundaria;
+    text-shadow: v.$negro 1px 1px;
+    text-transform: uppercase;
     color: v.$azulMarino;
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: bold;
     text-align: right;
-    margin: 0; /* eliminamos margen para que el padding del contenedor sea efectivo */
+    margin: 0; 
+    padding-top: 2.5rem;
+    padding-right: 18rem;
 }
 
-/* Contenedor flex para alinear imagen y texto */
+
 .blog-container{
     display: flex;
     align-items: flex-start;
-    gap: 2rem; /* espacio entre imagen y texto */
-    margin: 2rem;
+    gap: 2rem;
+    margin: 10rem;
 }
 .blog-contenido{
-    background-color: v.$azulPastel;
+    background: linear-gradient(180deg, v.$azulPastel 0% 12%, #7CCF5F 100% 100%);
 }
 
 .img-blog{
-    width: 600px; /* más pequeño para que quede al lado del texto */
+    width: 400px; 
     height: auto;
     border-radius: 1rem;
 }
-
 .blog-text{
-    flex: 1; /* ocupa el resto del espacio */
+    color: v.$negro;
+    flex: 1; 
 }
-
 .blog{
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     line-height: 1.6;
     text-align: justify;
     font-family: v.$fuente_principal;
 }
 .subrayado{
     color: v.$verde;
+    font-weight: bold;
+}
+.subrayado2{
+    color: v.$azulMarino;
     font-weight: bold;
 }
 .inicioTest{
@@ -63,4 +65,50 @@ blog-header {
     cursor: pointer;
     color: v.$negro;
     background-color: v.$azul;
+}
+
+.titulo-tarjetas, .titulo-resultados{
+    color: v.$azulMarino;
+    font-family: v.$fuente_secundaria;
+    text-align: center;
+    text-shadow: v.$negro 1px 1px;
+    font-size: 3rem;
+    text-transform: uppercase;
+}
+.titulo-resultados{
+    font-family: v.$fuente_secundaria;
+    text-shadow: v.$negro 1px 1px;
+    color: v.$azulMarino;
+    font-weight: bold;
+    text-align: left;
+    margin: 0;
+    padding-top: 2.5rem;
+    padding-left: 36rem;
+}
+.tarjetas-container{
+    margin: 0 auto;
+    padding: 0 2.5rem;
+}
+.card{
+    border-radius: 2.5rem;
+}
+.card-title{
+    font-size: 2rem;
+}
+.card-text{
+    font-size: 1.5rem;
+    padding: 2rem;
+    margin: 1rem;
+    text-align: justify;
+}
+.resultados{
+    margin: 2rem;
+    padding-left: 3rem;
+}
+.blog-resultados{
+    font-size: 1.5rem;
+    line-height: 1.6;
+    text-align: justify;
+    font-family: v.$fuente_principal;
+    color: v.$negro;
 }

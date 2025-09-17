@@ -38,6 +38,10 @@
     font-size: 1.3rem;
     color: #555;
 }
+.nav-link{
+    font-family: v.$fuente_secundaria;
+    font-weight: bold;
+}
 .nav-tabs .nav-link.active {
     background-color: v.$azul;
     border-color: v.$azul v.$azul v.$azul;
@@ -103,6 +107,7 @@
     z-index: 1;
 }
 .dropdown-content a {
+    font-family: v.$fuente_secundaria;
     text-align: center;
     color: v.$blanco;
     padding: 12px 16px;
