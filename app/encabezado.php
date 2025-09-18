@@ -53,13 +53,13 @@
         <a class="nav-link active" href="home.php">Inicio</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Cuestionarios</a>
+        <a class="nav-link" href="cuestionarios.php">Cuestionarios</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Reportes</a>
+        <a class="nav-link" href="reportes.php">Reportes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Configuración</a>
+        <a class="nav-link" href="configuracion.php">Configuración</a>
       </li>
     </ul>
   </div>
