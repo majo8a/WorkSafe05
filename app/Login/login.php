@@ -17,30 +17,38 @@ session_start();
   <div class="container-login">
     <div class="form-box box">
       <?php
-      include "connection.php";
+      include "conexion.php";
 
       if (isset($_POST['login'])) {
-
         $email = $_POST['email'];
         $pass = $_POST['password'];
 
-        $sql = "SELECT * FROM users WHERE email='$email'";
+        // Buscar usuario por correo
+        $sql = "SELECT * FROM Usuario WHERE correo='$email'";
         $res = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($res) > 0) {
           $row = mysqli_fetch_assoc($res);
-          $password = $row['password'];
+          $password_hash = $row['password_hash'];
 
-          if (password_verify($pass, $password)) {
-            $_SESSION['id'] = $row['id'];
-            $_SESSION['username'] = $row['username'];
-            $_SESSION['role'] = $row['role'];
+          // Verificar contraseña
+          if (password_verify($pass, $password_hash)) {
+            // Guardar datos en sesión
+            $_SESSION['id'] = $row['id_usuario'];        // ID del usuario
+            $_SESSION['username'] = $row['nombre_completo'];
+            $_SESSION['role'] = $row['id_rol'];          // ID del rol
 
-            // Redirigir según el rol del usuario 1=user 2= admin
-            if ($row['role'] == 1) {
-              header("location: ../home.php");
-            } elseif ($row['role'] == 2) {
-              header("location: ../configuracion.php");
+            // Mapeo de roles a rutas
+            $redirects = [
+              1 => "../administrador.php",   // Administrador
+              2 => "../home.php",   // Psicólogo
+              3 => "../home.php"       // Usuario común
+            ];
+
+            // Redirigir según rol
+            if (array_key_exists($row['id_rol'], $redirects)) {
+              header("location: " . $redirects[$row['id_rol']]);
+              exit();
             } else {
               echo "<div class='message'><p>Rol desconocido</p></div><br>";
               echo "<a href='login.php'><button class='btn'>Regresar</button></a>";
@@ -55,34 +63,35 @@ session_start();
         }
       } else {
       ?>
-      <header>
-      <img src="../../src/img/logo-sinfondo.png" alt="Logo"></img>
-      <br>
-      Iniciar Sesión</header>
-      <hr>
-      <form action="#" method="POST">
-        <div class="form-box">
-          <div class="input-container">
-            <i class="fa fa-envelope icon-login"></i>
-            <input class="input-field" type="email" placeholder="Correo electrónico" name="email" required>
+        <header>
+          <img src="../../src/img/logo-sinfondo.png" alt="Logo"></img>
+          <br>
+          Iniciar Sesión
+        </header>
+        <hr>
+        <form action="#" method="POST">
+          <div class="form-box">
+            <div class="input-container">
+              <i class="fa fa-envelope icon-login"></i>
+              <input class="input-field" type="email" placeholder="Correo electrónico" name="email" required>
+            </div>
+            <div class="input-container">
+              <i class="fa fa-lock icon-login"></i>
+              <input class="input-field password" type="password" placeholder="Contraseña" name="password" required>
+              <i class="fa fa-eye toggle icon-login"></i>
+            </div>
+            <div class="remember">
+              <input type="checkbox" class="check" name="remember_me">
+              <label class="remember-label" for="remember">Recordarme</label>
+              <span><a style="font-size: 1.2rem" href="forgot.php">¿Olvidaste tu contraseña?</a></span>
+            </div>
           </div>
-          <div class="input-container">
-            <i class="fa fa-lock icon-login"></i>
-            <input class="input-field password" type="password" placeholder="Contraseña" name="password" required>
-            <i class="fa fa-eye toggle icon-login"></i>
-          </div>
-          <div class="remember">
-            <input type="checkbox" class="check" name="remember_me">
-            <label class="remember-label" for="remember">Recordarme</label>
-            <span><a style="font-size: 1.2rem" href="forgot.php">¿Olvidaste tu contraseña?</a></span>
-          </div>
-        </div>
-        <input type="submit" name="login" id="submit" value="Iniciar Sesión" class="btn">
-      </form>
+          <input type="submit" name="login" id="submit" value="Iniciar Sesión" class="btn">
+        </form>
     </div>
-    <?php
+  <?php
       }
-    ?>
+  ?>
   </div>
   <script>
     const toggle = document.querySelector(".toggle"),

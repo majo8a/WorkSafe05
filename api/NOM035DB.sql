@@ -9,6 +9,16 @@ CREATE TABLE Rol (
     descripcion VARCHAR(255)
 );
 
+INSERT INTO Rol (nombre_rol, descripcion) 
+VALUES ('Administrador', 'Usuario con control total del sistema, gestiona usuarios, configuraciones y datos.');
+
+INSERT INTO Rol (nombre_rol, descripcion) 
+VALUES ('Psicólogo', 'Usuario encargado de aplicar cuestionarios, evaluar resultados y dar seguimiento.');
+
+INSERT INTO Rol (nombre_rol, descripcion) 
+VALUES ('Usuario', 'Usuario común que responde cuestionarios y consulta resultados personales.');
+
+
 -- Tabla: Usuario
 CREATE TABLE Usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
