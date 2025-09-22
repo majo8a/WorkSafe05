@@ -8,10 +8,10 @@
     color: v.$azulMarino;
     font-size: 3rem;
     font-weight: bold;
-    text-align: right;
+    text-align: center;
     margin: 0; 
     padding-top: 2.5rem;
-    padding-right: 18rem;
+
 }
 
 
@@ -80,10 +80,9 @@
     text-shadow: v.$negro 1px 1px;
     color: v.$azulMarino;
     font-weight: bold;
-    text-align: left;
+    text-align: center;
     margin: 0;
-    padding-top: 2.5rem;
-    padding-left: 36rem;
+
 }
 .tarjetas-container{
     margin: 0 auto;
@@ -94,12 +93,15 @@
 }
 .card-title{
     font-size: 2rem;
+    text-shadow: none;
 }
 .card-text{
     font-size: 1.5rem;
     padding: 2rem;
     margin: 1rem;
     text-align: justify;
+    text-transform: none;
+    text-shadow: none;
 }
 .resultados{
     margin: 2rem;
@@ -111,4 +113,39 @@
     text-align: justify;
     font-family: v.$fuente_principal;
     color: v.$negro;
+}
+// Media Queries
+@media (max-width: 768px) {
+    .blog-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .titulo-blog, .titulo-tarjetas, .titulo-resultados {
+        font-size: 2rem;
+        text-align: center;
+    }
+    .card-title {
+        font-size: 1.2rem;
+    }
+    .card-text {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+    .blog, .blog-resultados {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .inicioTest {
+        width: 100%;
+        padding: 1rem;
+    }
+    .img-blog {
+        max-width: 100%;
+    }
+    .blog-container {
+        margin: 1rem;
+        gap: 1rem;
+    }
 }
