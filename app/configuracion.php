@@ -1,25 +1,13 @@
 <?php require_once 'encabezado.php'; ?>
 <script src="controlador/angular.min.js"></script>
-<script src="controlador/administracion.js "></script>
+<script src="controlador/administracion.js"></script>
 
-<body ng-app="app"ng-controller="adminCtrl" class="container-configuracion">
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <div class="sidebar d-flex flex-column p-3">
-            <br>
-            <h4 class="text-center">Menú</h4>
-            <br>
-            <a href="#">⚙️ Ajustes Generales</a>
-            <a href="#">👥 Usuarios</a>
-            <a href="#">📑 Reportes</a>
-            <a href="#">📋 Cuestionarios</a>
-            <a href="#">🔗 Bitacora</a>
-        </div>
-
+<body ng-app="app" ng-controller="adminCtrl" class="container-configuracion">
+    
+<?php require_once 'menuAdmin.php'; ?>
         <!-- Contenido principal -->
         <div class="fondo content flex-grow-1">
             <h2 class="titulo-historial">Historial de Movimientos</h2>
-
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead class="table-primary">
@@ -50,4 +38,14 @@
             </div>
         </div>
     </div>
+
+<script>
+    // Toggle del sidebar en móviles
+    const btnMenu = document.getElementById('btnMenu');
+    const sidebar = document.getElementById('sidebar');
+
+    btnMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('sidebar-open');
+    });
+</script>
 </body>
