@@ -41,7 +41,7 @@
               </a>
             </li>
             <li>
-              <a href="../login/logout.php">Salir</a>
+              <a href="login/logout.php">Salir</a>
             </li>
           </ul>
         </div>
