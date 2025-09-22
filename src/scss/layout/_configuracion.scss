@@ -1,0 +1,106 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.container-configuracion{
+  background-color: v.$azulPastel;  
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.d-flex {
+  flex: 1;
+  flex-direction: row; // desktop por defecto
+}
+.content.fondo {
+  background-color: v.$azulPastel;
+}
+.tabla-encabezado{
+  font-family: v.$fuente_secundaria;
+  text-align: center;
+}
+
+.text-center{
+    font-family: v.$fuente_secundaria;
+    text-shadow: v.$negro 1px 1px;
+    text-transform: uppercase;
+    font-size: 2.5rem;
+}
+.d-flex {
+  flex: 1;
+}
+
+.sidebar {
+  font-family: v.$fuente_secundaria;
+  text-shadow: v.$negro 1px 1px;
+  min-width: 220px;
+  max-width: 220px;
+  background-color: v.$azul;
+  color: white;
+  height: calc(100vh - 120px);
+  padding-top: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px 15px;
+  transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: v.$azulMarino;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+.titulo-historial{
+    text-align: center;
+    font-size: 3.5rem;
+    color: v.$negro;
+    padding-top: 2rem;
+}
+.table-responsive {
+  overflow-x: auto;
+}
+
+.tabla-encabezado{
+  font-family: v.$fuente_secundaria;
+  text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .d-flex {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 999;
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .content {
+    flex: 1;
+    padding: 1rem;
+    margin-left: 0;
+  }
+
+  /* Navbar superior visible en móvil */
+  .navbar {
+    display: flex;
+  }
+}
