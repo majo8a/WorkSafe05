@@ -40,7 +40,7 @@ session_start();
 
             // Mapeo de roles a rutas
             $redirects = [
-              1 => "../administrador.php",   // Administrador
+              1 => "../menuAdmin.php",   // Administrador
               2 => "../home.php",   // Psicólogo
               3 => "../home.php"       // Usuario común
             ];
