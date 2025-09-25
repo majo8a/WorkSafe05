@@ -1,58 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WorkSafe05</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../build/css/app.css">
-  <link rel="icon" href="../src/img/logo.png" type="image/x-icon">
-
-  <!-- Encabezado con logo y título -->
-  <div class="navegador">
-    <nav class="navbar px-3 border-bottom w-100">
-      <div class="contenedor d-flex justify-content-between align-items-center">
-        <a class="navbar-brand d-flex align-items-center" href="index.php">
-          <img class="nav-logo" src="../src/img/logo-sinfondo.png" alt="Logo">
-          <div>
-            <div class="system-title">EPSINOM-035</div>
-            <div class="system-subtitle">Evaluación psicosocial con base en la NOM-035</div>
-          </div>
-        </a>
-      </div>
-    </nav>
-  </div>
-
-
-  <!-- Barra de pestañas -->
-  <div class="barra-pestanas">
-    <div class="contenedor">
-      <ul class="nav nav-tabs px-3">
-        <li class="nav-item">
-          <a class="nav-link active" href="index.php">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login/login.php">Cuestionarios</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login/login.php">Reportes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login/login.php">Configuración</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</head>
+<?php require_once 'encabezado.php'; ?>
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <body>
   <div class="blog-contenido">
@@ -158,29 +108,7 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="../build/css/app.css">
-<footer class="footer">
-  <div class="footer-elementos">
-    <div class="footer-elementos__element">
-      <a href="contacto.php">
-        <h4 class="footer-titulo">Contacto</h4>
-      </a>
-    </div>
-    <div class="footer-elementos__element">
-      <a href="#">
-        <h4 class="footer-titulo">Cuestionarios</h4>
-      </a>
-    </div>
-    <div class="footer-elementos__element">
-      <a href="#">
-        <h4 class="footer-titulo">Reportes</h4>
-      </a>
-    </div>
-  </div>
-  <p class="footer-parrafo">
-    María José Ochoa Uscanga | Adán Noé Corro Rojas
-  </p>
-</footer>
+<?php require_once 'footer.php'; ?>
 </body>
 
 </html>

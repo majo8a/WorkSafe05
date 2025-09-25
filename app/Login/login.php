@@ -42,7 +42,7 @@ session_start();
             $redirects = [
               1 => "../menuAdmin.php",   // Administrador
               2 => "../home.php",   // Psicólogo
-              3 => "../home.php"       // Usuario común
+              3 => "../psicologo.php"       // Usuario común
             ];
 
             // Redirigir según rol
