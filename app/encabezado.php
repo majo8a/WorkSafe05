@@ -1,4 +1,13 @@
-<?php session_start(); ?>
+<?php
+session_start();
+
+// Si no hay sesión iniciada, redirige al login
+if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
+  header("Location: login/login.php"); // ajusta la ruta según tu estructura
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -41,7 +50,7 @@
               </a>
             </li>
             <li>
-              <a href="../login/logout.php">Salir</a>
+              <a href="login/logout.php">Salir</a>
             </li>
           </ul>
         </div>
@@ -53,9 +62,6 @@
   <div class="barra-pestanas">
     <div class="contenedor">
       <ul class="nav nav-tabs px-3">
-        <li class="nav-item">
-          <a class="nav-link" href="home.php">Inicio</a>
-        </li>
 
         <?php if ($_SESSION['role'] == 1): // Admin 
         ?>
@@ -82,6 +88,9 @@
 
         <?php if ($_SESSION['role'] == 3): // Usuario común 
         ?>
+          <li class="nav-item">
+            <a class="nav-link" href="home.php">Inicio</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="cuestionarios.php">Cuestionarios</a>
           </li>
