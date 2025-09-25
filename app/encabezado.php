@@ -54,18 +54,40 @@
     <div class="contenedor">
       <ul class="nav nav-tabs px-3">
         <li class="nav-item">
-          <a class="nav-link active" href="home.php">Inicio</a>
+          <a class="nav-link" href="home.php">Inicio</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="cuestionarios.php">Cuestionarios</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="reportes.php">Reportes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="configuracion.php">Configuración</a>
-        </li>
+
+        <?php if ($_SESSION['role'] == 1): // Admin 
+        ?>
+          <li class="nav-item">
+            <a class="nav-link" href="usuarios.php">Usuarios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="configuracion.php">Configuración</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="reportes.php">Reportes</a>
+          </li>
+        <?php endif; ?>
+
+        <?php if ($_SESSION['role'] == 2): // Psicólogo 
+        ?>
+          <li class="nav-item">
+            <a class="nav-link" href="cuestionarios.php">Cuestionarios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="evaluaciones.php">Evaluaciones</a>
+          </li>
+        <?php endif; ?>
+
+        <?php if ($_SESSION['role'] == 3): // Usuario común 
+        ?>
+          <li class="nav-item">
+            <a class="nav-link" href="cuestionarios.php">Cuestionarios</a>
+          </li>
+        <?php endif; ?>
       </ul>
+
     </div>
   </div>
 
