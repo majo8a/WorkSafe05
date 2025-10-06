@@ -43,16 +43,19 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
 
         <!-- Sección de usuario -->
         <div class="iconos">
-          <ul class="nav navbar-nav navbar-right d-flex gap-3 align-items-center">
-            <li>
-              <a href="#">
-                <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Invitado'; ?>
-              </a>
-            </li>
-            <li>
-              <a href="login/logout.php">Salir</a>
-            </li>
-          </ul>
+          <div class="usuario dropdown">
+            <div class="user-link dropdown-toggle">
+              <svg class="icon" a xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+              </svg>
+              <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Invitado'; ?>
+            </div>
+            <div class="dropdown-content">
+              <a style="font-size: 18px" href="login/logout.php">Cerrar sesión</a>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
