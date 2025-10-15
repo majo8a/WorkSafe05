@@ -1,5 +1,6 @@
 <?php
 error_reporting(E_ALL);
+header('Content-Type: application/json; charset=utf-8');
 require_once '../conexion.php';
 
 // Recibir datos JSON
@@ -7,34 +8,22 @@ $obj = json_decode(file_get_contents("php://input"));
 
 // Validaciones mínimas
 if (!isset($obj->nombre_completo) || empty(trim($obj->nombre_completo))) {
-  echo json_encode([
-    "status" => "error",
-    "message" => "El nombre completo es obligatorio"
-  ]);
+  echo json_encode(["status" => "error", "message" => "El nombre completo es obligatorio"]);
   exit;
 }
 
 if (!isset($obj->correo) || empty(trim($obj->correo))) {
-  echo json_encode([
-    "status" => "error",
-    "message" => "El correo es obligatorio"
-  ]);
+  echo json_encode(["status" => "error", "message" => "El correo es obligatorio"]);
   exit;
 }
 
 if (!isset($obj->password) || empty(trim($obj->password))) {
-  echo json_encode([
-    "status" => "error",
-    "message" => "La contraseña es obligatoria"
-  ]);
+  echo json_encode(["status" => "error", "message" => "La contraseña es obligatoria"]);
   exit;
 }
 
 if (!isset($obj->id_rol) || !is_numeric($obj->id_rol)) {
-  echo json_encode([
-    "status" => "error",
-    "message" => "El rol del usuario es obligatorio"
-  ]);
+  echo json_encode(["status" => "error", "message" => "El rol del usuario es obligatorio"]);
   exit;
 }
 

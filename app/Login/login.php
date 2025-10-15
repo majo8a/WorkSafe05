@@ -50,15 +50,15 @@ session_start();
               header("location: " . $redirects[$row['id_rol']]);
               exit();
             } else {
-              echo "<div class='message'><p>Rol desconocido</p></div><br>";
+              echo "<div class='message'><p style='color: #011640;' text-align='center'>Rol desconocido</p></div><br>";
               echo "<a href='login.php'><button class='btn'>Regresar</button></a>";
             }
           } else {
-            echo "<div class='message'><p>Contraseña incorrecta</p></div><br>";
+            echo "<div class='message'><p style='color: #011640;' text-align='center'>Contraseña incorrecta</p></div><br>";
             echo "<a href='login.php'><button class='btn'>Regresar</button></a>";
           }
         } else {
-          echo "<div class='message'><p>Correo electrónico o contraseña incorrectos</p></div><br>";
+          echo "<div class='message'><p style='color: #011640;' text-align='center'>Usuario o contraseña incorrecta</p></div><br>";
           echo "<a href='login.php'><button class='btn'>Regresar</button></a>";
         }
       } else {

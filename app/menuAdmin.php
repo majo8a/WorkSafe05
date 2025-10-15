@@ -12,7 +12,7 @@
     <div class="sidebar d-flex flex-column p-3" id="sidebar">
         <h4 class="text-center">Menú</h4>
         <hr>
-        <a href="#">⚙️ Ajustes Generales</a>
+        <a href="configuracion.php">⚙️ Historial de movimientos</a>
         <a href="usuarios.php">👥 Usuarios</a>
         <a href="reportes.php">📑 Reportes</a>
         <a href="#">📋 Cuestionarios</a>
@@ -20,7 +20,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <?php require_once 'footer.php'; ?>
     </body>
 
     </html>
