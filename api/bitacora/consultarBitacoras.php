@@ -23,4 +23,3 @@ while ($stmt->fetch()) {
 
 $stmt->close();
 echo json_encode($arr);
-?>

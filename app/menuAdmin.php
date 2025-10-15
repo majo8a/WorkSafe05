@@ -16,7 +16,7 @@
         <a href="usuarios.php">👥 Usuarios</a>
         <a href="reportes.php">📑 Reportes</a>
         <a href="#">📋 Cuestionarios</a>
-        <a href="#">🔗 Bitacora</a>
+        <a href="bitacoras.php">🔗 Bitacora</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
