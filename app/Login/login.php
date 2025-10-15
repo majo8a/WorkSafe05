@@ -41,8 +41,8 @@ session_start();
             // Mapeo de roles a rutas
             $redirects = [
               1 => "../menuAdmin.php",   // Administrador
-              2 => "../home.php",   // Psicólogo
-              3 => "../psicologo.php"       // Usuario común
+              2 => "../psicologo.php",   // Psicólogo
+              3 => "../home.php"       // Usuario común
             ];
 
             // Redirigir según rol
