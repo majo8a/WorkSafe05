@@ -15,7 +15,7 @@
         <a href="configuracion.php">⚙️ Historial de movimientos</a>
         <a href="usuarios.php">👥 Usuarios</a>
         <a href="reportes.php">📑 Reportes</a>
-        <a href="#">📋 Cuestionarios</a>
+        <a href="cuestionario.php">📋 Cuestionarios</a>
         <a href="bitacoras.php">🔗 Bitacora</a>
     </div>
 

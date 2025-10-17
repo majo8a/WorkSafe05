@@ -1,90 +1,100 @@
-let indicePreguntaActual = 0;
-const totalPreguntas = preguntas.length;
-const respuestasUsuario = new Array(totalPreguntas).fill(null);
+var App = angular.module("app", []);
 
-document.getElementById('total-preguntas').innerText = totalPreguntas;
-mostrarPregunta();
+App.controller("CuestionarioCtrl", function ($scope, $http) {
+  // Objeto para un nuevo cuestionario
+  $scope.cuestionario = {};
 
-function mostrarPregunta() {
-  const preguntaActual = preguntas[indicePreguntaActual];
-  document.getElementById('numero-pregunta').innerText = indicePreguntaActual + 1;
-  document.getElementById('pregunta').innerText = preguntaActual.pregunta;
+  // Arreglo de todos los cuestionarios
+  $scope.cuestionarios = [];
 
-  const contenedorOpciones = document.getElementById('opciones');
-  contenedorOpciones.innerHTML = '';
-
-  preguntaActual.opciones.forEach((opcion, i) => {
-    const boton = document.createElement('button');
-    boton.innerText = opcion;
-
-    if (respuestasUsuario[indicePreguntaActual] === i) {
-      boton.style.background = '#28a745';
-    }
-
-    boton.onclick = () => {
-      respuestasUsuario[indicePreguntaActual] = i;
-      document.querySelectorAll('#opciones button').forEach(b => b.style.background = '#007bff');
-      boton.style.background = '#28a745';
-    };
-
-    contenedorOpciones.appendChild(boton);
-  });
-
-  // visibilidad de botones
-  document.getElementById('boton-anterior').style.display =
-    indicePreguntaActual === 0 ? 'none' : 'inline-block';
-  document.getElementById('boton-siguiente').style.display =
-    indicePreguntaActual === totalPreguntas - 1 ? 'none' : 'inline-block';
-  document.getElementById('boton-finalizar').style.display =
-    indicePreguntaActual === totalPreguntas - 1 ? 'inline-block' : 'none';
-}
-
-function mostrarSiguientePregunta() {
-  if (respuestasUsuario[indicePreguntaActual] === null) {
-    alert("Por favor selecciona una respuesta antes de continuar.");
-    return;
-  }
-
-  if (indicePreguntaActual < totalPreguntas - 1) {
-    indicePreguntaActual++;
-    mostrarPregunta();
-  }
-}
-
-function mostrarAnteriorPregunta() {
-  if (indicePreguntaActual > 0) {
-    indicePreguntaActual--;
-    mostrarPregunta();
-  }
-}
-
-// =============================
-// FINALIZAR CUESTIONARIO
-// =============================
-function finalizarCuestionario() {
-  if (respuestasUsuario.includes(null)) {
-    alert("Debes responder todas las preguntas antes de finalizar.");
-    return;
-  }
-
-  const datos = {
-    idCuestionario: 1, // puedes pasarlo dinámicamente desde PHP si quieres
-    respuestas: respuestasUsuario
+  // Consultar cuestionarios
+  $scope.consultar = function () {
+    $http
+      .post("../api/cuestionario/consultarCuestionario.php")
+      .success(function (data) {
+        $scope.cuestionarios = data;
+      })
+      .error(function () {
+        alert("Error al consultar cuestionarios");
+      });
   };
 
-  fetch('../api/guardar_respuestas.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(datos)
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert("¡Cuestionario finalizado correctamente!");
-        window.location.href = "agradecimiento.php";
-      } else {
-        alert("Ocurrió un error al guardar las respuestas:\n" + data.error);
-      }
-    })
-    .catch(err => console.error('Error en fetch:', err));
-}
+  // Consultar al cargar
+  $scope.consultar();
+
+  // Guardar nuevo cuestionario
+  $scope.guardar = function () {
+    $http
+      .post("../api/cuestionario/guardarCuestionario.php", $scope.cuestionario)
+      .success(function () {
+        $scope.cuestionario = {};
+        $scope.consultar();
+
+        var modal = bootstrap.Modal.getInstance(
+          document.getElementById("myModal")
+        );
+        modal.hide();
+      })
+      .error(function () {
+        alert("Error al guardar el cuestionario");
+      });
+  };
+
+  // Objeto para modificar
+  $scope.cuestionarioMod = {};
+
+  // Seleccionar para modificar
+  $scope.seleccionar = function (c) {
+    $scope.cuestionarioMod = angular.copy(c);
+    var modal = new bootstrap.Modal(document.getElementById("ModalMod"));
+    modal.show();
+  };
+
+  // Modificar cuestionario
+  $scope.modificar = function () {
+    $http
+      .post(
+        "../api/cuestionario/modificarCuestionario.php",
+        $scope.cuestionarioMod
+      )
+      .success(function () {
+        $scope.cuestionarioMod = {};
+        $scope.consultar();
+        var modal = bootstrap.Modal.getInstance(
+          document.getElementById("ModalMod")
+        );
+        modal.hide();
+      })
+      .error(function () {
+        alert("Error al modificar el cuestionario");
+      });
+  };
+
+  // Eliminar cuestionario
+  $scope.eliminar = function (cuestionario) {
+    if (confirm("¿Deseas eliminar este cuestionario?")) {
+      $http
+        .post("../api/cuestionario/eliminarCuestionario.php", cuestionario)
+        .success(function () {
+          $scope.consultar();
+        })
+        .error(function () {
+          alert("Error al eliminar el cuestionario");
+        });
+    }
+  };
+});
+
+/* BUSCAR CUESTIONARIOS POR NOMBRE, DESCRIPCION, VERSION */
+document.addEventListener("keyup", (e) => {
+  if (e.target.id === "buscador") {
+    if (e.key === "Escape") e.target.value = "";
+
+    document.querySelectorAll("tbody tr").forEach((fila) => {
+      let texto = fila.textContent.toLowerCase();
+      fila.style.display = texto.includes(e.target.value.toLowerCase())
+        ? ""
+        : "none";
+    });
+  }
+});

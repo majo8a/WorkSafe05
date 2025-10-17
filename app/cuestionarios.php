@@ -72,7 +72,7 @@ $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
         <div class="info-cuestionario">
             <p class="contador-preguntas">Pregunta <span id="numero-pregunta"></span> de <span id="total-preguntas"></span></p>
             <h1 class="titulo-cuestionario"><?php echo htmlspecialchars($nombreCuestionario, ENT_QUOTES, 'UTF-8'); ?></h1>
-        
+
             <p class="pregunta" id="pregunta"></p>
             <div class="opciones" id="opciones"></div>
             <div class="botones-navegacion">
@@ -84,8 +84,8 @@ $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
     </div>
     <script>
         const preguntas = <?php echo $preguntasJson; ?>;
-    
     </script>
-    <script src="controlador/cuestionario.js"></script>
+    <script src="controlador/cuestionarios.js"></script>
 </body>
+
 </html>
