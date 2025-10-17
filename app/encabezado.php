@@ -82,7 +82,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
         <?php if ($_SESSION['role'] == 2): // Psicólogo 
         ?>
           <li class="nav-item">
-            <a class="nav-link" href="cuestionarios.php">Cuestionarios</a>
+            <a class="nav-link" href="lista_cuestionarios.php">Cuestionarios</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="evaluaciones.php">Evaluaciones</a>
@@ -95,7 +95,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <a class="nav-link" href="home.php">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="cuestionarios.php">Cuestionarios</a>
+            <a class="nav-link" href="lista_cuestionarios.php">Cuestionarios</a>
           </li>
         <?php endif; ?>
       </ul>

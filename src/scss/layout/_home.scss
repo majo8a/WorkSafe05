@@ -149,3 +149,34 @@
         gap: 1rem;
     }
 }
+/* LISTA CUESTIONARIOS */
+.card {
+    padding: 2rem;
+    margin: 2rem;
+    border-radius: 2.5rem;
+}
+.card-title{
+    font-size: 2rem;
+    text-shadow: none;
+    color: v.$verde;
+}
+.card-text{
+    font-size: 1.5rem;
+    padding: 2rem;
+    margin: 1rem;
+    text-align: justify;
+    text-transform: none;
+    text-shadow: none;
+}
+.btn-test{
+    background-color: v.$azulMarino;
+    color: v.$blanco;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-family: v.$fuente_principal;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    margin-top: 1rem;
+    transition: background-color .3s ease;
+    border: none;
+}

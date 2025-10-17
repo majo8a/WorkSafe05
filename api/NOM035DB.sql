@@ -92,6 +92,7 @@ CREATE TABLE Respuesta (
     id_pregunta INT NOT NULL,
     id_evaluacion INT NOT NULL,
     id_opcion_respuesta_select INT NOT NULL,
+    valor INT NOT NULL DEFAULT 0,
     fecha_respuesta DATETIME NOT NULL,
     FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id_pregunta),
     FOREIGN KEY (id_evaluacion) REFERENCES Evaluacion(id_evaluacion),
@@ -358,14 +359,16 @@ INSERT INTO Pregunta (
 -- ========================
 INSERT INTO Opcion_Respuesta (id_pregunta, etiqueta, valor)
 SELECT 
-    p.id_pregunta,
-    opciones.etiqueta,
-    opciones.valor
+    p.id_pregunta, 
+    o.etiqueta, 
+    o.valor
 FROM Pregunta p
-JOIN (
-    SELECT 'Siempre' AS etiqueta, 4 AS valor
-    UNION ALL SELECT 'Casi siempre', 3
-    UNION ALL SELECT 'Algunas veces', 2
-    UNION ALL SELECT 'Casi nunca', 1
-    UNION ALL SELECT 'Nunca', 0
-) AS opciones;
+CROSS JOIN (
+    SELECT 4 AS valor, 'Siempre' AS etiqueta
+    UNION ALL SELECT 3, 'Casi siempre'
+    UNION ALL SELECT 2, 'Algunas veces'
+    UNION ALL SELECT 1, 'Casi nunca'
+    UNION ALL SELECT 0, 'Nunca'
+) o
+WHERE p.id_pregunta NOT IN (SELECT DISTINCT id_pregunta FROM Opcion_Respuesta)
+ORDER BY p.id_pregunta, o.valor DESC;

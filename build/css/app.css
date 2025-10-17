@@ -387,7 +387,7 @@ body > section {
 }
 
 .nav-tabs {
-  border-bottom: 2px solid #04B2D9;
+  border-bottom: 2px solid #336FF4;
   height: 100%;
 }
 
@@ -396,9 +396,9 @@ body > section {
 }
 
 .nav-tabs .nav-link.active {
-  background-color: #04B2D9;
+  background-color: #336FF4;
   color: #FFFFFF;
-  border-color: #04B2D9 #04B2D9 #B3EBF2;
+  border-color: #336FF4 #336FF4 #62C8EC;
 }
 
 .navbar-brand img {
@@ -422,13 +422,13 @@ body > section {
 }
 
 .nav-tabs .nav-link.active {
-  background-color: #04B2D9;
-  border-color: #04B2D9 #04B2D9 #04B2D9;
+  background-color: #336FF4;
+  border-color: #336FF4 #336FF4 #336FF4;
 }
 
 .nav-link:hover {
   color: #FFFFFF;
-  background-color: #04B2D9;
+  background-color: #336FF4;
 }
 
 .nav-logo {
@@ -454,7 +454,7 @@ body > section {
 }
 
 .user-link:hover {
-  color: #04B2D9;
+  color: #336FF4;
 }
 
 .icon {
@@ -493,7 +493,7 @@ body > section {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #04B2D9;
+  background-color: #336FF4;
   min-width: 50px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
@@ -513,7 +513,7 @@ body > section {
 }
 
 .dropdown-toggle:hover, .dropdown-content a:hover {
-  background-color: #04B2D9;
+  background-color: #336FF4;
   color: #FFFFFF;
   text-shadow: 2px 2px 4px #011640;
 }
@@ -557,7 +557,7 @@ body > section {
 }
 
 #menuHamburguesa .nav-link:hover {
-  background-color: #04B2D9;
+  background-color: #336FF4;
 }
 
 /* cuando está activo se muestra */
@@ -602,7 +602,7 @@ body > section {
     font-family: "Space Grotesk", sans-serif;
   }
   #menuHamburguesa {
-    background-color: #B3EBF2;
+    background-color: #62C8EC;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
   }
 }
@@ -626,7 +626,7 @@ body > section {
 }
 
 .blog-contenido {
-  background: linear-gradient(180deg, #B3EBF2 0% 12%, #7CCF5F 100% 100%);
+  background: linear-gradient(180deg, #62C8EC 0% 12%, #7CCF5F 100% 100%);
 }
 
 .img-blog {
@@ -648,7 +648,7 @@ body > section {
 }
 
 .subrayado {
-  color: #547329;
+  color: #438559;
   font-weight: bold;
 }
 
@@ -673,7 +673,7 @@ body > section {
 .inicioTest:hover {
   cursor: pointer;
   color: #000;
-  background-color: #04B2D9;
+  background-color: #336FF4;
 }
 
 .titulo-tarjetas, .titulo-resultados {
@@ -763,8 +763,43 @@ body > section {
     gap: 1rem;
   }
 }
+/* LISTA CUESTIONARIOS */
+.card {
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 2.5rem;
+}
+
+.card-title {
+  font-size: 2rem;
+  text-shadow: none;
+  color: #438559;
+}
+
+.card-text {
+  font-size: 1.5rem;
+  padding: 2rem;
+  margin: 1rem;
+  text-align: justify;
+  text-transform: none;
+  text-shadow: none;
+}
+
+.btn-test {
+  background-color: #011640;
+  color: #FFFFFF;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
 .footer {
-  background-color: #4d4d4d;
+  background-color: #6E757C;
   padding: 2rem 0;
   text-align: center;
 }
@@ -836,7 +871,7 @@ body > section {
 }
 
 body {
-  background: #B3EBF2;
+  background: #62C8EC;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -871,7 +906,7 @@ body {
 }
 
 .form-box hr {
-  background-color: #547329;
+  background-color: #438559;
   height: 5px;
   width: 20%;
   border: none;
@@ -908,7 +943,7 @@ body {
 
 .input-field:focus {
   font-family: "Bricolage Grotesque", sans-serif;
-  color: #547329;
+  color: #438559;
 }
 
 .remember {
@@ -954,7 +989,7 @@ body {
 }
 
 .btn:hover {
-  background-color: #04B2D9;
+  background-color: #336FF4;
   font-weight: bold;
 }
 
@@ -982,7 +1017,7 @@ body {
 }
 
 .container-configuracion {
-  background-color: #B3EBF2;
+  background-color: #62C8EC;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -994,7 +1029,7 @@ body {
 }
 
 .content.fondo {
-  background-color: #B3EBF2;
+  background-color: #62C8EC;
 }
 
 .tabla-encabezado {
@@ -1018,7 +1053,7 @@ body {
   text-shadow: #000 1px 1px;
   min-width: 220px;
   max-width: 220px;
-  background-color: #04B2D9;
+  background-color: #336FF4;
   color: white;
   height: calc(100vh - 120px);
   padding-top: 1rem;

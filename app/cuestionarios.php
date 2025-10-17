@@ -78,6 +78,7 @@ $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
             <div class="botones-navegacion">
                 <button id="boton-anterior" onclick="mostrarAnteriorPregunta()" style="display:none;">Anterior</button>
                 <button id="boton-siguiente" onclick="mostrarSiguientePregunta()">Siguiente</button>
+                <button id="boton-finalizar" onclick="finalizarCuestionario()" style="display:none;">Finalizar</button>
             </div>
         </div>
     </div>
