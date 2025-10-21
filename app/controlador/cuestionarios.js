@@ -13,22 +13,23 @@ function mostrarPregunta() {
   const contenedorOpciones = document.getElementById('opciones');
   contenedorOpciones.innerHTML = '';
 
-  preguntaActual.opciones.forEach((opcion, i) => {
-    const boton = document.createElement('button');
-    boton.innerText = opcion;
+preguntaActual.opciones.forEach((opcion) => {
+  const boton = document.createElement('button');
+  boton.innerText = opcion.etiqueta;
 
-    if (respuestasUsuario[indicePreguntaActual] === i) {
-      boton.style.background = '#28a745';
-    }
+  if (respuestasUsuario[indicePreguntaActual] === opcion.id_opcion) {
+    boton.style.background = '#28a745';
+  }
 
-    boton.onclick = () => {
-      respuestasUsuario[indicePreguntaActual] = i;
-      document.querySelectorAll('#opciones button').forEach(b => b.style.background = '#007bff');
-      boton.style.background = '#28a745';
-    };
+  boton.onclick = () => {
+    respuestasUsuario[indicePreguntaActual] = opcion.id_opcion;
+    document.querySelectorAll('#opciones button').forEach(b => b.style.background = '#007bff');
+    boton.style.background = '#28a745';
+  };
 
-    contenedorOpciones.appendChild(boton);
-  });
+  contenedorOpciones.appendChild(boton);
+});
+
 
   // visibilidad de botones
   document.getElementById('boton-anterior').style.display =

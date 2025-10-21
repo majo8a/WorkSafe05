@@ -19,7 +19,7 @@ $resultC = $stmtC->get_result();
 if ($rowC = $resultC->fetch_assoc()) {
     $nombreCuestionario = $rowC['nombre'];
 } else {
-    $nombreCuestionario = "Juego de Preguntas y Respuestas"; // fallback por si no encuentra
+    $nombreCuestionario = "Cuestionario"; // fallback por si no encuentra
 }
 
 // ============================
@@ -49,17 +49,19 @@ $preguntasAgrupadas = [];
 while ($row = $result->fetch_assoc()) {
     $id = $row['id_pregunta'];
 
-    // Si la pregunta aún no existe, se crea
     if (!isset($preguntasAgrupadas[$id])) {
         $preguntasAgrupadas[$id] = [
+            'id_pregunta' => $id,
             'pregunta' => $row['texto_pregunta'],
-            'opciones' => [],
-            'respuestaCorrecta' => null
+            'opciones' => []
         ];
     }
 
-    // Agregar cada opción al arreglo de opciones
-    $preguntasAgrupadas[$id]['opciones'][] = $row['etiqueta'];
+    $preguntasAgrupadas[$id]['opciones'][] = [
+        'id_opcion' => $row['id_opcion'],
+        'etiqueta' => $row['etiqueta'],
+        'valor' => $row['valor']
+    ];
 }
 
 // Reindexar el array para convertirlo en una lista secuencial
