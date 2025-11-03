@@ -68,15 +68,6 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
 
         <?php if ($_SESSION['role'] == 1): // Admin 
         ?>
-          <li class="nav-item">
-            <a class="nav-link" href="usuarios.php">Usuarios</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="configuracion.php">Configuración</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="reportes.php">Reportes</a>
-          </li>
         <?php endif; ?>
 
         <?php if ($_SESSION['role'] == 2): // Psicólogo 

@@ -260,14 +260,6 @@ CREATE TABLE Regla_Calificacion (
     FOREIGN KEY (id_cuestionario) REFERENCES Cuestionario(id_cuestionario)
 );
 
--- SET @id_usuario_responsable = 1;
-
-INSERT INTO Usuario (nombre_completo, correo, telefono, password_hash, autenticacion_dos_factores, activo, id_rol, fecha_registro)
-VALUES ('Administrador', 'admin@correo.com', '123456789', '12345', '0', '1', '1', NOW());
-
-INSERT INTO Usuario (nombre_completo, correo, telefono, password_hash, autenticacion_dos_factores, activo, id_rol, fecha_registro)
-VALUES ('Psicólogo', 'psico@correo.com', '123456789', '12345', '0', '1', '2', NOW());
-
 -- ========================
 --  INSERTAR CUESTIONARIO
 -- ========================
