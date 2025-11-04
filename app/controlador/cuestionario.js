@@ -102,6 +102,7 @@ App.controller("CuestionarioCtrl", function ($scope, $http) {
 
   // AGREGAR pregunta desde el modal Modificar
   $scope.agregarPreguntaModal = function () {
+    
     if (!$scope.cuestionarioSeleccionado || !$scope.cuestionarioSeleccionado.id_cuestionario) {
       alert("Selecciona primero un cuestionario (usa modificar).");
       return;
@@ -121,7 +122,8 @@ App.controller("CuestionarioCtrl", function ($scope, $http) {
       dominio: $scope.nuevaPregunta.dominio || "",
       categoria: $scope.nuevaPregunta.categoria || "",
       grupo_aplicacion: $scope.nuevaPregunta.grupo_aplicacion || "",
-      condicion: ""
+      condicion: "",
+      opciones: $scope.nuevaPregunta.opciones || []
     };
 
     $http.post("../api/pregunta/guardarPregunta.php", payload)
@@ -139,6 +141,9 @@ App.controller("CuestionarioCtrl", function ($scope, $http) {
         alert("Error al agregar pregunta (petición)");
       });
   };
+
+  $scope.nuevaPregunta = angular.copy($scope.nuevaPregunta); // o $scope.resetNuevaPregunta()
+
 
    // EDITAR PREGUNTA DESDE EL MODAL VER PREGUNTAS
   $scope.editarPregunta = function(p) {
@@ -175,8 +180,8 @@ App.controller("CuestionarioCtrl", function ($scope, $http) {
   $scope.eliminarPregunta = function(id_pregunta) {
     if (!confirm("¿Deseas eliminar esta pregunta?")) return;
 
-    $http.get("../api/pregunta/eliminarPregunta.php?id_pregunta=" + id_pregunta).then(
-      function(res) {
+    $http.post("../api/pregunta/eliminarPregunta.php", { id_pregunta: id_pregunta })
+    .then(function(res) {
         if (res.data.status === "success") {
           alert("🗑️ Pregunta eliminada correctamente");
           $scope.cargarPreguntas($scope.cuestionarioSeleccionado.id_cuestionario);
@@ -190,19 +195,22 @@ App.controller("CuestionarioCtrl", function ($scope, $http) {
     );
   };
   // AGREGAR PREGUNTAS TEMPORALES (en modal NUEVO)
-  $scope.agregarPreguntaTemp = function () {
-    if (!$scope.nuevaPregunta.texto_pregunta || $scope.nuevaPregunta.texto_pregunta.trim() === "") {
-      alert("Escribe el texto de la pregunta antes de agregarla.");
-      return;
+$scope.agregarPreguntaTemp = function () {
+    if (!$scope.nuevaPregunta.opciones || $scope.nuevaPregunta.opciones.length === 0) {
+        $scope.nuevaPregunta.opciones = [
+            { etiqueta: "Siempre", valor: 4 },
+            { etiqueta: "Casi siempre", valor: 3 },
+            { etiqueta: "Algunas veces", valor: 2 },
+            { etiqueta: "Casi nunca", valor: 1 },
+            { etiqueta: "Nunca", valor: 0 }
+        ];
     }
 
-    // Clonamos para no afectar el objeto principal
     const nueva = angular.copy($scope.nuevaPregunta);
     $scope.preguntas.push(nueva);
-
-    // Limpiamos para nueva entrada
     $scope.resetNuevaPregunta();
-  };
+};
+
 
   $scope.eliminarPreguntaTemp = function (index) {
     $scope.preguntas.splice(index, 1);

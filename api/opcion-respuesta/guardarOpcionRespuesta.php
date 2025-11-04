@@ -4,24 +4,27 @@ require_once '../conexion.php';
 
 $obj = json_decode(file_get_contents("php://input"));
 
-// Validaciones
-if (!isset($obj->etiqueta) || empty(trim($obj->etiqueta))) {
-  echo json_encode(["status" => "error", "message" => "La etiqueta es obligatoria"]);
+// Validaciones básicas
+if (!isset($obj->id_pregunta) || !is_numeric($obj->id_pregunta)) {
+  echo json_encode(["status" => "error", "message" => "id_pregunta es obligatorio"]);
   exit;
 }
-if (!isset($obj->valor) || !is_numeric($obj->valor)) {
-  echo json_encode(["status" => "error", "message" => "El valor es obligatorio y debe ser numérico"]);
+if (!isset($obj->opciones) || !is_array($obj->opciones)) {
+  echo json_encode(["status" => "error", "message" => "No hay opciones para guardar"]);
   exit;
 }
 
-// Preparar INSERT
-$stmt = $db->prepare("INSERT INTO Opcion_Respuesta (etiqueta, valor) VALUES (?, ?)");
-$stmt->bind_param("si", $obj->etiqueta, $obj->valor);
+$stmt = $db->prepare("INSERT INTO Opcion_Respuesta (id_pregunta, etiqueta, valor) VALUES (?, ?, ?)");
 
-if ($stmt->execute()) {
-  echo json_encode(["status" => "success", "message" => "Opción guardada correctamente", "id_opcion" => $stmt->insert_id]);
-} else {
-  echo json_encode(["status" => "error", "message" => "Error al guardar la opción: " . $stmt->error]);
+foreach ($obj->opciones as $opt) {
+    if (!isset($opt->etiqueta) || !isset($opt->valor)) continue;
+    $etiqueta = trim($opt->etiqueta);
+    $valor = (int)$opt->valor;
+    $stmt->bind_param("isi", $obj->id_pregunta, $etiqueta, $valor);
+    $stmt->execute();
 }
+
+echo json_encode(["status" => "success", "message" => "Opciones guardadas correctamente"]);
 
 $stmt->close();
+

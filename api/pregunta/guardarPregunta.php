@@ -17,7 +17,7 @@ $db->query("SET @id_usuario_responsable = $idUsuario");
 $input = file_get_contents("php://input");
 $data = json_decode($input, true);
 
-// Log de depuración opcional (puedes eliminarlo luego)
+// Log de depuración opcional
 file_put_contents('debug_guardar_pregunta.log', print_r($data, true));
 
 if (!$data) {
@@ -36,7 +36,7 @@ if (!$id_cuestionario) {
 }
 
 // ======================================================
-// CALCULAR ORDEN AUTOMÁTICO
+// FUNCION AUXILIAR: siguiente orden
 // ======================================================
 function obtenerSiguienteOrden($db, $id_cuestionario) {
     $stmt = $db->prepare("SELECT IFNULL(MAX(orden), 0) + 1 AS nuevo FROM Pregunta WHERE id_cuestionario = ?");
@@ -81,8 +81,8 @@ if (!empty($data['preguntas']) && is_array($data['preguntas'])) {
         $qStmt->execute();
         $id_pregunta = $qStmt->insert_id;
 
-        // Inserta opciones si existen
-        if (!empty($p['opciones'])) {
+        // Insertar opciones si existen
+        if (!empty($p['opciones']) && is_array($p['opciones'])) {
             foreach ($p['opciones'] as $o) {
                 $etiqueta = $o['etiqueta'] ?? '';
                 $valor = $o['valor'] ?? 0;
@@ -100,7 +100,7 @@ if (!empty($data['preguntas']) && is_array($data['preguntas'])) {
 }
 
 // ======================================================
-// CASO 2: Inserción individual (JSON con una sola pregunta)
+// CASO 2: Inserción individual (desde modal)
 // ======================================================
 $texto = trim($data['texto_pregunta'] ?? '');
 if ($texto === '') {
@@ -108,7 +108,7 @@ if ($texto === '') {
     exit;
 }
 
-$orden = obtenerSiguienteOrden($db, $id_cuestionario);
+$orden = ($data['orden'] && is_numeric($data['orden'])) ? (int)$data['orden'] : obtenerSiguienteOrden($db, $id_cuestionario);
 
 $tipo = $data['tipo_calificacion'] ?? 'Likert';
 $puntaje = isset($data['puntaje_maximo']) ? (int)$data['puntaje_maximo'] : 4;
@@ -137,6 +137,20 @@ $stmt->bind_param(
 );
 
 if ($stmt->execute()) {
+    $id_pregunta = $stmt->insert_id;
+
+    // Insertar opciones si existen
+    if (!empty($data['opciones']) && is_array($data['opciones'])) {
+        $oStmt = $db->prepare("INSERT INTO Opcion_Respuesta (id_pregunta, etiqueta, valor) VALUES (?, ?, ?)");
+        foreach ($data['opciones'] as $o) {
+            $etiqueta = $o['etiqueta'] ?? '';
+            $valor = $o['valor'] ?? 0;
+            $oStmt->bind_param("isi", $id_pregunta, $etiqueta, $valor);
+            $oStmt->execute();
+        }
+        $oStmt->close();
+    }
+
     echo json_encode(["status" => "success", "message" => "Pregunta guardada correctamente"]);
 } else {
     echo json_encode([

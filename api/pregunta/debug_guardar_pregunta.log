@@ -1,7 +1,7 @@
 Array
 (
-    [id_cuestionario] => 1
-    [texto_pregunta] => hola
+    [id_cuestionario] => 8
+    [texto_pregunta] => Hola
     [tipo_calificacion] => Likert
     [puntaje_maximo] => 4
     [orden] => 
@@ -10,4 +10,38 @@ Array
     [categoria] => 
     [grupo_aplicacion] => 
     [condicion] => 
+    [opciones] => Array
+        (
+            [0] => Array
+                (
+                    [etiqueta] => Siempre
+                    [valor] => 4
+                )
+
+            [1] => Array
+                (
+                    [etiqueta] => Casi siempre
+                    [valor] => 3
+                )
+
+            [2] => Array
+                (
+                    [etiqueta] => Algunas veces
+                    [valor] => 2
+                )
+
+            [3] => Array
+                (
+                    [etiqueta] => Casi nunca
+                    [valor] => 1
+                )
+
+            [4] => Array
+                (
+                    [etiqueta] => Nunca
+                    [valor] => 0
+                )
+
+        )
+
 )
