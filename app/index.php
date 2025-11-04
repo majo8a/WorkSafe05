@@ -83,7 +83,7 @@
           <br>
           Tu colaboración es confidencial y de gran importancia, ya que permitirá diseñar acciones y estrategias que beneficien tanto a los trabajadores como a la organización.
         </p>
-        <button class="inicioTest" hre href="login/login.php">Iniciar Cuestionario</button>
+        <a class="inicioTest" href="login/login.php">Iniciar Cuestionario</a>
       </div>
     </div>
 
@@ -162,7 +162,7 @@
 <footer class="footer">
   <div class="footer-elementos">
     <div class="footer-elementos__element">
-      <a href="contacto.php">
+      <a href="#">
         <h4 class="footer-titulo">Contacto</h4>
       </a>
     </div>
