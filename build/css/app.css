@@ -1330,6 +1330,8 @@ body {
 .contenedor-cuestionario .info-cuestionario .opciones {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 12px;
 }
 .contenedor-cuestionario .info-cuestionario .opciones button {

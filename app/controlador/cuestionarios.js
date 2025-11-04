@@ -1,10 +1,19 @@
+// =============================
+// VARIABLES PRINCIPALES
+// =============================
 let indicePreguntaActual = 0;
 const totalPreguntas = preguntas.length;
 const respuestasUsuario = new Array(totalPreguntas).fill(null);
 
+// Mostrar total
 document.getElementById('total-preguntas').innerText = totalPreguntas;
+
+// Mostrar primera pregunta
 mostrarPregunta();
 
+// =============================
+// MOSTRAR PREGUNTA ACTUAL
+// =============================
 function mostrarPregunta() {
   const preguntaActual = preguntas[indicePreguntaActual];
   document.getElementById('numero-pregunta').innerText = indicePreguntaActual + 1;
@@ -13,25 +22,27 @@ function mostrarPregunta() {
   const contenedorOpciones = document.getElementById('opciones');
   contenedorOpciones.innerHTML = '';
 
-preguntaActual.opciones.forEach((opcion) => {
-  const boton = document.createElement('button');
-  boton.innerText = opcion.etiqueta;
+  preguntaActual.opciones.forEach((opcion) => {
+    const boton = document.createElement('button');
+    boton.innerText = opcion.etiqueta;
+    boton.classList.add('btn', 'btn-primary', 'm-1');
 
-  if (respuestasUsuario[indicePreguntaActual] === opcion.id_opcion) {
-    boton.style.background = '#28a745';
-  }
+    // Si el usuario ya había seleccionado esta opción
+    if (respuestasUsuario[indicePreguntaActual] === opcion.id_opcion) {
+      boton.style.background = '#28a745';
+    }
 
-  boton.onclick = () => {
-    respuestasUsuario[indicePreguntaActual] = opcion.id_opcion;
-    document.querySelectorAll('#opciones button').forEach(b => b.style.background = '#007bff');
-    boton.style.background = '#28a745';
-  };
+    // Evento click para seleccionar opción
+    boton.onclick = () => {
+      respuestasUsuario[indicePreguntaActual] = opcion.id_opcion;
+      document.querySelectorAll('#opciones button').forEach(b => b.style.background = '#007bff');
+      boton.style.background = '#28a745';
+    };
 
-  contenedorOpciones.appendChild(boton);
-});
+    contenedorOpciones.appendChild(boton);
+  });
 
-
-  // visibilidad de botones
+  // Control de visibilidad de botones
   document.getElementById('boton-anterior').style.display =
     indicePreguntaActual === 0 ? 'none' : 'inline-block';
   document.getElementById('boton-siguiente').style.display =
@@ -40,6 +51,9 @@ preguntaActual.opciones.forEach((opcion) => {
     indicePreguntaActual === totalPreguntas - 1 ? 'inline-block' : 'none';
 }
 
+// =============================
+// BOTONES DE NAVEGACIÓN
+// =============================
 function mostrarSiguientePregunta() {
   if (respuestasUsuario[indicePreguntaActual] === null) {
     alert("Por favor selecciona una respuesta antes de continuar.");
@@ -69,7 +83,7 @@ function finalizarCuestionario() {
   }
 
   const datos = {
-    idCuestionario: 1, // puedes pasarlo dinámicamente desde PHP si quieres
+    idCuestionario: idCuestionario, // ✅ dinámico desde PHP
     respuestas: respuestasUsuario
   };
 

@@ -1,25 +1,25 @@
 <?php
-error_reporting(E_ALL);
+// ruta: api/pregunta/eliminarPregunta.php
 require_once '../conexion.php';
+header('Content-Type: application/json; charset=utf-8');
+session_start();
 
-$obj = json_decode(file_get_contents("php://input"));
-
-if (!isset($obj->id_pregunta) || !is_numeric($obj->id_pregunta)) {
-  echo json_encode(["status" => "error", "message" => "El ID de la pregunta es obligatorio"]);
-  exit;
-}
-
-$stmt = $db->prepare("DELETE FROM Pregunta WHERE id_pregunta=?");
-$stmt->bind_param("i", $obj->id_pregunta);
-
-if ($stmt->execute()) {
-  if ($stmt->affected_rows > 0) {
-    echo json_encode(["status" => "success", "message" => "Pregunta eliminada correctamente"]);
-  } else {
-    echo json_encode(["status" => "warning", "message" => "No se encontró la pregunta con el ID proporcionado"]);
-  }
+if (!isset($_SESSION['id_usuario'])) {
+    // Si no hay sesión, asignar un valor por defecto
+    $idUsuario = 1;
 } else {
-  echo json_encode(["status" => "error", "message" => "Error al eliminar la pregunta: " . $stmt->error]);
+    $idUsuario = $_SESSION['id_usuario'];
 }
 
+// Asignar la variable para los triggers
+$db->query("SET @id_usuario_responsable = $idUsuario");
+$id = isset($_GET['id_pregunta']) ? (int)$_GET['id_pregunta'] : 0;
+if (!$id) { echo json_encode(["status"=>"error","message"=>"id_pregunta faltante"]); exit; }
+$stmt = $db->prepare("DELETE FROM Pregunta WHERE id_pregunta=?");
+$stmt->bind_param("i",$id);
+if ($stmt->execute()) {
+  echo json_encode(["status"=>"success"]);
+} else {
+  echo json_encode(["status"=>"error","message"=>$stmt->error]);
+}
 $stmt->close();

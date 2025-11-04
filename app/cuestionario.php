@@ -2,7 +2,6 @@
 <script src="controlador/angular.min.js"></script>
 <script src="controlador/cuestionario.js"></script>
 <style>
-  /* --- ESTILOS GENERALES DE LA TABLA --- */
   .table td,
   .table th {
     white-space: normal !important;
@@ -10,7 +9,6 @@
     vertical-align: middle;
   }
 
-  /* Ajuste de columnas con texto largo */
   .table .nombre {
     max-width: 220px;
   }
@@ -19,15 +17,12 @@
     max-width: 350px;
   }
 
-  /* Contenedor de tabla */
   .table-container {
     overflow-x: auto;
   }
 
-  /* --- ESTILOS PARA LA COLUMNA DE ACCIONES --- */
   .acciones {
     width: 180px;
-    /* Tamaño fijo para que no se deforme */
     text-align: center;
     vertical-align: middle !important;
   }
@@ -35,14 +30,12 @@
   .acciones .btn {
     margin: 3px 0;
     width: 100px;
-    /* Todos los botones con el mismo ancho */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 0.85rem;
   }
 
-  /* Para pantallas pequeñas: botones más compactos */
   @media (max-width: 768px) {
     .acciones {
       width: auto;
@@ -56,31 +49,23 @@
     }
   }
 
-  /* Ajuste de textareas en los modales */
   textarea.form-control {
     min-height: 80px;
     resize: vertical;
   }
 </style>
 
-
-
-
 <body ng-app="app" ng-controller="CuestionarioCtrl" class="container-configuracion">
   <?php require_once 'menuAdmin.php'; ?>
   <div class="container">
 
     <!-- Barra de búsqueda -->
-    <form>
-      <div class="div-buscador input-group w-100 mt-3">
-        <input class="form-control buscador" type="text" name="buscador" id="buscador" placeholder="Buscar cuestionario">
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="submit">
-            <i class="glyphicon glyphicon-search bi bi-search"></i>
-          </button>
-        </div>
+    <div class="div-buscador input-group w-100 mt-3">
+      <input class="form-control buscador" type="text" ng-model="buscar" placeholder="Buscar cuestionario">
+      <div class="input-group-append">
+        <button class="btn btn-primary"><i class="bi bi-search"></i></button>
       </div>
-    </form>
+    </div>
 
     <!-- Tabla de Cuestionarios -->
     <div class="table-container mt-4">
@@ -88,164 +73,262 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th class="nombre">Nombre</th>
+            <th>Nombre</th>
             <th>Descripción</th>
             <th>Versión</th>
             <th>Estado</th>
-            <th>Fecha de creación</th>
+            <th>Fecha creación</th>
             <th>Usuario creador</th>
-            <th class="acciones">Acciones</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="c in cuestionarios">
+          <tr ng-repeat="c in cuestionarios | filter:buscar">
             <td>{{c.id_cuestionario}}</td>
-            <td class="nombre">{{c.nombre}}</td>
+            <td>{{c.nombre}}</td>
             <td>{{c.descripcion}}</td>
             <td>{{c.version}}</td>
             <td>{{c.estado}}</td>
             <td>{{c.fecha_creacion}}</td>
             <td>{{c.id_usuario_creador}}</td>
-            <td class="acciones text-center">
-              <button type="button" ng-click="seleccionar(c)" class="btn btn-success btn-sm mb-1">
-                <span class="glyphicon glyphicon-pencil"></span> Modificar
-              </button>
-              <button type="button" ng-click="eliminar(c)" class="btn btn-danger btn-sm">
-                <span class="glyphicon glyphicon-trash"></span> Eliminar
-              </button>
+            <td class="acciones">
+              <button class="btn btn-success btn-sm" ng-click="seleccionar(c)">✏️ Modificar</button>
+              <button class="btn btn-danger btn-sm" ng-click="eliminar(c)">🗑️ Eliminar</button>
+              <button class="btn btn-info btn-sm" ng-click="verPreguntas(c.id_cuestionario)">👁️ Ver preguntas</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- Modal Agregar Cuestionario -->
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <!-- Botón nuevo -->
+    <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#myModal">➕ Nuevo Cuestionario</button>
+
+    <!-- Modal Agregar -->
+    <div class="modal fade" id="myModal" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-
-          <!-- Header -->
           <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title" id="myModalLabel">Agregar Cuestionario</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            <h5>Nuevo Cuestionario</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
-
-          <!-- Body -->
           <div class="modal-body">
-            <form class="row g-3" ng-submit="guardar()">
-              <div class="col-12 row mb-3">
-                <label for="nombre" class="col-sm-4 col-form-label">Nombre:</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" ng-model="cuestionario.nombre" id="nombre" placeholder="Nombre del cuestionario" required>
+            <form ng-submit="guardarTodo()">
+              <h6 class="text-primary">Datos del cuestionario</h6>
+              <input type="text" class="form-control mb-2" placeholder="Nombre" ng-model="cuestionario.nombre" required>
+              <textarea class="form-control mb-2" placeholder="Descripción" ng-model="cuestionario.descripcion" required></textarea>
+              <input type="text" class="form-control mb-2" placeholder="Versión" ng-model="cuestionario.version" required>
+              <input type="text" class="form-control mb-2" placeholder="Estado (Activo/Inactivo)" ng-model="cuestionario.estado">
+              <input type="number" class="form-control mb-3" placeholder="ID usuario creador" ng-model="cuestionario.id_usuario_creador" required>
+              <hr>
+              <h6 class="text-primary">Preguntas del cuestionario</h6>
+
+              <div class="border p-3 mb-3 rounded bg-light">
+                <textarea class="form-control mb-2" placeholder="Texto de la pregunta" ng-model="nuevaPregunta.texto_pregunta"></textarea>
+                <select class="form-select mb-2" ng-model="nuevaPregunta.tipo_calificacion">
+                  <option value="Likert">Likert</option>
+                  <option value="Binaria">Binaria</option>
+                  <option value="Texto">Texto</option>
+                </select>
+                <input type="text" class="form-control mb-2" placeholder="Dimensión" ng-model="nuevaPregunta.dimension">
+                <input type="text" class="form-control mb-2" placeholder="Dominio" ng-model="nuevaPregunta.dominio">
+                <input type="text" class="form-control mb-2" placeholder="Categoría" ng-model="nuevaPregunta.categoria">
+                <input type="text" class="form-control mb-2" placeholder="Grupo aplicación" ng-model="nuevaPregunta.grupo_aplicacion">
+                <!-- OPCIONES DE RESPUESTA -->
+                <div class="border rounded p-2 bg-white mb-2">
+                  <h6>Opciones de respuesta</h6>
+                  <div ng-repeat="o in nuevaPregunta.opciones" class="mb-2">
+                    <div class="input-group">
+                      <input type="text" class="form-control" placeholder="Etiqueta" ng-model="o.etiqueta" required>
+                      <input type="number" class="form-control" placeholder="Valor" ng-model="o.valor" required>
+                      <button type="button" class="btn btn-danger" ng-click="eliminarOpcion($index)">🗑️</button>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-secondary" ng-click="agregarOpcion()">➕ Agregar opción</button>
                 </div>
+
+                <button type="button" class="btn btn-primary w-100" ng-click="agregarPreguntaTemp()">Agregar pregunta</button>
               </div>
 
-              <div class="col-12 row mb-3">
-                <label for="descripcion" class="col-sm-4 col-form-label">Descripción:</label>
-                <div class="col-sm-8">
-                  <textarea class="form-control" ng-model="cuestionario.descripcion" id="descripcion" placeholder="Descripción" required></textarea>
-                </div>
-              </div>
-
-              <div class="col-12 row mb-3">
-                <label for="version" class="col-sm-4 col-form-label">Versión:</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" ng-model="cuestionario.version" id="version" placeholder="Versión del cuestionario" required>
-                </div>
-              </div>
-
-              <div class="col-12 row mb-3">
-                <label for="estado" class="col-sm-4 col-form-label">Estado:</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" ng-model="cuestionario.estado" id="estado" placeholder="Activo/Inactivo">
-                </div>
-              </div>
-
-              <div class="col-12 row mb-3">
-                <label for="id_usuario_creador" class="col-sm-4 col-form-label">ID Usuario Creador:</label>
-                <div class="col-sm-8">
-                  <input type="number" class="form-control" ng-model="cuestionario.id_usuario_creador" id="id_usuario_creador" placeholder="ID del usuario creador">
-                </div>
-              </div>
-
-              <div class="col-12 text-end">
-                <button type="submit" class="btn btn-primary">Agregar</button>
-              </div>
+              <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="p in preguntas">
+                  {{p.texto_pregunta}} <small class="text-muted">({{p.tipo_calificacion}})</small>
+                  <button class="btn btn-danger btn-sm" ng-click="eliminarPreguntaTemp($index)">X</button>
+                </li>
+              </ul>
+              <button type="submit" class="btn btn-success w-100">Guardar Cuestionario</button>
             </form>
           </div>
-
-          <!-- Footer -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          </div>
-
         </div>
       </div>
     </div>
 
-    <!-- Botón para abrir modal -->
-    <button type="button" class="btn btn-info btn-lg mt-2" data-bs-toggle="modal" data-bs-target="#myModal">Agregar Cuestionario</button>
-
-    <!-- Modal Modificar Cuestionario -->
+    <!-- Modal Modificar Cuestionario-->
     <div class="modal fade" id="ModalMod" tabindex="-1" aria-labelledby="ModalModLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-
-          <!-- Header -->
           <div class="modal-header bg-success text-white">
             <h5 class="modal-title" id="ModalModLabel">Modificar Cuestionario</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
 
-          <!-- Body -->
           <div class="modal-body">
-            <form class="row g-3" ng-submit="modificar()">
-              <div class="col-12 row mb-3">
-                <label for="nombre_mod" class="col-sm-4 col-form-label">Nombre:</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" ng-model="cuestionarioMod.nombre" id="nombre_mod" required>
+            <!-- FORMULARIO PARA EDITAR CUESTIONARIO -->
+            <form ng-submit="modificarCuestionario()">
+              <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" ng-model="cuestionarioMod.nombre" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <textarea class="form-control" ng-model="cuestionarioMod.descripcion" required></textarea>
+              </div>
+              <div class="row mb-3">
+                <div class="col">
+                  <label class="form-label">Versión</label>
+                  <input type="text" class="form-control" ng-model="cuestionarioMod.version" required>
+                </div>
+                <div class="col">
+                  <label class="form-label">Estado</label>
+                  <input type="text" class="form-control" ng-model="cuestionarioMod.estado">
                 </div>
               </div>
 
-              <div class="col-12 row mb-3">
-                <label for="descripcion_mod" class="col-sm-4 col-form-label">Descripción:</label>
-                <div class="col-sm-8">
-                  <textarea class="form-control" ng-model="cuestionarioMod.descripcion" id="descripcion_mod" required></textarea>
-                </div>
+              <div class="mb-4">
+                <label class="form-label">ID Usuario Creador</label>
+                <input type="number" class="form-control" ng-model="cuestionarioMod.id_usuario_creador">
               </div>
 
-              <div class="col-12 row mb-3">
-                <label for="version_mod" class="col-sm-4 col-form-label">Versión:</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" ng-model="cuestionarioMod.version" id="version_mod" required>
-                </div>
-              </div>
-
-              <div class="col-12 row mb-3">
-                <label for="estado_mod" class="col-sm-4 col-form-label">Estado:</label>
-                <div class="col-sm-8">
-                  <input type="text" class="form-control" ng-model="cuestionarioMod.estado" id="estado_mod">
-                </div>
-              </div>
-
-              <div class="col-12 row mb-3">
-                <label for="id_usuario_creador_mod" class="col-sm-4 col-form-label">Usuario Creador:</label>
-                <div class="col-sm-8">
-                  <input type="number" class="form-control" ng-model="cuestionarioMod.id_usuario_creador" id="id_usuario_creador_mod">
-                </div>
-              </div>
-
-              <div class="col-12 text-end">
-                <button type="submit" class="btn btn-success">Guardar Cambios</button>
+              <div class="text-end mb-3">
+                <button type="submit" class="btn btn-success">Guardar cambios del cuestionario</button>
               </div>
             </form>
+
+            <hr>
+
+            <!-- SECCIÓN PARA AGREGAR PREGUNTA AL CUESTIONARIO ACTUAL -->
+            <h6>Agregar nueva pregunta al cuestionario</h6>
+            <div class="border rounded p-3 mb-3 bg-light">
+              <div class="mb-2">
+                <textarea class="form-control" ng-model="nuevaPregunta.texto_pregunta" placeholder="Texto de la pregunta"></textarea>
+              </div>
+              <div class="row mb-2">
+                <div class="col-6">
+                  <select class="form-select" ng-model="nuevaPregunta.tipo_calificacion">
+                    <option value="Likert">Likert</option>
+                    <option value="Binaria">Binaria</option>
+                    <option value="Texto">Texto</option>
+                  </select>
+                  <!-- OPCIONES DE RESPUESTA -->
+                  <div class="border rounded p-2 bg-white mb-2">
+                    <h6>Opciones de respuesta</h6>
+                    <div ng-repeat="o in nuevaPregunta.opciones" class="mb-2">
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Etiqueta" ng-model="o.etiqueta" required>
+                        <input type="number" class="form-control" placeholder="Valor" ng-model="o.valor" required>
+                        <button type="button" class="btn btn-danger" ng-click="eliminarOpcion($index)">🗑️</button>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-secondary" ng-click="agregarOpcion()">➕ Agregar opción</button>
+                  </div>
+
+                </div>
+                <div class="col-3">
+                  <input type="number" class="form-control" ng-model="nuevaPregunta.puntaje_maximo" min="1" placeholder="Valor">
+                </div>
+                <div class="col-3">
+                  <input type="number" class="form-control" ng-model="nuevaPregunta.orden" min="1" placeholder="Orden (opcional)">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col">
+                  <input class="form-control" ng-model="nuevaPregunta.dimension" placeholder="Dimensión">
+                </div>
+                <div class="col">
+                  <input class="form-control" ng-model="nuevaPregunta.dominio" placeholder="Dominio">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col">
+                  <input class="form-control" ng-model="nuevaPregunta.categoria" placeholder="Categoría">
+                </div>
+                <div class="col">
+                  <input class="form-control" ng-model="nuevaPregunta.grupo_aplicacion" placeholder="Grupo de aplicación">
+                </div>
+              </div>
+
+              <div class="text-end">
+                <button class="btn btn-primary" ng-click="agregarPreguntaModal()">Añadir pregunta</button>
+              </div>
+            </div>
+
+            <!-- LISTA DE PREGUNTAS DEL CUESTIONARIO-->
+            <h6>Preguntas registradas</h6>
+            <div ng-if="preguntasDelCuestionario.length==0" class="text-muted mb-2">No hay preguntas aún.</div>
+            <table class="table table-striped" ng-if="preguntasDelCuestionario.length>0">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Texto</th>
+                  <th>Tipo</th>
+                  <th>Puntaje</th>
+                  <th>Orden</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="p in preguntasDelCuestionario">
+                  <td>{{$index+1}}</td>
+                  <td>{{p.texto_pregunta}}</td>
+                  <td>{{p.tipo_calificacion}}</td>
+                  <td>{{p.puntaje_maximo}}</td>
+                  <td>{{p.orden}}</td>
+                  <td>
+                    <button class="btn btn-success btn-sm" ng-click="editarPregunta(p)">✏️</button>
+                    <button class="btn btn-danger btn-sm" ng-click="eliminarPregunta(p.id_pregunta)">🗑️</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
           </div>
 
-          <!-- Footer -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           </div>
+        </div>
+      </div>
+    </div>
 
+    <!-- Modal Ver preguntas -->
+    <div class="modal fade" id="modalVerPreguntas" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5>Preguntas del Cuestionario</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div ng-if="preguntasDelCuestionario.length==0" class="text-muted">No hay preguntas registradas.</div>
+            <table class="table" ng-if="preguntasDelCuestionario.length>0">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Texto</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="p in preguntasDelCuestionario">
+                  <td>{{$index+1}}</td>
+                  <td>{{p.texto_pregunta}}</td>
+                  <td>
+                    <button class="btn btn-success btn-sm" ng-click="editarPregunta(p)">✏️</button>
+                    <button class="btn btn-danger btn-sm" ng-click="eliminarPregunta(p.id_pregunta)">🗑️</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button></div>
         </div>
       </div>
     </div>

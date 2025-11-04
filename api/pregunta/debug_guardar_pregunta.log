@@ -1,0 +1,13 @@
+Array
+(
+    [id_cuestionario] => 1
+    [texto_pregunta] => hola
+    [tipo_calificacion] => Likert
+    [puntaje_maximo] => 4
+    [orden] => 
+    [dimension] => 
+    [dominio] => 
+    [categoria] => 
+    [grupo_aplicacion] => 
+    [condicion] => 
+)

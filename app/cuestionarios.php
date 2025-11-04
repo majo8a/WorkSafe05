@@ -2,10 +2,16 @@
 require_once 'encabezado.php';
 require_once '../api/conexion.php';
 
-$idCuestionario = 1;
+// ============================
+// 1️⃣ Obtener el id del cuestionario de la URL
+// ============================
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    die("⚠️ Cuestionario no especificado o ID inválido.");
+}
+$idCuestionario = intval($_GET['id']);
 
 // ============================
-// Obtener el nombre del cuestionario
+// 2️⃣ Obtener el nombre del cuestionario
 // ============================
 $sqlCuestionario = "SELECT nombre FROM Cuestionario WHERE id_cuestionario = ?";
 $stmtC = $db->prepare($sqlCuestionario);
@@ -19,11 +25,11 @@ $resultC = $stmtC->get_result();
 if ($rowC = $resultC->fetch_assoc()) {
     $nombreCuestionario = $rowC['nombre'];
 } else {
-    $nombreCuestionario = "Cuestionario"; // fallback por si no encuentra
+    die("❌ Cuestionario no encontrado.");
 }
 
 // ============================
-// Obtener preguntas y opciones
+// 3️⃣ Obtener preguntas y opciones
 // ============================
 $sql = "
     SELECT 
@@ -39,7 +45,6 @@ $stmt = $db->prepare($sql);
 if (!$stmt) {
     die('Error al preparar la consulta: ' . $db->error);
 }
-
 $stmt->bind_param('i', $idCuestionario);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -64,7 +69,7 @@ while ($row = $result->fetch_assoc()) {
     ];
 }
 
-// Reindexar el array para convertirlo en una lista secuencial
+// Reindexar el array
 $preguntas = array_values($preguntasAgrupadas);
 $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
 ?>
@@ -72,11 +77,17 @@ $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
 <body>
     <div class="contenedor-cuestionario">
         <div class="info-cuestionario">
-            <p class="contador-preguntas">Pregunta <span id="numero-pregunta"></span> de <span id="total-preguntas"></span></p>
-            <h1 class="titulo-cuestionario"><?php echo htmlspecialchars($nombreCuestionario, ENT_QUOTES, 'UTF-8'); ?></h1>
+            <p class="contador-preguntas">
+                Pregunta <span id="numero-pregunta"></span> de <span id="total-preguntas"></span>
+            </p>
+
+            <h1 class="titulo-cuestionario">
+                <?php echo htmlspecialchars($nombreCuestionario, ENT_QUOTES, 'UTF-8'); ?>
+            </h1>
 
             <p class="pregunta" id="pregunta"></p>
             <div class="opciones" id="opciones"></div>
+
             <div class="botones-navegacion">
                 <button id="boton-anterior" onclick="mostrarAnteriorPregunta()" style="display:none;">Anterior</button>
                 <button id="boton-siguiente" onclick="mostrarSiguientePregunta()">Siguiente</button>
@@ -84,10 +95,12 @@ $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
             </div>
         </div>
     </div>
+
     <script>
+        const idCuestionario = <?php echo $idCuestionario; ?>;
         const preguntas = <?php echo $preguntasJson; ?>;
+        console.log("Cuestionario cargado:", idCuestionario, preguntas);
     </script>
     <script src="controlador/cuestionarios.js"></script>
 </body>
-
 </html>
