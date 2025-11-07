@@ -63,39 +63,14 @@ use PHPMailer\PHPMailer\Exception;
               $_SESSION['rol_temp'] = $row['id_rol'];
               $_SESSION['nombre_temp'] = $row['nombre_completo'];
 
-              // Enviar correo
-              $mail = new PHPMailer(true);
-              try {
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'tu_correo@gmail.com'; // Cambia por tu correo
-                $mail->Password = 'tu_contraseña_app'; // Usa contraseña de aplicación
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
-
-                $mail->setFrom('tu_correo@gmail.com', 'WorkSafe05');
-                $mail->addAddress($email);
-
-                $mail->isHTML(true);
-                $mail->Subject = 'Código de verificación WorkSafe05';
-                $mail->Body = "<p>Hola <b>{$row['nombre_completo']}</b>,</p>
-                               <p>Tu código de verificación es:</p>
-                               <h2 style='color:#011640;'>$codigo</h2>
-                               <p>Ingresa este código para continuar con tu inicio de sesión.</p>";
-
-                // $mail->send();
-
-                // // Redirigir a la verificación
-                // header("Location: verificar_codigo.php");
-                // exit();
-                // MODO LOCAL: Mostrar el código directamente
-                echo "<div style='color:black; class='message'><p>Tu código de verificación es: <b style='font-size:1.5rem;'>$codigo</b></p></div>";
-                echo "<a href='verificar_codigo.php'><button class='btn'>Continuar</button></a>";
-                exit();
-              } catch (Exception $e) {
-                echo "<div style='color:black; 'class='message'><p>Error al enviar el correo: {$mail->ErrorInfo}</p></div>";
-              }
+              // MODO LOCAL: Mostrar el código directamente sin enviar correo
+              echo "<div style='color:black; class='message' style='text-align: center; padding: 20px;'>
+                      <p>Hola <b>{$row['nombre_completo']}</b>,</p>
+                      <p>Tu código de verificación es:</p>
+                      <h2 style='color:#011640; font-size:2rem; margin: 20px 0;'>$codigo</h2>
+                      <p>Ingresa este código para continuar con tu inicio de sesión.</p>
+                    </div>";
+              echo "<div style='text-align: center;'><a href='verificar_codigo.php' class='btn'>Continuar</a></div>";
             }
           } else {
             echo "<div style='color:black; class='message'><p style='color:#011640;'>Contraseña incorrecta</p></div><br>";
