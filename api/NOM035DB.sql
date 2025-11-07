@@ -29,6 +29,7 @@ CREATE TABLE Usuario (
     autenticacion_dos_factores BIT DEFAULT 0,
     activo BIT DEFAULT 1,
     id_rol INT,
+    codigo_recuperacion VARCHAR(10) NULL,
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_rol) REFERENCES Rol(id_rol)
 );
@@ -260,17 +261,17 @@ CREATE TABLE Regla_Calificacion (
     FOREIGN KEY (id_cuestionario) REFERENCES Cuestionario(id_cuestionario)
 );
 
-CREATE TABLE IF NOT EXISTS TwoFactorCodes (
-  id_code INT AUTO_INCREMENT PRIMARY KEY,
-  id_usuario INT NOT NULL,
-  code_hash VARCHAR(255) NOT NULL, -- guardamos hash del código por seguridad
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  expires_at DATETIME NOT NULL,
-  used BIT DEFAULT 0,
-  attempts INT DEFAULT 0,
-  ip_origen VARCHAR(100),
-  FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
-);
+-- CREATE TABLE IF NOT EXISTS TwoFactorCodes (
+--   id_code INT AUTO_INCREMENT PRIMARY KEY,
+--   id_usuario INT NOT NULL,
+--   code_hash VARCHAR(255) NOT NULL, -- guardamos hash del código por seguridad
+--   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--   expires_at DATETIME NOT NULL,
+--   used BIT DEFAULT 0,
+--   attempts INT DEFAULT 0,
+--   ip_origen VARCHAR(100),
+--   FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+-- );
 
 
 -- ========================
