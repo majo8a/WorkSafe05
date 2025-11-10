@@ -73,7 +73,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
         <?php if ($_SESSION['role'] == 2): // Psicólogo 
         ?>
           <li class="nav-item">
-            <a class="nav-link" href="lista_cuestionarios.php">Cuestionarios</a>
+            <a class="nav-link" href="Psico-cuestionario.php">Cuestionarios</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="resultados_admin.php">Resultados</a>

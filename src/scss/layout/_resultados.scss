@@ -1,69 +1,67 @@
-@use 'sass:color';
 @use 'base/variables' as v;
 @use 'base/mixins' as m;
 
-.resultados-admin {
+.titulo-resultados{
+    padding: 2rem;
+    font-size: 3.5rem;
+}
+
+.btn-contenido{
+    font-size: 1rem;
+}
+.btn-volver{
+    margin: 1rem;
+    font-size: 1.2rem;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 0.6rem;
+    transition: all 0.3s ease;
+}
+.btn-contenido:hover{
+    background-color: v.$verde;
+    color: v.$negro;
+}
+.botones{
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.cuestionarios-aplicados {
     background: linear-gradient(180deg, v.$azulPastel 0%, #7CCF5F 100%);
     min-height: 100vh;
     padding: 5rem 3rem;
     font-family: v.$fuente_principal;
 
-    h2, h3, h4 {
-        font-family: v.$fuente_secundaria;
-        color: v.$azulMarino;
-        text-shadow: v.$negro 1px 1px;
-        text-transform: uppercase;
-        text-align: center;
-        margin-bottom: 3rem;
+    .card-body {
+        overflow-x: auto; // mantiene flexibilidad si alguna celda es muy ancha
     }
 
-    p, td, th {
-        font-size: 1.5rem;
-        color: v.$negro;
-    }
-
-    // ─────────────── Tarjetas ───────────────
-    .card {
-        background: v.$blanco;
-        border-radius: 2rem;
-        box-shadow: 0 0.5rem 1rem rgba(v.$negro, 0.2);
-        border: none;
-        margin-bottom: 3rem;
-        padding: 2rem;
-
-        &-header {
-            background: transparent;
-            color: v.$azulMarino;
-            font-weight: bold;
-            font-size: 2rem;
-            border-bottom: 2px solid rgba(v.$azulMarino, 0.2);
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        &-body {
-            padding: 1rem 0;
-        }
-    }
-
-    // ─────────────── Tablas ───────────────
     table {
         width: 100%;
         border-collapse: collapse;
         border-radius: 1rem;
         overflow: hidden;
         background: v.$blanco;
+        table-layout: fixed; // fuerza a las columnas a ajustarse al ancho disponible
+
+        th, td {
+            padding: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(v.$azulMarino, 0.1);
+            font-size: 1.4rem;
+            color: v.$negro;
+
+            // 🔹 Habilita saltos de línea
+            white-space: normal !important;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
 
         thead {
             background-color: v.$azulMarino;
             color: v.$blanco;
             text-transform: uppercase;
-        }
-
-        th, td {
-            padding: 1.5rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(v.$azulMarino, 0.1);
         }
 
         tbody tr:hover {
@@ -72,113 +70,42 @@
         }
     }
 
-    // ─────────────── Botones ───────────────
-    .btn {
-        font-family: v.$fuente_principal;
-        font-weight: bold;
-        border-radius: 1rem;
-        padding: 1rem 2rem;
-        text-transform: uppercase;
-        transition: all 0.3s ease;
-        border: none;
+    @media (max-width: 768px) {
+        padding: 2rem 1rem;
 
-        &-primary {
-            background-color: v.$azulMarino;
-            color: v.$blanco;
-
-            &:hover {
-                background-color: color.adjust(v.$azulMarino, $lightness: 10%);
-                color: v.$negro;
-            }
+        table th, table td {
+            font-size: 1.2rem;
+            padding: 0.8rem;
         }
 
-        &-secondary {
-            background-color: v.$azulPastel;
-            color: v.$negro;
-
-            &:hover {
-                background-color: color.adjust(v.$azulPastel, $lightness: 10%);
-            }
-        }
-
-        &-outline-primary {
-            border: 2px solid v.$azulMarino;
-            background: transparent;
-            color: v.$azulMarino;
-
-            &:hover {
-                background-color: v.$azulMarino;
-                color: v.$blanco;
-            }
-        }
-    }
-
-    // ─────────────── Alertas ───────────────
-    .alert {
-        border-radius: 1rem;
-        padding: 1.5rem 2rem;
-        font-size: 1.5rem;
-        border-left: 5px solid;
-
-        &-info {
-            background-color: rgba(v.$azulPastel, 0.2);
-            border-color: v.$azulMarino;
-        }
-
-        &-danger {
-            background-color: rgba(v.$rojo, 0.1);
-            border-color: v.$rojo;
-        }
-
-        &-success {
-            background-color: rgba(v.$verde, 0.2);
-            border-color: v.$verde;
-        }
-    }
-
-    // ─────────────── Badges de nivel ───────────────
-    .badge {
-        padding: .6rem 1.2rem;
-        border-radius: 1rem;
-        font-weight: 600;
-        font-size: 1.3rem;
-        text-transform: capitalize;
-
-        &.nulo { background: v.$gris; color: v.$blanco; }
-        &.bajo { background: v.$verde; color: v.$blanco; }
-        &.medio { background: v.$amarillo; color: v.$negro; }
-        &.alto { background: v.$rojo; color: v.$blanco; }
-        &.muy-alto { background: color.adjust(v.$rojo, $lightness: -10%); color: v.$blanco; }
-    }
-
-    // ─────────────── Gráfica ───────────────
-    .grafico {
-        background-color: v.$blanco;
-        border-radius: 2rem;
-        padding: 2rem;
-        margin-top: 2rem;
-        box-shadow: 0 0.5rem 1rem rgba(v.$negro, 0.1);
-    }
-
-    // ─────────────── Responsive ───────────────
-    @media (max-width: v.$tablet) {
-        padding: 2rem;
-        table, thead, tbody, tr, td, th {
-            display: block;
-            width: 100%;
-        }
-        thead { display: none; }
-
-        td {
+        .titulo-resultados {
+            font-size: 2rem;
             padding: 1rem;
-            border-bottom: 1px solid rgba(v.$azulMarino, 0.2);
-            &:before {
-                content: attr(data-label);
-                display: block;
-                font-weight: bold;
-                color: v.$azulMarino;
-                margin-bottom: .5rem;
-            }
         }
     }
+}
+
+.datos-resultado{
+    color: v.$negro;
+    font-size: 1.5rem;
+}
+.titulo-resultados{
+    color: v.$negro;
+    font-size: 1.5rem;
+    text-align: left;
+    text-transform: capitalize;
+    text-shadow: none;
+}
+.subtitulo-resultados{
+    color: v.$negro;
+    font-size: 1.2rem;
+    text-align: left;
+    text-transform: capitalize;
+    text-shadow: none;
+}
+.num-evaluacion{
+    color: v.$negro;
+    font-size: 4.5rem;
+    text-align: center;
+    padding: 2rem;
 }

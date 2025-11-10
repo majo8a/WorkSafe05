@@ -2,6 +2,9 @@
 require_once '../api/conexion.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 
+// Forzar codificación UTF-8 en MySQL
+mysqli_set_charset($db, "utf8");
+
 // Verificar rol Psicólogo (id_rol = 2)
 $idUsuarioSesion = $_SESSION['id_usuario'] ?? $_SESSION['id'] ?? null;
 $idRolSesion = $_SESSION['role'] ?? $_SESSION['role'] ?? null;
@@ -11,7 +14,14 @@ if ((int)$idRolSesion !== 2) die("⚠️ Acceso restringido. Solo psicólogos pu
 // Importar FPDF
 require_once 'fpdf/fpdf.php';
 
-// Obtener id_evaluacion
+// Recibir gráfica (opcional)
+$grafica = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $json = json_decode(file_get_contents('php://input'), true);
+    $grafica = $json['grafica'] ?? null;
+}
+
+// Obtener id_evaluacion (si viene por GET)
 $idEvaluacion = isset($_GET['id_evaluacion']) ? (int)$_GET['id_evaluacion'] : 0;
 if (!$idEvaluacion) die("⚠️ Evaluación no especificada.");
 
@@ -73,7 +83,7 @@ $recomendacion = obtenerRecomendacion($eval['estado']);
 $pdf = new FPDF('P', 'mm', 'A4');
 $pdf->AddPage();
 
-// Encabezado
+// Encabezado principal
 $pdf->SetFont('Arial', 'B', 16);
 $pdf->Cell(0, 10, utf8_decode('Reporte de Evaluación NOM-035'), 0, 1, 'C');
 $pdf->Ln(4);
@@ -83,27 +93,70 @@ $pdf->Cell(0, 8, utf8_decode('Cuestionario: ' . $eval['nombre_cuestionario']), 0
 $pdf->Cell(0, 8, utf8_decode('Usuario evaluado: ' . $eval['nombre_usuario']), 0, 1);
 $pdf->Cell(0, 8, utf8_decode('Fecha de aplicación: ' . date('d/m/Y H:i', strtotime($eval['fecha_aplicacion']))), 0, 1);
 $pdf->Cell(0, 8, utf8_decode('Nivel global: ' . strtoupper($eval['estado'])), 0, 1);
-$pdf->Ln(4);
+$pdf->Ln(6);
 
-// Resultados por categoría
+// 🔹 Insertar gráfica si existe
+if ($grafica) {
+    $grafica = str_replace('data:image/png;base64,', '', $grafica);
+    $grafica = str_replace(' ', '+', $grafica);
+    $imagen = base64_decode($grafica);
+    $rutaImagen = 'grafica_temp.png';
+    file_put_contents($rutaImagen, $imagen);
+
+    // Insertar la imagen en el PDF
+    $pdf->Image($rutaImagen, 25, $pdf->GetY(), 160, 80);
+    $pdf->Ln(90);
+
+    unlink($rutaImagen); // Eliminar temporal
+}
+
+// Título tabla
 $pdf->SetFont('Arial', 'B', 13);
 $pdf->Cell(0, 8, utf8_decode('Resultados por Categoría'), 0, 1);
+$pdf->Ln(2);
+
+// Encabezados de tabla
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->SetFillColor(200, 200, 200);
-$pdf->Cell(60, 8, 'Categoría', 1, 0, 'C', true);
-$pdf->Cell(40, 8, 'Dominio', 1, 0, 'C', true);
-$pdf->Cell(40, 8, 'Dimensión', 1, 0, 'C', true);
-$pdf->Cell(25, 8, 'Puntaje', 1, 0, 'C', true);
-$pdf->Cell(25, 8, 'Nivel', 1, 1, 'C', true);
+$pdf->Cell(55, 8, utf8_decode('Categoría'), 1, 0, 'C', true);
+$pdf->Cell(45, 8, utf8_decode('Dominio'), 1, 0, 'C', true);
+$pdf->Cell(45, 8, utf8_decode('Dimensión'), 1, 0, 'C', true);
+$pdf->Cell(20, 8, utf8_decode('Puntaje'), 1, 0, 'C', true);
+$pdf->Cell(25, 8, utf8_decode('Nivel'), 1, 1, 'C', true);
 
-$pdf->SetFont('Arial', '', 10);
+// Cuerpo de tabla
+$pdf->SetFont('Arial', '', 9);
+
 foreach ($datos as $categoria => $items) {
     foreach ($items as $r) {
-        $pdf->Cell(60, 7, utf8_decode($categoria), 1);
-        $pdf->Cell(40, 7, utf8_decode($r['dominio']), 1);
-        $pdf->Cell(40, 7, utf8_decode($r['dimension']), 1);
-        $pdf->Cell(25, 7, $r['puntaje_obtenido'], 1, 0, 'C');
-        $pdf->Cell(25, 7, utf8_decode($r['nivel_riesgo']), 1, 1, 'C');
+        $x = $pdf->GetX();
+        $y = $pdf->GetY();
+        $w = [55, 45, 45, 20, 25];
+        $h = 7;
+
+        $xInicio = $x;
+        $yInicio = $y;
+
+        // Columna Categoría
+        $pdf->MultiCell($w[0], $h, utf8_decode($categoria), 1);
+        $yFin = $pdf->GetY();
+        $pdf->SetXY($xInicio + $w[0], $yInicio);
+
+        // Columna Dominio
+        $pdf->MultiCell($w[1], $h, utf8_decode($r['dominio']), 1);
+        $yFin = max($yFin, $pdf->GetY());
+        $pdf->SetXY($xInicio + $w[0] + $w[1], $yInicio);
+
+        // Columna Dimensión
+        $pdf->MultiCell($w[2], $h, utf8_decode($r['dimension']), 1);
+        $yFin = max($yFin, $pdf->GetY());
+        $pdf->SetXY($xInicio + $w[0] + $w[1] + $w[2], $yInicio);
+
+        // Puntaje y Nivel
+        $pdf->Cell($w[3], $h, $r['puntaje_obtenido'], 1, 0, 'C');
+        $pdf->Cell($w[4], $h, utf8_decode($r['nivel_riesgo']), 1, 1, 'C');
+
+        $pdf->SetY($yFin);
     }
 }
 $pdf->Ln(6);
@@ -119,5 +172,7 @@ $pdf->Ln(8);
 $pdf->SetFont('Arial', 'I', 10);
 $pdf->Cell(0, 10, utf8_decode('Generado por: ' . ($_SESSION['usuario'] ?? 'Psicólogo')), 0, 1, 'L');
 $pdf->Cell(0, 5, utf8_decode('Fecha de emisión: ' . date('d/m/Y H:i')), 0, 1, 'L');
+
+// Salida del PDF
 $pdf->Output('I', 'Evaluacion_' . $idEvaluacion . '.pdf');
 ?>

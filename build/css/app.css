@@ -1384,4 +1384,111 @@ body {
 }
 .contenedor-cuestionario .info-cuestionario .botones-navegacion button#boton-anterior:hover {
   background: #117a8b;
+}
+
+.titulo-resultados {
+  padding: 2rem;
+  font-size: 3.5rem;
+}
+
+.btn-contenido {
+  font-size: 1rem;
+}
+
+.btn-volver {
+  margin: 1rem;
+  font-size: 1.2rem;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 0.6rem;
+  transition: all 0.3s ease;
+}
+
+.btn-contenido:hover {
+  background-color: #438559;
+  color: #000;
+}
+
+.botones {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.cuestionarios-aplicados {
+  background: linear-gradient(180deg, #62C8EC 0%, #7CCF5F 100%);
+  min-height: 100vh;
+  padding: 5rem 3rem;
+  font-family: "Bricolage Grotesque", sans-serif;
+}
+.cuestionarios-aplicados .card-body {
+  overflow-x: auto;
+}
+.cuestionarios-aplicados table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #FFFFFF;
+  table-layout: fixed;
+}
+.cuestionarios-aplicados table th, .cuestionarios-aplicados table td {
+  padding: 1.2rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(1, 22, 64, 0.1);
+  font-size: 1.4rem;
+  color: #000;
+  white-space: normal !important;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+.cuestionarios-aplicados table thead {
+  background-color: #011640;
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+.cuestionarios-aplicados table tbody tr:hover {
+  background-color: rgba(98, 200, 236, 0.25);
+  transition: background-color 0.3s ease;
+}
+@media (max-width: 768px) {
+  .cuestionarios-aplicados {
+    padding: 2rem 1rem;
+  }
+  .cuestionarios-aplicados table th, .cuestionarios-aplicados table td {
+    font-size: 1.2rem;
+    padding: 0.8rem;
+  }
+  .cuestionarios-aplicados .titulo-resultados {
+    font-size: 2rem;
+    padding: 1rem;
+  }
+}
+
+.datos-resultado {
+  color: #000;
+  font-size: 1.5rem;
+}
+
+.titulo-resultados {
+  color: #000;
+  font-size: 1.5rem;
+  text-align: left;
+  text-transform: capitalize;
+  text-shadow: none;
+}
+
+.subtitulo-resultados {
+  color: #000;
+  font-size: 1.2rem;
+  text-align: left;
+  text-transform: capitalize;
+  text-shadow: none;
+}
+
+.num-evaluacion {
+  color: #000;
+  font-size: 4.5rem;
+  text-align: center;
+  padding: 2rem;
 }/*# sourceMappingURL=app.css.map */

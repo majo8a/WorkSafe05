@@ -3,9 +3,7 @@ session_start();
 require_once 'conexion.php';
 header('Content-Type: application/json');
 
-// ============================
-// 1️⃣ Validar sesión
-// ============================
+// Validar sesión
 if (!isset($_SESSION['id'])) {
     echo json_encode(["success" => false, "error" => "Sesión no iniciada."]);
     exit;
@@ -23,9 +21,7 @@ if (!$idCuestionario || empty($respuestas)) {
 }
 
 try {
-    // ============================
-    // 2️⃣ Verificar si ya respondió
-    // ============================
+    // Verificar si ya respondió
     $sqlCheck = "SELECT id_evaluacion FROM Evaluacion 
                  WHERE id_usuario = ? AND id_cuestionario = ? AND estado = 'completado' LIMIT 1";
     $stmtCheck = $db->prepare($sqlCheck);
@@ -38,9 +34,7 @@ try {
         exit;
     }
 
-    // ============================
-    // 3️⃣ Crear nueva evaluación
-    // ============================
+    // Crear nueva evaluación
     $sqlEval = "INSERT INTO Evaluacion (id_usuario, id_cuestionario, fecha_aplicacion, estado)
                 VALUES (?, ?, NOW(), 'completado')";
     $stmtEval = $db->prepare($sqlEval);
@@ -48,9 +42,7 @@ try {
     $stmtEval->execute();
     $idEvaluacion = $stmtEval->insert_id;
 
-    // ============================
-    // 4️⃣ Obtener preguntas y opciones
-    // ============================
+    //  Obtener preguntas y opciones
     $sqlPreguntas = "SELECT id_pregunta FROM Pregunta WHERE id_cuestionario = ? ORDER BY orden ASC";
     $stmtPreg = $db->prepare($sqlPreguntas);
     $stmtPreg->bind_param("i", $idCuestionario);
@@ -73,9 +65,7 @@ try {
         $opcionesPorPregunta[$row['id_pregunta']][$row['id_opcion']] = $row['valor'];
     }
 
-    // ============================
-    // 5️⃣ Insertar respuestas (aplica inversión Tabla 5)
-    // ============================
+    // Insertar respuestas
     $sqlResp = "INSERT INTO Respuesta (id_pregunta, id_evaluacion, id_opcion_respuesta_select, valor, fecha_respuesta)
                 VALUES (?, ?, ?, ?, NOW())";
     $stmtResp = $db->prepare($sqlResp);
@@ -94,9 +84,7 @@ try {
         $stmtResp->execute();
     }
 
-    // ============================
-    // 6️⃣ Calcular resultados agrupados
-    // ============================
+    // Calcular resultados agrupados
     $sqlPuntajes = "
         SELECT 
             COALESCE(p.categoria, 'Desconocido') AS categoria,
@@ -113,9 +101,7 @@ try {
     $stmtPuntajes->execute();
     $resPuntajes = $stmtPuntajes->get_result();
 
-    // ============================
-    // 7️⃣ Insertar resultados y niveles
-    // ============================
+    // Insertar resultados y niveles
     $sqlResultado = "
         INSERT INTO Resultado (
             id_evaluacion, categoria, dominio, dimension, 
@@ -143,9 +129,7 @@ try {
         $stmtResultado->execute();
     }
 
-    // ============================
-    // 8️⃣ Nivel global
-    // ============================
+    // Nivel global
     $nivelGlobal = determinarNivelRiesgo('global', $puntajeTotal);
     $interpretacionGlobal = "Nivel global: " . $nivelGlobal;
 
@@ -161,11 +145,9 @@ try {
     echo json_encode(["success" => false, "error" => $e->getMessage()]);
 }
 
-// ============================================================
-// 🔹 Funciones auxiliares NOM-035
-// ============================================================
 
-// Tabla 5 — inversión de valores
+
+// inversión de valores
 function obtenerValorInvertido($idPregunta, $valorOriginal) {
     $invertidos = [
         2,3,5,6,7,8,9,10,11,12,13,14,
@@ -176,7 +158,7 @@ function obtenerValorInvertido($idPregunta, $valorOriginal) {
     return in_array($idPregunta, $invertidos) ? 4 - $valorOriginal : $valorOriginal;
 }
 
-// Clasificación de riesgo (Tablas 6 y 7)
+// Clasificación de riesgo
 function determinarNivelRiesgo($tipo, $puntaje) {
     $tipo = mb_strtolower(trim($tipo), 'UTF-8');
     $tipo = str_replace(
@@ -185,7 +167,7 @@ function determinarNivelRiesgo($tipo, $puntaje) {
         $tipo
     );
 
-    // 🔹 Normalizar nombres para que coincidan
+    // Normalizar nombres para que coincidan
     $sinonimos = [
         'capacitacion' => 'falta de control sobre el trabajo',
         'definicion de responsabilidades' => 'falta de control sobre el trabajo',
@@ -203,7 +185,7 @@ function determinarNivelRiesgo($tipo, $puntaje) {
         $tipo = $sinonimos[$tipo];
     }
 
-    // 🔹 RANGOS CATEGORÍA
+    // RANGOS CATEGORÍA
     $rangosCategoria = [
         'ambiente de trabajo' => [
             ['Nulo',0,5],['Bajo',5,9],['Medio',9,11],['Alto',11,14],['Muy alto',14,PHP_INT_MAX]
@@ -225,7 +207,7 @@ function determinarNivelRiesgo($tipo, $puntaje) {
         ]
     ];
 
-    // 🔹 RANGOS DOMINIO
+    // RANGOS DOMINIO
     $rangosDominio = [
         'condiciones en el ambiente de trabajo' => [
             ['Nulo',0,5],['Bajo',5,9],['Medio',9,11],['Alto',11,14],['Muy alto',14,PHP_INT_MAX]
