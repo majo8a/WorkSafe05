@@ -38,8 +38,9 @@
                         <td class="nombre">{{u.nombre_completo}}</td>
                         <td>{{u.correo}}</td>
                         <td>{{u.telefono}}</td>
-                        <td>{{u.activo}}</td>
-                        <td>{{u.id_rol}}</td>
+                        <td>{{u.activo == 1 ? 'Activo' : 'Inactivo'}}</td>
+                        <td>{{ u.id_rol == 1 ? 'Administrador' : u.id_rol == 2 ? 'Psicólogo' : u.id_rol == 3 ? 'Usuario' : 'Desconocido' }}
+                        </td>
                         <td>{{u.fecha_registro}}</td>
                         <td class="acciones text-center">
                             <button type="button" ng-click="seleccionar(u)" class="btn btn-success btn-sm mb-1">
@@ -51,6 +52,7 @@
                         </td>
                     </tr>
                 </tbody>
+
             </table>
         </div>
         <!-- Modal Guardar Usuario -->
@@ -96,16 +98,23 @@
                             </div>
 
                             <div class="col-12 row mb-3">
-                                <label for="activo" class="col-sm-4 col-form-label">Activo:</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" ng-model="usuario.activo" id="activo" placeholder="Activo">
-                                </div>
-                            </div>
-
-                            <div class="col-12 row mb-3">
                                 <label for="id_rol" class="col-sm-4 col-form-label">Rol:</label>
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control" ng-model="usuario.id_rol" id="id_rol" placeholder="Rol del usuario">
+                                    <select class="form-control" ng-model="usuario.id_rol" id="id_rol"
+                                        style="height: 40px; 
+                                        border-radius: 10px; 
+                                        padding-left: 12px; 
+                                        font-size: 16px; 
+                                        appearance: none; 
+                                        -webkit-appearance: none; 
+                                        -moz-appearance: none; 
+                                        background-color: #fff; 
+                                        border: 1px solid #ced4da;">
+                                        <option value="">Seleccione un rol</option>
+                                        <option value="1">Administrador</option>
+                                        <option value="2">Psicólogo</option>
+                                        <option value="3">Usuario</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -170,16 +179,45 @@
                             <div class="col-12 row mb-3">
                                 <label for="activo_mod" class="col-sm-4 col-form-label">Activo:</label>
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control" ng-model="usuarioMod.activo" id="activo_mod" placeholder="Activo">
+                                    <select class="form-control" ng-model="usuarioMod.activo" id="activo_mod"
+                                        style="height: 40px; 
+                                        border-radius: 10px; 
+                                        padding-left: 12px; 
+                                        font-size: 16px; 
+                                        appearance: none; 
+                                        -webkit-appearance: none; 
+                                        -moz-appearance: none; 
+                                        background-color: #fff; 
+                                        border: 1px solid #ced4da;">
+                                        <option value="">Seleccione estado</option>
+                                        <option value="1">Activo</option>
+                                        <option value="0">Inactivo</option>
+                                    </select>
                                 </div>
                             </div>
 
+
                             <div class="col-12 row mb-3">
-                                <label for="id_rol_mod" class="col-sm-4 col-form-label">Rol:</label>
+                                <label for="id_rol" class="col-sm-4 col-form-label">Rol:</label>
                                 <div class="col-sm-8">
-                                    <input type="number" class="form-control" ng-model="usuarioMod.id_rol" id="id_rol_mod" placeholder="Rol del usuario">
+                                    <select class="form-control" ng-model="usuario.id_rol" id="id_rol"
+                                        style="height: 40px; 
+                                        border-radius: 10px; 
+                                        padding-left: 12px; 
+                                        font-size: 16px; 
+                                        appearance: none; 
+                                        -webkit-appearance: none; 
+                                        -moz-appearance: none; 
+                                        background-color: #fff; 
+                                        border: 1px solid #ced4da;">
+                                        <option value="">Seleccione un rol</option>
+                                        <option value="1">Administrador</option>
+                                        <option value="2">Psicólogo</option>
+                                        <option value="3">Usuario</option>
+                                    </select>
                                 </div>
                             </div>
+
 
                             <div class="col-12 text-end">
                                 <button type="submit" class="btn btn-success">Guardar Cambios</button>
