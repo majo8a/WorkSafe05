@@ -76,7 +76,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <a class="nav-link" href="lista_cuestionarios.php">Cuestionarios</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="evaluaciones.php">Evaluaciones</a>
+            <a class="nav-link" href="resultados_admin.php">Resultados</a>
           </li>
         <?php endif; ?>
 
