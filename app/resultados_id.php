@@ -5,7 +5,7 @@ require_once '../api/conexion.php';
 // Asegurar sesión
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-// Comprobar usuario y rol (Psicólogo -> id_rol = 2)
+// Comprobar usuario y rol
 $idUsuarioSesion = $_SESSION['id_usuario'] ?? $_SESSION['id'] ?? null;
 $idRolSesion = $_SESSION['role'] ?? $_SESSION['role'] ?? null;
 

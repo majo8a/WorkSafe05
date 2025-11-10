@@ -16,7 +16,7 @@ if ((int)$idRolSesion !== 2) {
     die("⚠️ Acceso restringido. Solo psicólogos (rol 2) pueden ver esta sección.");
 }
 
-// 1) Listar cuestionarios que tienen evaluaciones
+// Listar cuestionarios que tienen evaluaciones
 $sql = "
     SELECT c.id_cuestionario, c.nombre, c.descripcion, COUNT(e.id_evaluacion) AS aplicadas
     FROM Cuestionario c

@@ -4,7 +4,7 @@ require_once '../api/conexion.php';
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-// Solo Psicólogo (rol 2)
+// Solo Psicólogo 
 $idUsuarioSesion = $_SESSION['id_usuario'] ?? $_SESSION['id'] ?? null;
 $idRolSesion = $_SESSION['role'] ?? $_SESSION['role'] ?? null;
 if (!$idUsuarioSesion) die("⚠️ Debes iniciar sesión.");

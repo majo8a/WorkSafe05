@@ -207,7 +207,7 @@ function determinarNivelRiesgo($tipo, $puntaje) {
         ]
     ];
 
-    // RANGOS DOMINIO
+    // RANGOS DOMINio
     $rangosDominio = [
         'condiciones en el ambiente de trabajo' => [
             ['Nulo',0,5],['Bajo',5,9],['Medio',9,11],['Alto',11,14],['Muy alto',14,PHP_INT_MAX]

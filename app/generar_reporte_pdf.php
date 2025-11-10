@@ -161,7 +161,7 @@ foreach ($datos as $categoria => $items) {
 }
 $pdf->Ln(6);
 
-// Recomendación
+// Recomendacion
 $pdf->SetFont('Arial', 'B', 13);
 $pdf->Cell(0, 8, utf8_decode('Recomendación'), 0, 1);
 $pdf->SetFont('Arial', '', 11);
