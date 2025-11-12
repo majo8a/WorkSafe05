@@ -140,7 +140,6 @@ try {
     $stmtGlobal->execute();
 
     echo json_encode(["success" => true, "nivel_global" => $nivelGlobal, "puntaje_total" => $puntajeTotal]);
-
 } catch (Exception $e) {
     echo json_encode(["success" => false, "error" => $e->getMessage()]);
 }
@@ -148,22 +147,57 @@ try {
 
 
 // inversión de valores
-function obtenerValorInvertido($idPregunta, $valorOriginal) {
+function obtenerValorInvertido($idPregunta, $valorOriginal)
+{
     $invertidos = [
-        2,3,5,6,7,8,9,10,11,12,13,14,
-        15,16,17,18,19,20,21,22,29,54,
-        58,59,60,61,62,63,64,65,66,67,
-        68,69,70,71,72
+        2,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        29,
+        54,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
     ];
     return in_array($idPregunta, $invertidos) ? 4 - $valorOriginal : $valorOriginal;
 }
 
 // Clasificación de riesgo
-function determinarNivelRiesgo($tipo, $puntaje) {
+function determinarNivelRiesgo($tipo, $puntaje)
+{
     $tipo = mb_strtolower(trim($tipo), 'UTF-8');
     $tipo = str_replace(
-        ['á','é','í','ó','ú'],
-        ['a','e','i','o','u'],
+        ['á', 'é', 'í', 'ó', 'ú'],
+        ['a', 'e', 'i', 'o', 'u'],
         $tipo
     );
 
@@ -188,56 +222,120 @@ function determinarNivelRiesgo($tipo, $puntaje) {
     // RANGOS CATEGORÍA
     $rangosCategoria = [
         'ambiente de trabajo' => [
-            ['Nulo',0,5],['Bajo',5,9],['Medio',9,11],['Alto',11,14],['Muy alto',14,PHP_INT_MAX]
+            ['Nulo', 0, 5],
+            ['Bajo', 5, 9],
+            ['Medio', 9, 11],
+            ['Alto', 11, 14],
+            ['Muy alto', 14, PHP_INT_MAX]
         ],
         'factores propios de la actividad' => [
-            ['Nulo',0,15],['Bajo',15,30],['Medio',30,45],['Alto',45,60],['Muy alto',60,PHP_INT_MAX]
+            ['Nulo', 0, 15],
+            ['Bajo', 15, 30],
+            ['Medio', 30, 45],
+            ['Alto', 45, 60],
+            ['Muy alto', 60, PHP_INT_MAX]
         ],
         'organizacion del tiempo de trabajo' => [
-            ['Nulo',0,5],['Bajo',5,7],['Medio',7,10],['Alto',10,13],['Muy alto',13,PHP_INT_MAX]
+            ['Nulo', 0, 5],
+            ['Bajo', 5, 7],
+            ['Medio', 7, 10],
+            ['Alto', 10, 13],
+            ['Muy alto', 13, PHP_INT_MAX]
         ],
         'liderazgo y relaciones en el trabajo' => [
-            ['Nulo',0,14],['Bajo',14,29],['Medio',29,42],['Alto',42,58],['Muy alto',58,PHP_INT_MAX]
+            ['Nulo', 0, 14],
+            ['Bajo', 14, 29],
+            ['Medio', 29, 42],
+            ['Alto', 42, 58],
+            ['Muy alto', 58, PHP_INT_MAX]
         ],
         'entorno organizacional' => [
-            ['Nulo',0,10],['Bajo',10,14],['Medio',14,18],['Alto',18,23],['Muy alto',23,PHP_INT_MAX]
+            ['Nulo', 0, 10],
+            ['Bajo', 10, 14],
+            ['Medio', 14, 18],
+            ['Alto', 18, 23],
+            ['Muy alto', 23, PHP_INT_MAX]
         ],
         'global' => [
-            ['Nulo',0,50],['Bajo',50,75],['Medio',75,99],['Alto',99,140],['Muy alto',140,PHP_INT_MAX]
+            ['Nulo', 0, 50],
+            ['Bajo', 50, 75],
+            ['Medio', 75, 99],
+            ['Alto', 99, 140],
+            ['Muy alto', 140, PHP_INT_MAX]
         ]
     ];
 
     // RANGOS DOMINio
     $rangosDominio = [
         'condiciones en el ambiente de trabajo' => [
-            ['Nulo',0,5],['Bajo',5,9],['Medio',9,11],['Alto',11,14],['Muy alto',14,PHP_INT_MAX]
+            ['Nulo', 0, 5],
+            ['Bajo', 5, 9],
+            ['Medio', 9, 11],
+            ['Alto', 11, 14],
+            ['Muy alto', 14, PHP_INT_MAX]
         ],
         'carga de trabajo' => [
-            ['Nulo',0,15],['Bajo',15,21],['Medio',21,27],['Alto',27,37],['Muy alto',37,PHP_INT_MAX]
+            ['Nulo', 0, 15],
+            ['Bajo', 15, 21],
+            ['Medio', 21, 27],
+            ['Alto', 27, 37],
+            ['Muy alto', 37, PHP_INT_MAX]
         ],
         'falta de control sobre el trabajo' => [
-            ['Nulo',0,11],['Bajo',11,16],['Medio',16,21],['Alto',21,25],['Muy alto',25,PHP_INT_MAX]
+            ['Nulo', 0, 11],
+            ['Bajo', 11, 16],
+            ['Medio', 16, 21],
+            ['Alto', 21, 25],
+            ['Muy alto', 25, PHP_INT_MAX]
         ],
         'jornada de trabajo' => [
-            ['Nulo',0,1],['Bajo',1,2],['Medio',2,4],['Alto',4,6],['Muy alto',6,PHP_INT_MAX]
+            ['Nulo', 0, 1],
+            ['Bajo', 1, 2],
+            ['Medio', 2, 4],
+            ['Alto', 4, 6],
+            ['Muy alto', 6, PHP_INT_MAX]
         ],
         'interferencia en la relacion trabajo-familia' => [
-            ['Nulo',0,4],['Bajo',4,6],['Medio',6,8],['Alto',8,10],['Muy alto',10,PHP_INT_MAX]
+            ['Nulo', 0, 4],
+            ['Bajo', 4, 6],
+            ['Medio', 6, 8],
+            ['Alto', 8, 10],
+            ['Muy alto', 10, PHP_INT_MAX]
         ],
         'liderazgo' => [
-            ['Nulo',0,9],['Bajo',9,12],['Medio',12,16],['Alto',16,20],['Muy alto',20,PHP_INT_MAX]
+            ['Nulo', 0, 9],
+            ['Bajo', 9, 12],
+            ['Medio', 12, 16],
+            ['Alto', 16, 20],
+            ['Muy alto', 20, PHP_INT_MAX]
         ],
         'relaciones en el trabajo' => [
-            ['Nulo',0,10],['Bajo',10,13],['Medio',13,17],['Alto',17,21],['Muy alto',21,PHP_INT_MAX]
+            ['Nulo', 0, 10],
+            ['Bajo', 10, 13],
+            ['Medio', 13, 17],
+            ['Alto', 17, 21],
+            ['Muy alto', 21, PHP_INT_MAX]
         ],
         'violencia' => [
-            ['Nulo',0,7],['Bajo',7,10],['Medio',10,13],['Alto',13,16],['Muy alto',16,PHP_INT_MAX]
+            ['Nulo', 0, 7],
+            ['Bajo', 7, 10],
+            ['Medio', 10, 13],
+            ['Alto', 13, 16],
+            ['Muy alto', 16, PHP_INT_MAX]
         ],
         'reconocimiento del desempeno' => [
-            ['Nulo',0,6],['Bajo',6,10],['Medio',10,14],['Alto',14,18],['Muy alto',18,PHP_INT_MAX]
+            ['Nulo', 0, 6],
+            ['Bajo', 6, 10],
+            ['Medio', 10, 14],
+            ['Alto', 14, 18],
+            ['Muy alto', 18, PHP_INT_MAX]
         ],
         'insuficiente sentido de pertenencia e inestabilidad' => [
-            ['Nulo',0,4],['Bajo',4,6],['Medio',6,8],['Alto',8,10],['Muy alto',10,PHP_INT_MAX]
+            ['Nulo', 0, 4],
+            ['Bajo', 4, 6],
+            ['Medio', 6, 8],
+            ['Alto', 8, 10],
+            ['Muy alto', 10, PHP_INT_MAX]
         ]
     ];
 
@@ -253,5 +351,3 @@ function determinarNivelRiesgo($tipo, $puntaje) {
 
     return 'Desconocido';
 }
-
-?>

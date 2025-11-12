@@ -469,3 +469,33 @@ END //
 /* ------------------ FIN de triggers ------------------ */
 
 DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER trg_crear_evaluaciones_al_insertar_usuario
+AFTER INSERT ON Usuario
+FOR EACH ROW
+BEGIN
+    DECLARE done INT DEFAULT 0;
+    DECLARE idCuestionario INT;
+    DECLARE curCuestionarios CURSOR FOR 
+        SELECT id_cuestionario FROM Cuestionario;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN curCuestionarios;
+
+    loop_cuestionarios: LOOP
+        FETCH curCuestionarios INTO idCuestionario;
+        IF done = 1 THEN
+            LEAVE loop_cuestionarios;
+        END IF;
+
+        INSERT INTO Evaluacion (id_usuario, id_cuestionario, fecha_aplicacion, estado)
+        VALUES (NEW.id_usuario, idCuestionario, NOW(), 'pendiente');
+    END LOOP;
+
+    CLOSE curCuestionarios;
+END$$
+
+DELIMITER ;
