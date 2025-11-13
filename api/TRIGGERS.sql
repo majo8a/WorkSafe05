@@ -499,3 +499,29 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER trg_usuario_autenticacion_update
+BEFORE UPDATE ON Usuario
+FOR EACH ROW
+BEGIN
+    IF NEW.id_rol = 3 THEN
+        SET NEW.autenticacion_dos_factores = 1;
+    END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER trg_usuario_autenticacion_insert
+BEFORE INSERT ON Usuario
+FOR EACH ROW
+BEGIN
+    IF NEW.id_rol = 3 THEN
+        SET NEW.autenticacion_dos_factores = 1;
+    END IF;
+END$$
+
+DELIMITER ;
