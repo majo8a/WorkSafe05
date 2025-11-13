@@ -140,8 +140,7 @@
         </div>
       </div>
       <br>
-      <h2 class="titulo-resultados">Resultados</h2>
-      <div class="blog-container">
+       <h2 class="titulo-resultados" style="color: #011640; text-align: center; font-size: 3rem; padding: 2rem; font-family: Space Grotesk, sans-serif; text-transform: uppercase; text-shadow: rgb(0, 0, 0) 1px 1px; @media (max-width: 768px) {font-size: 2rem; padding: 1rem;}">Resultados</h2>
         <div class="resultados">
           <p class="blog-resultados">
             <span class="subrayado2">WorkSafe05</span> es un software gratuito que permite a los colaboradores responder cuestionarios sobre factores de riesgo psicosocial de manera sencilla y segura desde cualquier dispositivo.

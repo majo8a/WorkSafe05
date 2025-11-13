@@ -1,32 +1,36 @@
 @use 'base/variables' as v;
 @use 'base/mixins' as m;
 
-.container-configuracion{
+.container-configuracion {
   background-color: v.$azulPastel;  
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
+
 .d-flex {
   flex: 1;
   flex-direction: row; // desktop por defecto
 }
+
 .content.fondo {
   background-color: v.$azulPastel;
 }
-.tabla-encabezado{
+
+.tabla-encabezado {
   font-family: v.$fuente_secundaria;
   text-align: center;
 }
 
-.text-center{
-    font-family: v.$fuente_secundaria;
-    text-shadow: v.$negro 1px 1px;
-    text-transform: uppercase;
-    font-size: 2.5rem;
-}
-.d-flex {
-  flex: 1;
+.text-center {
+  font-family: v.$fuente_secundaria;
+  text-shadow: v.$negro 1px 1px;
+  text-transform: uppercase;
+  font-size: 2.5rem;
+
+  @include m.telefono {
+    font-size: 2rem;
+  }
 }
 
 .sidebar {
@@ -58,23 +62,91 @@
   padding: 20px;
   background-color: #f8f9fa;
 }
-.titulo-historial{
-    text-align: center;
-    font-size: 3.5rem;
-    color: v.$negro;
-    padding-top: 2rem;
+
+.titulo-historial {
+  text-align: center;
+  font-size: 3.5rem;
+  color: v.$negro;
+  padding-top: 2rem;
+
+  @include m.telefono {
+    font-size: 2.5rem;
+  }
 }
+
 .table-responsive {
   overflow-x: auto;
 }
 
-.tabla-encabezado{
+.tabla-encabezado {
   font-family: v.$fuente_secundaria;
   text-align: center;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: v.$blanco;
+  table-layout: fixed;
+
+  th, td {
+    padding: 1.2rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(v.$azulMarino, 0.1);
+    font-size: 1.4rem;
+    color: v.$negro;
+    white-space: normal !important;
+    vertical-align: middle;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  td {
+    max-width: 220px;
+    line-height: 1.4;
+  }
+
+  thead {
+    background-color: v.$azulMarino;
+    color: v.$blanco;
+    text-transform: uppercase;
+
+    th {
+      font-size: 1.3rem;
+      letter-spacing: 0.05rem;
+    }
+  }
+
+  tbody {
+    tr:hover {
+      background-color: rgba(v.$azulPastel, 0.25);
+      transition: background-color 0.3s ease;
+    }
+
+    td {
+      font-size: 1.2rem;
+    }
+  }
+
+  @include m.tablet {
+    td {
+      max-width: 180px;
+    }
+  }
+
+  @include m.telefono {
+    td {
+      max-width: 140px;
+      font-size: 1rem;
+      padding: 0.6rem;
+    }
+  }
+}
+
 /* RESPONSIVE */
-@media (max-width: 992px) {
+@media (max-width: v.$tablet) {
   .d-flex {
     flex-direction: column;
   }
@@ -87,10 +159,10 @@
     height: 100%;
     transform: translateX(-100%);
     z-index: 999;
-  }
 
-  .sidebar.sidebar-open {
-    transform: translateX(0);
+    &.sidebar-open {
+      transform: translateX(0);
+    }
   }
 
   .content {
@@ -99,7 +171,6 @@
     margin-left: 0;
   }
 
-  /* Navbar superior visible en móvil */
   .navbar {
     display: flex;
   }

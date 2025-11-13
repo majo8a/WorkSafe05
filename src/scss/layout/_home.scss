@@ -85,23 +85,70 @@
 
 }
 .tarjetas-container{
-    margin: 0 auto;
-    padding: 0 2.5rem;
+     @include m.contenedor;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 3rem 0;
+  justify-items: center;
+  align-items: center;
+  transition: all 0.5s ease;
+
+  @include m.tablet {
+    grid-template-columns: repeat(2, 1fr);
+    .card:nth-child(3) {
+      grid-column: 1 / -1;
+      justify-self: center;
+    }
+  }
+
+  @include m.desktop {
+    grid-template-columns: repeat(3, 1fr);
+    .card:nth-child(3) {
+      grid-column: auto;
+      justify-self: auto;
+    }
+  }
 }
 .card{
-    border-radius: 2.5rem;
+     border-radius: 2rem;
+  padding: 2rem;
+  background-color: v.$blanco;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  transform: translateY(0);
+
+  i {
+    font-size: 3rem;
+    color: v.$verde;
+    margin-bottom: 1rem;
+  }
+
+  &:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
 }
-.card-title{
-    font-size: 2rem;
-    text-shadow: none;
+
+.card-title {
+  font-size: 2rem;
+  color: v.$verde;
+  margin-bottom: 1rem;
+  font-weight: bold;
+
+  @include m.tablet { font-size: 1.6rem; }
+  @include m.telefono { font-size: 1.3rem; }
 }
-.card-text{
-    font-size: 1.5rem;
-    padding: 2rem;
-    margin: 1rem;
-    text-align: justify;
-    text-transform: none;
-    text-shadow: none;
+
+.card-text {
+  font-size: 1.5rem;
+  padding: 1rem;
+  text-align: justify;
+  font-family: v.$fuente_principal;
+
+  @include m.tablet { font-size: 1.1rem; }
+  @include m.telefono { font-size: 1rem; padding: 1rem; }
 }
 .resultados{
     margin: 2rem;
@@ -149,34 +196,73 @@
         gap: 1rem;
     }
 }
-/* LISTA CUESTIONARIOS */
-.card {
+.cuestionarios-grid {
+  @include m.grid(1, 3rem);
+  justify-items: center;
+  padding: 2rem;
+
+  @include m.tablet {
+    @include m.grid(2, 3rem);
+  }
+
+  @include m.desktop {
+    @include m.grid(3, 3rem);
+  }
+}
+
+.card-cuestionario {
+  width: 100%;
+  max-width: 35rem;
+
+  .card {
     padding: 2rem;
-    margin: 2rem;
-    border-radius: 2.5rem;
-}
-.card-title{
-    font-size: 2rem;
-    text-shadow: none;
-    color: v.$verde;
-}
-.card-text{
-    font-size: 1.5rem;
-    padding: 2rem;
-    margin: 1rem;
-    text-align: justify;
-    text-transform: none;
-    text-shadow: none;
-}
-.btn-test{
-    background-color: v.$azulMarino;
-    color: v.$blanco;
-    border-radius: 1rem;
-    font-size: 1rem;
-    font-family: v.$fuente_principal;
-    font-weight: bold;
-    padding: 1rem 2rem;
-    margin-top: 1rem;
-    transition: background-color .3s ease;
-    border: none;
+    border-radius: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      background-color: v.$azulMarino;
+      color: v.$blanco;
+      border-radius: 1rem 1rem 0 0;
+      font-weight: bold;
+    }
+
+    .card-title {
+      font-size: 1.8rem;
+      color: v.$verde;
+      margin-bottom: 1rem;
+    }
+
+    .card-text {
+      font-size: 1.4rem;
+      color: v.$gris;
+      text-align: justify;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      border-radius: 1rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+
+      &.btn-primary {
+        background-color: v.$azulMarino;
+        color: v.$blanco;
+
+        &:hover {
+          background-color: v.$azulMarino;
+        }
+      }
+
+      &.btn-secondary {
+        background-color: v.$gris;
+        color: v.$negro;
+      }
+    }
+  }
 }
