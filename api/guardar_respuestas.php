@@ -23,7 +23,7 @@ if (!$idCuestionario || empty($respuestas)) {
 try {
     // Verificar si ya respondió
     $sqlCheck = "SELECT id_evaluacion FROM Evaluacion 
-                 WHERE id_usuario = ? AND id_cuestionario = ? AND estado = 'completado' LIMIT 1";
+    WHERE id_usuario = ? AND id_cuestionario = ? AND estado = 'completado' LIMIT 1";
     $stmtCheck = $db->prepare($sqlCheck);
     $stmtCheck->bind_param("ii", $idUsuario, $idCuestionario);
     $stmtCheck->execute();
@@ -34,13 +34,31 @@ try {
         exit;
     }
 
-    // Crear nueva evaluación
-    $sqlEval = "INSERT INTO Evaluacion (id_usuario, id_cuestionario, fecha_aplicacion, estado)
+    $sqlCheckPendiente = "SELECT id_evaluacion FROM Evaluacion 
+    WHERE id_usuario = ? AND id_cuestionario = ? AND estado = 'pendiente' 
+    ORDER BY fecha_aplicacion DESC LIMIT 1";
+    $stmtPendiente = $db->prepare($sqlCheckPendiente);
+    $stmtPendiente->bind_param("ii", $idUsuario, $idCuestionario);
+    $stmtPendiente->execute();
+    $resultPendiente = $stmtPendiente->get_result();
+
+    if ($rowPendiente = $resultPendiente->fetch_assoc()) {
+        $idEvaluacion = $rowPendiente['id_evaluacion'];
+        $sqlUpdateEval = "UPDATE Evaluacion 
+        SET estado = 'completado', fecha_aplicacion = NOW() 
+        WHERE id_evaluacion = ?";
+        $stmtUpdate = $db->prepare($sqlUpdateEval);
+        $stmtUpdate->bind_param("i", $idEvaluacion);
+        $stmtUpdate->execute();
+    } else {
+        $sqlEval = "INSERT INTO Evaluacion (id_usuario, id_cuestionario, fecha_aplicacion, estado)
                 VALUES (?, ?, NOW(), 'completado')";
-    $stmtEval = $db->prepare($sqlEval);
-    $stmtEval->bind_param("ii", $idUsuario, $idCuestionario);
-    $stmtEval->execute();
-    $idEvaluacion = $stmtEval->insert_id;
+        $stmtEval = $db->prepare($sqlEval);
+        $stmtEval->bind_param("ii", $idUsuario, $idCuestionario);
+        $stmtEval->execute();
+        $idEvaluacion = $stmtEval->insert_id;
+    }
+
 
     //  Obtener preguntas y opciones
     $sqlPreguntas = "SELECT id_pregunta FROM Pregunta WHERE id_cuestionario = ? ORDER BY orden ASC";
