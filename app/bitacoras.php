@@ -4,6 +4,7 @@
 
 <body ng-app="app" ng-controller="BitacoraCtrl" class="container-configuracion">
   <?php require_once 'menuAdmin.php'; ?>
+
   <div class="container">
     <form>
       <div class="div-buscador input-group w-100">
@@ -16,45 +17,60 @@
       </div>
     </form>
 
-    <!-- Tabla de Bitacora -->
+    <!-- Tabla de evaluación -->
     <div class="tabla-bitacora table-container mt-3">
       <table class="table table-hover table-striped">
         <thead>
           <tr>
-            <th>ID</th>
-            <th class="nombre">Usuario</th>
-            <th>Acción</th>
-            <th>Módulo</th>
-            <th>Descripción</th>
-            <th>Fecha</th>
-            <th>Objeto</th>
-            <th>ID Objeto</th>
-            <th>IP Origen</th>
+            <th>ID Usuario</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Cuestionario</th>
+            <th>Estado Evaluación</th>
+            <th>Fecha Aplicación</th>
           </tr>
         </thead>
+
         <tbody>
-          <tr ng-repeat="b in bitacoras">
-            <td>{{b.id_bitacora}}</td>
-            <td>{{b.id_usuario}}</td>
-            <td>{{b.accion}}</td>
-            <td>{{b.modulo}}</td>
-            <td>{{b.descripcion}}</td>
-            <td>{{b.fecha_evento}}</td>
-            <td>{{b.objeto}}</td>
-            <td>{{b.id_objeto}}</td>
-            <td>{{b.ip_origen}}</td>
+          <tr ng-repeat="u in usuarios">
+            <td>{{u.id_usuario}}</td>
+            <td>{{u.nombre_completo}}</td>
+            <td>{{u.correo}}</td>
+            <td>{{u.telefono}}</td>
+            <td>{{u.nombre_cuestionario}}</td>
+            <td>
+              <!-- Sin evaluación -->
+              <span ng-if="u.estado === 'Sin evaluación'" class="badge bg-danger">
+                Sin evaluación
+              </span>
+
+              <!-- Pendiente -->
+              <span ng-if="u.estado === 'pendiente'" class="badge bg-warning text-dark">
+                Pendiente
+              </span>
+
+              <!-- Completada -->
+              <span ng-if="u.estado === 'completado' || u.estado === 'finalizada' || u.estado === 'completada'"
+                class="badge bg-success">
+                Completada
+              </span>
+            </td>
+
+            <td>{{u.fecha_aplicacion}}</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-  <script>
-    // Toggle del sidebar en móviles
-    const btnMenu = document.getElementById('btnMenu');
-    const sidebar = document.getElementById('sidebar');
+    <script>
+      // Toggle del sidebar en móviles
+      const btnMenu = document.getElementById('btnMenu');
+      const sidebar = document.getElementById('sidebar');
 
-    btnMenu.addEventListener('click', () => {
-      sidebar.classList.toggle('sidebar-open');
-    });
-  </script>
+      btnMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('sidebar-open');
+      });
+    </script>
+
 </body>

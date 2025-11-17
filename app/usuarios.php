@@ -49,8 +49,8 @@
                             <button type="button" ng-click="eliminar(u)" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-trash"></span> Eliminar
                             </button>
-                            <button type="button" ng-click="" class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-trash"></span> Histoprial
+                            <button type="button" ng-click="verHistorial(u)" class="btn btn-info btn-sm">
+                                <i class="glyphicon glyphicon-list-alt"></i> Historial
                             </button>
                         </td>
                     </tr>
@@ -137,6 +137,59 @@
         </div>
         <!-- Fin Guardar Usuario -->
         <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">Agregar</button>
+        <!-- Modal Historial -->
+        <div class="modal fade" id="ModalHistorial" tabindex="-1" aria-labelledby="ModalHistorialLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="ModalHistorialLabel">Historial de Evaluaciones</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <!-- Información del usuario -->
+                        <h5 style="color:black;" class="mb-3">
+                            Usuario: {{usuarioHistorial.nombre_completo}}
+                            <br>
+                            <small class="text-muted">ID: {{usuarioHistorial.id_usuario}}</small>
+                        </h5>
+
+                        <!-- Tabla del historial -->
+                        <table class="table table-striped table-hover" ng-if="historial.length > 0">
+                            <thead>
+                                <tr>
+                                    <th>ID Evaluación</th>
+                                    <th>Nombre</th>
+                                    <th>Estado</th>
+                                    <th>Fecha Aplicación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="h in historial">
+                                    <td>{{h.id_evaluacion}}</td>
+                                    <td>{{h.nombre_evaluacion}}</td>
+                                    <td>{{h.estado}}</td>
+                                    <td>{{h.fecha_aplicacion | date:'yyyy-MM-dd HH:mm'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Mensaje cuando no hay evaluaciones -->
+                        <div ng-if="historial.length == 0" class="alert alert-warning text-center">
+                            El usuario no tiene evaluaciones registradas.
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <!-- Modal Modificar Usuario -->
         <div class="modal fade" id="ModalMod" tabindex="-1" aria-labelledby="ModalModLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
