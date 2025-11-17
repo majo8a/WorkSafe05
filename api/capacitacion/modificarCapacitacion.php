@@ -14,12 +14,12 @@ $stmt = $db->prepare("UPDATE Capacitacion
     WHERE id_capacitacion = ?");
 
 $stmt->bind_param(
-    'ssssiii', 
+    'ssssssi', 
     $obj->tema, 
     $obj->descripcion, 
     $obj->fecha_inicio, 
     $obj->fecha_fin, 
-    $obj->tipo_modalidad, 
+    $obj->tipo_modalidad,   
     $obj->id_usuario_asignador,
     $obj->id_capacitacion
 );

@@ -8,7 +8,6 @@
 
   <!-- Contenido principal -->
   <div class="fondo content flex-grow-1">
-    <h2 class="titulo-historial">Historial de Movimientos</h2>
 
     <div class="table-container">
       <div class="table-responsive">
