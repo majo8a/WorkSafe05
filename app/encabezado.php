@@ -88,11 +88,15 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
           <li class="nav-item">
             <a class="nav-link" href="lista_cuestionarios.php">Cuestionarios</a>
           </li>
+           <li class="nav-item">
+            <a class="nav-link" href="capacitaciones.php">Capacitaciones</a>
+          </li>
         <?php endif; ?>
       </ul>
 
     </div>
   </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
