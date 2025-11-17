@@ -49,6 +49,9 @@
                             <button type="button" ng-click="eliminar(u)" class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-trash"></span> Eliminar
                             </button>
+                            <button type="button" ng-click="" class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span> Histoprial
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -236,12 +239,12 @@
 
     </div>
     <script>
-    // Toggle del sidebar en móviles
-    const btnMenu = document.getElementById('btnMenu');
-    const sidebar = document.getElementById('sidebar');
+        // Toggle del sidebar en móviles
+        const btnMenu = document.getElementById('btnMenu');
+        const sidebar = document.getElementById('sidebar');
 
-    btnMenu.addEventListener('click', () => {
-        sidebar.classList.toggle('sidebar-open');
-    });
-</script>
+        btnMenu.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-open');
+        });
+    </script>
 </body>

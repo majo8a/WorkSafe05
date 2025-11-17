@@ -12,22 +12,23 @@
     <div class="sidebar d-flex flex-column p-3" id="sidebar">
         <h4 class="text-center">Menú</h4>
         <hr>
-        <a href="configuracion.php">⚙️ Historial de movimientos</a>
+        <a href="configuracion.php">🧾 Bitacora</a>
         <a href="usuarios.php">👥 Usuarios</a>
+        <a href="capacitaciones.php">🎓 Capacitaciones</a>
         <a href="cuestionario.php">📋 Cuestionarios</a>
-        <a href="bitacoras.php">🔗 Bitacora</a>
+        <a href="bitacoras.php">📌 Historial de Evaluaciones</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-     <script>
-    // Toggle del sidebar en móviles
-    const btnMenu = document.getElementById('btnMenu');
-    const sidebar = document.getElementById('sidebar');
+    <script>
+        // Toggle del sidebar en móviles
+        const btnMenu = document.getElementById('btnMenu');
+        const sidebar = document.getElementById('sidebar');
 
-    btnMenu.addEventListener('click', () => {
-        sidebar.classList.toggle('sidebar-open');
-    });
-</script>
+        btnMenu.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-open');
+        });
+    </script>
     </body>
 
     </html>
