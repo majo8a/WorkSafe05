@@ -89,7 +89,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <a class="nav-link" href="lista_cuestionarios.php">Cuestionarios</a>
           </li>
            <li class="nav-item">
-            <a class="nav-link" href="capacitaciones.php">Capacitaciones</a>
+            <a class="nav-link" href="capacitacion.php">Capacitaciones</a>
           </li>
         <?php endif; ?>
       </ul>

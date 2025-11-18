@@ -1,24 +1,49 @@
 <?php
-error_reporting(E_ALL);
+header('Content-Type: application/json');
 require_once '../conexion.php';
 
-$stmt = $db->prepare("SELECT id_capacitacion, tema, descripcion, fecha_inicio, fecha_fin, tipo_modalidad, id_usuario_asignador FROM Capacitacion");
-$stmt->execute();
-$stmt->bind_result($id_capacitacion, $tema, $descripcion, $fecha_inicio, $fecha_fin, $tipo_modalidad, $id_usuario_asignador);
+session_start();
+$idUsuario = $_SESSION['id'] ?? $_SESSION['id_usuario'] ?? null;
 
-$arr = array();
-while ($stmt->fetch()) {
-    $arr[] = array(
-        'id_capacitacion' => $id_capacitacion,
-        'tema' => $tema,
-        'descripcion' => $descripcion,
-        'fecha_inicio' => $fecha_inicio,
-        'fecha_fin' => $fecha_fin,
-        'tipo_modalidad' => $tipo_modalidad,
-        'id_usuario_asignador' => $id_usuario_asignador
-    );
+if (!$idUsuario) {
+    echo json_encode(["error" => "Usuario no autenticado"]);
+    exit;
 }
 
+$query = "
+    SELECT 
+        c.id_capacitacion,
+        c.tema,
+        c.descripcion,
+        c.fecha_inicio,
+        c.fecha_fin,
+        c.tipo_modalidad,
+
+        CASE 
+            WHEN cf.id_confirmacion IS NOT NULL THEN 1
+            ELSE 0
+        END AS confirmado
+
+    FROM Capacitacion c
+    LEFT JOIN Confirmacion cf
+        ON cf.id_capacitacion = c.id_capacitacion
+        AND cf.id_usuario = ?
+
+    ORDER BY c.fecha_inicio DESC
+";
+
+$stmt = $db->prepare($query);
+$stmt->bind_param("i", $idUsuario);
+$stmt->execute();
+
+$resultado = $stmt->get_result();
+$data = [];
+
+while ($fila = $resultado->fetch_assoc()) {
+    $data[] = $fila;
+}
+
+echo json_encode($data);
+
 $stmt->close();
-echo json_encode($arr);
-?>
+$db->close();

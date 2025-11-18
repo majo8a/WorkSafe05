@@ -1645,4 +1645,12 @@ table tbody td {
   font-size: 4.5rem;
   text-align: center;
   padding: 2rem;
+}
+
+.capacitaciones {
+  font-size: "Bricolage Grotesque", sans-serif;
+}
+
+.tema-capacitacion {
+  font-size: 1rem;
 }/*# sourceMappingURL=app.css.map */

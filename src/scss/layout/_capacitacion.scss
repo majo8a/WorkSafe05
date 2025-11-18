@@ -1,0 +1,10 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.capacitaciones{
+    font-size: v.$fuente_principal;
+}
+
+.tema-capacitacion{
+    font-size: 1rem;
+}
