@@ -10,7 +10,7 @@
             <div class="div-buscador input-group w-100">
                 <input class="form-control buscador" type="text" name="buscador" id="buscador" placeholder="Buscar">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-primary" type="submit">🔎
                         <i class="glyphicon glyphicon-search bi bi-search"></i>
                     </button>
                 </div>
@@ -44,13 +44,13 @@
                         <td>{{u.fecha_registro}}</td>
                         <td class="acciones text-center">
                             <button type="button" ng-click="seleccionar(u)" class="btn btn-success btn-sm mb-1">
-                                <span class="glyphicon glyphicon-pencil"></span> Modificar
+                                <span class="glyphicon glyphicon-pencil"></span> ✏️ Modificar
                             </button>
                             <button type="button" ng-click="eliminar(u)" class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-trash"></span> Eliminar
+                                <span class="glyphicon glyphicon-trash"></span> 🗑️ Eliminar
                             </button>
                             <button type="button" ng-click="verHistorial(u)" class="btn btn-info btn-sm">
-                                <i class="glyphicon glyphicon-list-alt"></i> Historial
+                                <i class="glyphicon glyphicon-list-alt"></i> 📋 Historial
                             </button>
                         </td>
                     </tr>

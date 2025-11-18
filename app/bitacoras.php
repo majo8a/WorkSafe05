@@ -10,7 +10,7 @@
       <div class="div-buscador input-group w-100">
         <input class="form-control buscador" type="text" name="buscador" id="buscador" placeholder="Buscar">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="submit">
+          <button class="btn btn-primary" type="submit">🔎
             <i class="glyphicon glyphicon-search bi bi-search"></i>
           </button>
         </div>

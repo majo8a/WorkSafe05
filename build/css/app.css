@@ -1300,13 +1300,14 @@ table tbody td {
 
 .acciones {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 5px;
-  flex-wrap: wrap;
 }
 
 .acciones .btn {
-  padding: 0.25rem 0.5rem;
+  width: 100%;
+  min-width: 120px;
   font-size: 1rem;
 }
 
