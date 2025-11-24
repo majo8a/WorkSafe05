@@ -73,10 +73,16 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
         <?php if ($_SESSION['role'] == 2): // Psicólogo 
         ?>
           <li class="nav-item">
+            <a class="nav-link" href="Psico-capacitaciones.php">Capacitaciones</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="Psico-cuestionario.php">Cuestionarios</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="resultados_admin.php">Resultados</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="resultados_admin.php">Reportes</a>
           </li>
         <?php endif; ?>
 
@@ -88,7 +94,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
           <li class="nav-item">
             <a class="nav-link" href="lista_cuestionarios.php">Cuestionarios</a>
           </li>
-           <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" href="capacitacion.php">Capacitaciones</a>
           </li>
         <?php endif; ?>
@@ -96,7 +102,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
 
     </div>
   </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

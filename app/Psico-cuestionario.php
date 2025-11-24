@@ -63,7 +63,7 @@
     <div class="div-buscador input-group w-100 mt-3">
       <input class="form-control buscador" type="text" ng-model="buscar" placeholder="Buscar cuestionario">
       <div class="input-group-append">
-        <button class="btn btn-primary"><i class="bi bi-search"></i></button>
+        <button class="btn btn-primary">🔎<i class="bi bi-search"></i></button>
       </div>
     </div>
 
