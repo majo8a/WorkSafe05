@@ -42,7 +42,7 @@
                         <td>{{c.fecha_inicio}} <br> <small class="text-muted">{{c.fecha_fin}}</small></td>
                         <td>{{c.tipo_modalidad}}</td>
                         <td>
-                            <a href="asistencia.php">
+                            <a href="asistencia-psico.php">
                                 <button class="btn btn-primary">👥</button>
                             </a>
                         </td>

@@ -33,26 +33,31 @@
             <div class="system-subtitle">Evaluación psicosocial con base en la NOM-035</div>
           </div>
         </a>
+        <!-- Sección de usuario -->
+        <div class="iconos">
+          <div class="usuario dropdown">
+            <div class="user-link dropdown-toggle">
+              <svg class="icon" a xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <circle cx="12" cy="7" r="4" />
+                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+              </svg>
+              <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Invitado'; ?>
+            </div>
+            <div class="dropdown-content">
+              <a style="font-size: 18px" href="login/logout.php">Cerrar sesión</a>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
   </div>
-
-
   <!-- Barra de pestañas -->
   <div class="barra-pestanas">
     <div class="contenedor">
       <ul class="nav nav-tabs px-3">
         <li class="nav-item">
           <a class="nav-link active" href="index.php">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login/login.php">Cuestionarios</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login/login.php">Reportes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login/login.php">Configuración</a>
         </li>
       </ul>
     </div>
@@ -88,7 +93,6 @@
           <br>
           Tu colaboración es confidencial y de gran importancia, ya que permitirá diseñar acciones y estrategias que beneficien tanto a los trabajadores como a la organización.
         </p>
-        <a class="inicioTest" href="login/login.php">Iniciar Cuestionario</a>
       </div>
     </div>
 
@@ -148,16 +152,6 @@
     <div class="footer-elementos__element">
       <a href="#">
         <h4 class="footer-titulo">Contacto</h4>
-      </a>
-    </div>
-    <div class="footer-elementos__element">
-      <a href="#">
-        <h4 class="footer-titulo">Cuestionarios</h4>
-      </a>
-    </div>
-    <div class="footer-elementos__element">
-      <a href="#">
-        <h4 class="footer-titulo">Reportes</h4>
       </a>
     </div>
   </div>
