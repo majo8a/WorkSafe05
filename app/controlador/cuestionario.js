@@ -31,7 +31,27 @@ App.controller("CuestionarioCtrl", function ($scope, $http) {
     };
   };
 
-  $scope.resetNuevaPregunta();
+  $scope.resetNuevaPregunta = function () {
+  $scope.nuevaPregunta = {
+    texto_pregunta: "",
+    tipo_calificacion: "Likert",
+    puntaje_maximo: 4,
+    orden: null,
+    dimension: "",
+    dominio: "",
+    categoria: "",
+    grupo_aplicacion: "",
+    opciones: []
+  };
+
+  $scope.cambiarTipoPregunta();
+
+  // 🔥 Regresar foco al textarea
+  setTimeout(function () {
+    const input = document.getElementById("textoPreguntaInput");
+    if (input) input.focus();
+  }, 0);
+};
 
   // Funciones de opciones
   $scope.agregarOpcion = function () {
@@ -101,46 +121,61 @@ App.controller("CuestionarioCtrl", function ($scope, $http) {
   };
 
   // AGREGAR pregunta desde el modal Modificar
-  $scope.agregarPreguntaModal = function () {
-    
-    if (!$scope.cuestionarioSeleccionado || !$scope.cuestionarioSeleccionado.id_cuestionario) {
-      alert("Selecciona primero un cuestionario (usa modificar).");
-      return;
-    }
-    if (!$scope.nuevaPregunta.texto_pregunta || $scope.nuevaPregunta.texto_pregunta.trim() === "") {
-      alert("Escribe el texto de la pregunta.");
-      return;
-    }
+ $scope.agregarPreguntaModal = function () {
 
-    var payload = {
-      id_cuestionario: $scope.cuestionarioSeleccionado.id_cuestionario,
-      texto_pregunta: $scope.nuevaPregunta.texto_pregunta,
-      tipo_calificacion: $scope.nuevaPregunta.tipo_calificacion || "Likert",
-      puntaje_maximo: $scope.nuevaPregunta.puntaje_maximo || 4,
-      orden: ($scope.nuevaPregunta.orden && Number($scope.nuevaPregunta.orden) > 0) ? Number($scope.nuevaPregunta.orden) : null,
-      dimension: $scope.nuevaPregunta.dimension || "",
-      dominio: $scope.nuevaPregunta.dominio || "",
-      categoria: $scope.nuevaPregunta.categoria || "",
-      grupo_aplicacion: $scope.nuevaPregunta.grupo_aplicacion || "",
-      condicion: "",
-      opciones: $scope.nuevaPregunta.opciones || []
-    };
+  if (!$scope.cuestionarioSeleccionado || !$scope.cuestionarioSeleccionado.id_cuestionario) {
+    alert("Selecciona un cuestionario primero.");
+    return;
+  }
 
-    $http.post("../api/pregunta/guardarPregunta.php", payload)
-      .then(function (res) {
-        if (res.data.status === "success") {
-          alert("✅ Pregunta añadida");
-          // limpiar formulario
-          $scope.nuevaPregunta = { texto_pregunta: "", tipo_calificacion: "Likert", puntaje_maximo: 4, orden: null, dimension: "", dominio: "", categoria: "", grupo_aplicacion: "" };
-          // recargar preguntas (mantener modal abierto)
-          $scope.cargarPreguntas($scope.cuestionarioSeleccionado.id_cuestionario);
-        } else {
-          alert("⚠️ " + (res.data.message || "No se pudo añadir la pregunta"));
-        }
-      }, function () {
-        alert("Error al agregar pregunta (petición)");
-      });
+  if (!$scope.nuevaPregunta.texto_pregunta ||
+      $scope.nuevaPregunta.texto_pregunta.trim() === "") {
+    alert("Escribe el texto de la pregunta.");
+    return;
+  }
+
+  // 📌 ORDEN AUTOMÁTICO
+  var orden = $scope.preguntasDelCuestionario.length + 1;
+
+  var payload = {
+    id_cuestionario: $scope.cuestionarioSeleccionado.id_cuestionario,
+    texto_pregunta: $scope.nuevaPregunta.texto_pregunta,
+    tipo_calificacion: $scope.nuevaPregunta.tipo_calificacion,
+    puntaje_maximo: $scope.nuevaPregunta.puntaje_maximo,
+    orden: orden,
+    dimension: $scope.nuevaPregunta.dimension || "",
+    dominio: $scope.nuevaPregunta.dominio || "",
+    categoria: $scope.nuevaPregunta.categoria || "",
+    grupo_aplicacion: $scope.nuevaPregunta.grupo_aplicacion || "",
+    opciones: $scope.nuevaPregunta.opciones || []
   };
+
+  $http.post("../api/pregunta/guardarPregunta.php", payload)
+    .then(function (res) {
+      if (res.data.status === "success") {
+
+        alert("✅ Pregunta agregada correctamente");
+
+        // 🔄 Recargar preguntas
+        $scope.cargarPreguntas($scope.cuestionarioSeleccionado.id_cuestionario);
+
+        // 🧹 Reset formulario
+        $scope.resetNuevaPregunta();
+
+        // 🔥 Foco automático
+        setTimeout(function () {
+          const input = document.getElementById("textoPreguntaInputMod");
+          if (input) input.focus();
+        }, 0);
+
+      } else {
+        alert("⚠️ " + (res.data.message || "Error al agregar la pregunta"));
+      }
+    }, function () {
+      alert("❌ Error al guardar la pregunta");
+    });
+};
+
 
   $scope.nuevaPregunta = angular.copy($scope.nuevaPregunta); // o $scope.resetNuevaPregunta()
 
@@ -210,6 +245,51 @@ $scope.agregarPreguntaTemp = function () {
     $scope.preguntas.push(nueva);
     $scope.resetNuevaPregunta();
 };
+$scope.resetNuevaPregunta = function () {
+  $scope.nuevaPregunta = {
+    texto_pregunta: "",
+    tipo_calificacion: "Likert",
+    puntaje_maximo: 4,
+    orden: null,
+    dimension: "",
+    dominio: "",
+    categoria: "",
+    grupo_aplicacion: "",
+    opciones: []
+  };
+
+  $scope.cambiarTipoPregunta();
+};
+
+// CAMBIO DE TIPO
+$scope.cambiarTipoPregunta = function () {
+
+  if ($scope.nuevaPregunta.tipo_calificacion === "Likert") {
+    $scope.nuevaPregunta.puntaje_maximo = 4;
+    $scope.nuevaPregunta.opciones = [
+      { etiqueta: "Siempre", valor: 4 },
+      { etiqueta: "Casi siempre", valor: 3 },
+      { etiqueta: "Algunas veces", valor: 2 },
+      { etiqueta: "Casi nunca", valor: 1 },
+      { etiqueta: "Nunca", valor: 0 }
+    ];
+  }
+
+  else if ($scope.nuevaPregunta.tipo_calificacion === "Binaria") {
+    $scope.nuevaPregunta.puntaje_maximo = 1;
+    $scope.nuevaPregunta.opciones = [
+      { etiqueta: "Sí", valor: 1 },
+      { etiqueta: "No", valor: 0 }
+    ];
+  }
+
+  else if ($scope.nuevaPregunta.tipo_calificacion === "Texto") {
+    $scope.nuevaPregunta.puntaje_maximo = null;
+    $scope.nuevaPregunta.opciones = [];
+  }
+};
+
+
 
 
   $scope.eliminarPreguntaTemp = function (index) {
@@ -282,6 +362,50 @@ $scope.eliminar = function (c) {
       alert("❌ Error al intentar eliminar el cuestionario.");
     });
 };
+// ===============================
+// AGREGAR PREGUNTA (ORDEN AUTO)
+// ===============================
+$scope.agregarPreguntaTemp = function () {
 
+  if (!$scope.nuevaPregunta.texto_pregunta ||
+      $scope.nuevaPregunta.texto_pregunta.trim() === "") {
+    return;
+  }
+
+  const nueva = angular.copy($scope.nuevaPregunta);
+
+  // 📌 ORDEN AUTOMÁTICO
+  nueva.orden = $scope.preguntas.length + 1;
+
+  $scope.preguntas.push(nueva);
+
+  $scope.resetNuevaPregunta();
+    // mantener foco
+  setTimeout(function () {
+    const input = document.getElementById("textoPreguntaInput");
+    if (input) input.focus();
+  }, 0);
+};
+
+// ===============================
+// ELIMINAR Y REORDENAR
+// ===============================
+$scope.eliminarPreguntaTemp = function (index) {
+  $scope.preguntas.splice(index, 1);
+
+  // 🔁 Reordenar automáticamente
+  $scope.preguntas.forEach(function (p, i) {
+    p.orden = i + 1;
+  });
+
+  // mantener foco
+  setTimeout(function () {
+    const input = document.getElementById("textoPreguntaInput");
+    if (input) input.focus();
+  }, 0);
+};
+
+// INICIALIZACIÓN
+$scope.resetNuevaPregunta();
 
 });

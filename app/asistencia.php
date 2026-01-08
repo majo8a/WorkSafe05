@@ -31,7 +31,7 @@
                         <th>Tipo</th>
                         <th>Fecha Confirmación</th>
                         <th>IP</th>
-                        <th>Asistió</th>
+                        <th>Confirmó Asistencia</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
