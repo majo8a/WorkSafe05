@@ -26,6 +26,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../build/css/app.css">
   <link rel="icon" href="../src/img/logo.png" type="image/x-icon">
+  <script src="controlador/contador.js"></script>
 </head>
 
 <body>
@@ -72,7 +73,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
 
         <?php if ($_SESSION['role'] == 2): // Psicólogo 
         ?>
-        <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" href="home.php">Inicio</a>
           </li>
           <li class="nav-item">

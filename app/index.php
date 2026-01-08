@@ -15,9 +15,9 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <link rel="stylesheet" href="../build/css/app.css">
   <link rel="icon" href="../src/img/logo.png" type="image/x-icon">
@@ -35,18 +35,19 @@
         </a>
         <!-- Sección de usuario -->
         <div class="iconos">
-          <div class="usuario dropdown">
-            <div class="user-link dropdown-toggle">
-              <svg class="icon" a xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+          <div class="usuario">
+            <a href="login/login.php" class="btn btn-outline-primary d-flex align-items-center gap-2">
+              <svg style="color: white;" class="icon" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" fill="none"
+                stroke-linecap="round" stroke-linejoin="round"
+                width="24" height="24">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <circle cx="12" cy="7" r="4" />
                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
               </svg>
-              <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Invitado'; ?>
-            </div>
-            <div class="dropdown-content">
-              <a style="font-size: 18px" href="login/logout.php">Cerrar sesión</a>
-            </div>
+              <span>Iniciar sesión</span>
+            </a>
           </div>
         </div>
       </div>
@@ -129,7 +130,7 @@
         </div>
       </div>
 
-       <h2 class="titulo-resultados" style="color: #011640; text-align: center; font-size: 3rem; padding: 2rem; font-family: Space Grotesk, sans-serif; text-transform: uppercase; text-shadow: rgb(0, 0, 0) 1px 1px; @media (max-width: 768px) {font-size: 2rem; padding: 1rem;}">Resultados</h2>
+      <h2 class="titulo-resultados" style="color: #011640; text-align: center; font-size: 3rem; padding: 2rem; font-family: Space Grotesk, sans-serif; text-transform: uppercase; text-shadow: rgb(0, 0, 0) 1px 1px; @media (max-width: 768px) {font-size: 2rem; padding: 1rem;}">Resultados</h2>
 
       <div class="blog-container">
         <div class="resultados">
