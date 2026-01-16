@@ -123,36 +123,74 @@
               <h6 class="text-primary">Preguntas del cuestionario</h6>
 
               <div class="border p-3 mb-3 rounded bg-light">
-                <textarea class="form-control mb-2" placeholder="Texto de la pregunta" ng-model="nuevaPregunta.texto_pregunta"></textarea>
-                <select class="form-select mb-2" ng-model="nuevaPregunta.tipo_calificacion">
+                <textarea class="form-control mb-2"
+                  id="textoPreguntaInput"
+                  placeholder="Texto de la pregunta"
+                  ng-model="nuevaPregunta.texto_pregunta"
+                  required></textarea>
+                <select class="form-select mb-2"
+                  ng-model="nuevaPregunta.tipo_calificacion"
+                  ng-change="cambiarTipoPregunta()">
                   <option value="Likert">Likert</option>
                   <option value="Binaria">Binaria</option>
                   <option value="Texto">Texto</option>
                 </select>
+
                 <input type="text" class="form-control mb-2" placeholder="Dimensión" ng-model="nuevaPregunta.dimension">
                 <input type="text" class="form-control mb-2" placeholder="Dominio" ng-model="nuevaPregunta.dominio">
                 <input type="text" class="form-control mb-2" placeholder="Categoría" ng-model="nuevaPregunta.categoria">
                 <input type="text" class="form-control mb-2" placeholder="Grupo aplicación" ng-model="nuevaPregunta.grupo_aplicacion">
-                <!-- OPCIONES DE RESPUESTA -->
-                <div class="border rounded p-2 bg-white mb-2">
+
+                <!-- OPCIONES SOLO SI NO ES TEXTO -->
+                <div class="border rounded p-2 bg-white mb-2"
+                  ng-if="nuevaPregunta.tipo_calificacion !== 'Texto'">
+
                   <h6>Opciones de respuesta</h6>
-                  <div ng-repeat="o in nuevaPregunta.opciones" class="mb-2">
+
+                  <div ng-repeat="o in nuevaPregunta.opciones track by $index" class="mb-2">
                     <div class="input-group">
                       <input type="text" class="form-control" placeholder="Etiqueta" ng-model="o.etiqueta" required>
                       <input type="number" class="form-control" placeholder="Valor" ng-model="o.valor" required>
                       <button type="button" class="btn btn-danger" ng-click="eliminarOpcion($index)">🗑️</button>
                     </div>
                   </div>
-                  <button type="button" class="btn btn-sm btn-secondary" ng-click="agregarOpcion()">➕ Agregar opción</button>
+
+                  <!-- SOLO LIKERT PUEDE AGREGAR -->
+                  <button type="button"
+                    class="btn btn-sm btn-secondary"
+                    ng-if="nuevaPregunta.tipo_calificacion === 'Likert'"
+                    ng-click="agregarOpcion()">
+                    ➕ Agregar opción
+                  </button>
                 </div>
 
-                <button type="button" class="btn btn-primary w-100" ng-click="agregarPreguntaTemp()">Agregar pregunta</button>
+                <!-- TEXTO -->
+                <div class="alert alert-info"
+                  ng-if="nuevaPregunta.tipo_calificacion === 'Texto'">
+                  El usuario responderá con texto libre.
+                </div>
+
+                <button type="button"
+                  class="btn btn-primary w-100 mt-2"
+                  ng-click="agregarPreguntaTemp()">
+                  Agregar pregunta
+                </button>
               </div>
 
-              <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="p in preguntas">
-                  {{p.texto_pregunta}} <small class="text-muted">({{p.tipo_calificacion}})</small>
-                  <button class="btn btn-danger btn-sm" ng-click="eliminarPreguntaTemp($index)">X</button>
+              <ul class="list-group mb-3" ng-if="preguntas.length > 0">
+                <li class="list-group-item d-flex justify-content-between align-items-start"
+                  ng-repeat="p in preguntas track by $index">
+
+                  <div class="ms-2 me-auto">
+                    <strong>{{p.orden}}.</strong> {{p.texto_pregunta}}
+                    <br>
+                    <small class="text-muted">{{p.tipo_calificacion}}</small>
+                  </div>
+
+                  <button class="btn btn-danger btn-sm"
+                    ng-click="eliminarPreguntaTemp($index)">
+                    ✖
+                  </button>
                 </li>
               </ul>
               <button type="submit" class="btn btn-success w-100">Guardar Cuestionario</button>
@@ -209,91 +247,100 @@
             <h6>Agregar nueva pregunta al cuestionario</h6>
             <div class="border rounded p-3 mb-3 bg-light">
               <div class="mb-2">
-                <textarea class="form-control" ng-model="nuevaPregunta.texto_pregunta" placeholder="Texto de la pregunta"></textarea>
+                <textarea class="form-control mb-2"
+                  id="textoPreguntaInputMod"
+                  placeholder="Texto de la pregunta"
+                  ng-model="nuevaPregunta.texto_pregunta"
+                  required></textarea>
               </div>
               <div class="row mb-2">
                 <div class="col-6">
-                  <select class="form-select" ng-model="nuevaPregunta.tipo_calificacion">
+                  <select class="form-select mb-2"
+                    ng-model="nuevaPregunta.tipo_calificacion"
+                    ng-change="cambiarTipoPregunta()">
                     <option value="Likert">Likert</option>
                     <option value="Binaria">Binaria</option>
                     <option value="Texto">Texto</option>
                   </select>
-                  <!-- OPCIONES DE RESPUESTA -->
-                  <div class="border rounded p-2 bg-white mb-2">
-                    <h6>Opciones de respuesta</h6>
-                    <div ng-repeat="o in nuevaPregunta.opciones" class="mb-2">
-                      <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Etiqueta" ng-model="o.etiqueta" required>
-                        <input type="number" class="form-control" placeholder="Valor" ng-model="o.valor" required>
-                        <button type="button" class="btn btn-danger" ng-click="eliminarOpcion($index)">🗑️</button>
+                  <input type="text" class="form-control mb-2" placeholder="Dimensión" ng-model="nuevaPregunta.dimension">
+                  <input type="text" class="form-control mb-2" placeholder="Dominio" ng-model="nuevaPregunta.dominio">
+                  <input type="text" class="form-control mb-2" placeholder="Categoría" ng-model="nuevaPregunta.categoria">
+                  <input type="text" class="form-control mb-2" placeholder="Grupo aplicación" ng-model="nuevaPregunta.grupo_aplicacion">
+
+                  <!-- OPCIONES SOLO SI NO ES TEXTO -->
+                  <div class="border rounded p-2 bg-white mb-2"
+                    ng-if="nuevaPregunta.tipo_calificacion !== 'Texto'">
+                    <!-- OPCIONES DE RESPUESTA -->
+                    <div class="border rounded p-2 bg-white mb-2">
+                      <h6>Opciones de respuesta</h6>
+
+                      <div ng-repeat="o in nuevaPregunta.opciones track by $index" class="mb-2">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Etiqueta" ng-model="o.etiqueta" required>
+                          <input type="number" class="form-control" placeholder="Valor" ng-model="o.valor" required>
+                          <button type="button" class="btn btn-danger" ng-click="eliminarOpcion($index)">🗑️</button>
+                        </div>
                       </div>
+
+                      <!-- SOLO LIKERT -->
+                      <button type="button"
+                        class="btn btn-sm btn-secondary"
+                        ng-if="nuevaPregunta.tipo_calificacion === 'Likert'"
+                        ng-click="agregarOpcion()">
+                        ➕ Agregar opción
+                      </button>
                     </div>
-                    <button type="button" class="btn btn-sm btn-secondary" ng-click="agregarOpcion()">➕ Agregar opción</button>
+
+                    <!-- TEXTO -->
+                    <div class="alert alert-info"
+                      ng-if="nuevaPregunta.tipo_calificacion === 'Texto'">
+                      El usuario responderá con texto libre.
+                    </div>
+
+                    <button type="button"
+                      class="btn btn-success w-100 mt-2"
+                      ng-click="agregarPreguntaModal()">
+                      Agregar pregunta al cuestionario
+                    </button>
                   </div>
 
                 </div>
-                <div class="col-3">
-                  <input type="number" class="form-control" ng-model="nuevaPregunta.puntaje_maximo" min="1" placeholder="Valor">
-                </div>
-                <div class="col-3">
-                  <input type="number" class="form-control" ng-model="nuevaPregunta.orden" min="1" placeholder="Orden (opcional)">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col">
-                  <input class="form-control" ng-model="nuevaPregunta.dimension" placeholder="Dimensión">
-                </div>
-                <div class="col">
-                  <input class="form-control" ng-model="nuevaPregunta.dominio" placeholder="Dominio">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col">
-                  <input class="form-control" ng-model="nuevaPregunta.categoria" placeholder="Categoría">
-                </div>
-                <div class="col">
-                  <input class="form-control" ng-model="nuevaPregunta.grupo_aplicacion" placeholder="Grupo de aplicación">
-                </div>
+
+                <!-- LISTA DE PREGUNTAS DEL CUESTIONARIO-->
+                <h6>Preguntas registradas</h6>
+                <div ng-if="preguntasDelCuestionario.length==0" class="text-muted mb-2">No hay preguntas aún.</div>
+                <table class="table table-striped" ng-if="preguntasDelCuestionario.length>0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Texto</th>
+                      <th>Tipo</th>
+                      <th>Puntaje</th>
+                      <th>Orden</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="p in preguntasDelCuestionario">
+                      <td>{{$index+1}}</td>
+                      <td>{{p.texto_pregunta}}</td>
+                      <td>{{p.tipo_calificacion}}</td>
+                      <td>{{p.puntaje_maximo}}</td>
+                      <td>{{p.orden}}</td>
+                      <td>
+                        <button class="btn btn-success btn-sm" ng-click="editarPregunta(p)">✏️</button>
+                        <button class="btn btn-danger btn-sm" ng-click="eliminarPregunta(p.id_pregunta)">🗑️</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
               </div>
 
-              <div class="text-end">
-                <button class="btn btn-primary" ng-click="agregarPreguntaModal()">Añadir pregunta</button>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
               </div>
             </div>
-
-            <!-- LISTA DE PREGUNTAS DEL CUESTIONARIO-->
-            <h6>Preguntas registradas</h6>
-            <div ng-if="preguntasDelCuestionario.length==0" class="text-muted mb-2">No hay preguntas aún.</div>
-            <table class="table table-striped" ng-if="preguntasDelCuestionario.length>0">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Texto</th>
-                  <th>Tipo</th>
-                  <th>Puntaje</th>
-                  <th>Orden</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="p in preguntasDelCuestionario">
-                  <td>{{$index+1}}</td>
-                  <td>{{p.texto_pregunta}}</td>
-                  <td>{{p.tipo_calificacion}}</td>
-                  <td>{{p.puntaje_maximo}}</td>
-                  <td>{{p.orden}}</td>
-                  <td>
-                    <button class="btn btn-success btn-sm" ng-click="editarPregunta(p)">✏️</button>
-                    <button class="btn btn-danger btn-sm" ng-click="eliminarPregunta(p.id_pregunta)">🗑️</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-          </div>
-
-          <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>
@@ -334,5 +381,5 @@
     </div>
 
   </div>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

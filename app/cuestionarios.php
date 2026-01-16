@@ -101,6 +101,7 @@ $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
         const preguntas = <?php echo $preguntasJson; ?>;
         console.log("Cuestionario cargado:", idCuestionario, preguntas);
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="controlador/cuestionarios.js"></script>
 </body>
 </html>

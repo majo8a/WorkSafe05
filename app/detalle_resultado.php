@@ -110,6 +110,11 @@ $recomendacionHTML = obtenerRecomendacion($nivelGlobal);
 ?>
 
 <body>
+  <a href="resultados_id.php?id_cuestionario=<?php echo (int)$eval['id_cuestionario']; ?>" 
+   class="btn-volver btn btn-sm btn-secondary">
+   ← Volver
+</a>
+
     <h3 class="num-evaluacion">Evaluación #<?php echo $idEvaluacion; ?></h3>
     <!-- <a href="resultados_admin.php" class="btn btn-sm btn-secondary mb-3">← Volver</a> -->
     <p>
