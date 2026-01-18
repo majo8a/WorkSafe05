@@ -2,88 +2,50 @@
 require_once '../conexion.php';
 session_start();
 
-header('Content-Type: application/json; charset=utf-8');
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
+$data = json_decode(file_get_contents("php://input"), true);
 
-/* ===============================
-   LEER JSON DE FORMA SEGURA
-   =============================== */
-$raw = file_get_contents("php://input");
-$data = json_decode($raw, true);
+$idUsuario = $_SESSION['id_usuario'];
+$idCuestionario = $data['idCuestionario'];
+$idPregunta = $data['idPregunta'];
+$idOpcion = $data['idOpcion'];
+$valor = $data['valor'];
+$idEvaluacion = $data['idEvaluacion'] ?? null;
 
-if (!$data) {
-    echo json_encode([
-        'success' => false,
-        'error' => 'No se recibió JSON válido',
-        'raw' => $raw
-    ]);
-    exit;
-}
-
-/* ===============================
-   VALIDAR DATOS
-   =============================== */
-$idUsuario     = $_SESSION['id_usuario'] ?? null;
-$idCuestionario = $data['idCuestionario'] ?? null;
-$idEvaluacion  = $data['idEvaluacion'] ?? null;
-$idPregunta    = $data['idPregunta'] ?? null;
-$idOpcion      = $data['idOpcion'] ?? null;
-$valor         = $data['valor'] ?? 0;
-
-if (!$idUsuario || !$idCuestionario || !$idPregunta || !$idOpcion) {
-    echo json_encode([
-        'success' => false,
-        'error' => 'Datos incompletos',
-        'data' => $data
-    ]);
-    exit;
-}
-
-/* ===============================
-   CREAR EVALUACIÓN SI NO EXISTE
-   =============================== */
+// 1️⃣ Crear evaluación si no existe
 if (!$idEvaluacion) {
-    $sql = "INSERT INTO Evaluacion
-            (id_usuario, id_cuestionario, fecha_aplicacion, estado)
+    $sql = "INSERT INTO Evaluacion (id_usuario, id_cuestionario, fecha_aplicacion, estado)
             VALUES (?, ?, NOW(), 'pendiente')";
     $stmt = $db->prepare($sql);
-    $stmt->bind_param('ii', $idUsuario, $idCuestionario);
+    $stmt->bind_param("ii", $idUsuario, $idCuestionario);
     $stmt->execute();
     $idEvaluacion = $stmt->insert_id;
 }
 
-/* ===============================
-   GUARDAR / ACTUALIZAR RESPUESTA
-   =============================== */
-$sql = "SELECT id_respuesta
-        FROM Respuesta
+// 2️⃣ Verificar si ya existe respuesta
+$sql = "SELECT id_respuesta 
+        FROM Respuesta 
         WHERE id_evaluacion = ? AND id_pregunta = ?";
 $stmt = $db->prepare($sql);
-$stmt->bind_param('ii', $idEvaluacion, $idPregunta);
+$stmt->bind_param("ii", $idEvaluacion, $idPregunta);
 $stmt->execute();
 $res = $stmt->get_result();
 
-if ($res->num_rows > 0) {
+if ($row = $res->fetch_assoc()) {
+    // UPDATE
     $sql = "UPDATE Respuesta
             SET id_opcion_respuesta_select = ?, valor = ?, fecha_respuesta = NOW()
-            WHERE id_evaluacion = ? AND id_pregunta = ?";
+            WHERE id_respuesta = ?";
     $stmt = $db->prepare($sql);
-    $stmt->bind_param('iiii', $idOpcion, $valor, $idEvaluacion, $idPregunta);
+    $stmt->bind_param("iii", $idOpcion, $valor, $row['id_respuesta']);
+    $stmt->execute();
 } else {
+    // INSERT
     $sql = "INSERT INTO Respuesta
             (id_pregunta, id_evaluacion, id_opcion_respuesta_select, valor, fecha_respuesta)
             VALUES (?, ?, ?, ?, NOW())";
     $stmt = $db->prepare($sql);
-    $stmt->bind_param('iiii', $idPregunta, $idEvaluacion, $idOpcion, $valor);
+    $stmt->bind_param("iiii", $idPregunta, $idEvaluacion, $idOpcion, $valor);
+    $stmt->execute();
 }
 
-$stmt->execute();
-
-/* ===============================
-   RESPUESTA FINAL
-   =============================== */
-echo json_encode([
-    'success' => true,
-    'idEvaluacion' => $idEvaluacion
-]);
+echo json_encode(['idEvaluacion' => $idEvaluacion]);

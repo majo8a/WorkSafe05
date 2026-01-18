@@ -11,13 +11,12 @@ VALUES ('Usuario', 'Usuario común que responde cuestionarios y consulta resulta
 
 --  INSERTAR CUESTIONARIO
 
-INSERT INTO Cuestionario (nombre, descripcion, version, estado, fecha_creacion)
+INSERT INTO Cuestionario (nombre, descripcion, version, fecha_creacion)
 VALUES (
     'Cuestionario para identificar los factores de riesgo psicosocial y evaluar el entorno organizacional',
     'Instrumento oficial basado en la NOM-035-STPS-2018 para identificar factores de riesgo psicosocial y evaluar el entorno organizacional.',
-    'activo',
-    NOW(),
-    1
+    '1.0',
+    NOW()
 );
 
 --  INSERTAR PREGUNTAS

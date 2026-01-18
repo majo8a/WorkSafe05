@@ -3,6 +3,19 @@ require_once 'encabezado.php';
 require_once '../api/conexion.php';
 
 // ============================
+// 0️⃣ SESIÓN Y USUARIO
+// ============================
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$idUsuario = $_SESSION['id'] ?? $_SESSION['id_usuario'] ?? null;
+
+if ($idUsuario === null) {
+    die("⚠️ Debes iniciar sesión para responder este cuestionario.");
+}
+
+// ============================
 // 1️⃣ Obtener el id del cuestionario de la URL
 // ============================
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
@@ -69,7 +82,6 @@ while ($row = $result->fetch_assoc()) {
     ];
 }
 
-// Reindexar el array
 $preguntas = array_values($preguntasAgrupadas);
 $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
 ?>
@@ -89,19 +101,32 @@ $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
             <div class="opciones" id="opciones"></div>
 
             <div class="botones-navegacion">
-                <button id="boton-anterior" onclick="mostrarAnteriorPregunta()" style="display:none;">Anterior</button>
-                <button id="boton-siguiente" onclick="mostrarSiguientePregunta()">Siguiente</button>
-                <button id="boton-finalizar" onclick="finalizarCuestionario()" style="display:none;">Finalizar</button>
+                <button id="boton-anterior" onclick="mostrarAnteriorPregunta()" style="display:none;">
+                    Anterior
+                </button>
+                <button id="boton-siguiente" onclick="mostrarSiguientePregunta()">
+                    Siguiente
+                </button>
+                <button id="boton-finalizar" onclick="finalizarCuestionario()" style="display:none;">
+                    Finalizar
+                </button>
             </div>
         </div>
     </div>
 
+    <!-- VARIABLES GLOBALES PARA JS -->
     <script>
         const idCuestionario = <?php echo $idCuestionario; ?>;
+        const idUsuario = <?php echo json_encode($idUsuario); ?>;
         const preguntas = <?php echo $preguntasJson; ?>;
-        console.log("Cuestionario cargado:", idCuestionario, preguntas);
+
+        console.log("Cuestionario:", idCuestionario);
+        console.log("Usuario:", idUsuario);
+        console.log("Preguntas:", preguntas);
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="controlador/cuestionarios.js"></script>
 </body>
+
 </html>

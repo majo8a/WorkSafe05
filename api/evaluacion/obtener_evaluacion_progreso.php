@@ -2,16 +2,22 @@
 require_once '../conexion.php';
 session_start();
 
-$idUsuario = $_SESSION['id_usuario'];
-$idCuestionario = intval($_GET['idCuestionario']);
+$idUsuario = $_SESSION['id_usuario'] ?? $_SESSION['id'] ?? null;
+$idCuestionario = $_GET['idCuestionario'] ?? null;
 
-// Buscar evaluación pendiente
-$sql = "SELECT e.id_evaluacion
-FROM Evaluacion e
-JOIN Respuesta r ON r.id_evaluacion = e.id_evaluacion
-WHERE e.id_usuario = ?
-AND e.id_cuestionario = ?
-LIMIT 1";
+if (!$idUsuario || !$idCuestionario) {
+    echo json_encode(['existe' => false]);
+    exit;
+}
+
+$sql = "
+    SELECT id_evaluacion 
+    FROM Evaluacion
+    WHERE id_usuario = ?
+      AND id_cuestionario = ?
+      AND estado = 'pendiente'
+    LIMIT 1
+";
 
 $stmt = $db->prepare($sql);
 $stmt->bind_param('ii', $idUsuario, $idCuestionario);
