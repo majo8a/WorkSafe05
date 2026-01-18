@@ -78,7 +78,6 @@
             <th>Versión</th>
             <th>Estado</th>
             <th>Fecha creación</th>
-            <th>Usuario creador</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -90,7 +89,6 @@
             <td>{{c.version}}</td>
             <td>{{c.estado}}</td>
             <td>{{c.fecha_creacion}}</td>
-            <td>{{c.id_usuario_creador}}</td>
             <td class="acciones">
               <button class="btn btn-success btn-sm" ng-click="seleccionar(c)">✏️ Modificar</button>
               <button class="btn btn-danger btn-sm" ng-click="eliminar(c)">🗑️ Eliminar</button>
