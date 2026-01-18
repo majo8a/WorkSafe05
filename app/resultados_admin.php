@@ -49,11 +49,18 @@ if ($idCuestionarioVer) {
     $stmt->close();
 }
 ?>
+
 <body>
-    <h2 class="titulo-resultados mb-3"style="font-size: 2.5rem; text-align: center; padding: 2rem; color: #011640">Panel de Resultados</h2>
+    <h2 class="titulo-resultados mb-3" style="font-size: 2.5rem; text-align: center; padding: 2rem; color: #011640">Panel de Resultados</h2>
 
     <div class="cuestionarios-aplicados card mb-4">
         <div class="card-header"><strong>Cuestionarios aplicados</strong></div>
+        <br>
+        <br>
+        <a href="listaReportes.php" class="btn btn-dark">
+            📊 Reportes NOM-035
+        </a>
+
         <div class="card-body">
             <?php if (empty($cuestionarios)): ?>
                 <div class="alert alert-info">No hay cuestionarios con evaluaciones registradas.</div>
@@ -86,4 +93,5 @@ if ($idCuestionarioVer) {
         </div>
     </div>
 </body>
+
 </html>

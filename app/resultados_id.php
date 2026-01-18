@@ -123,7 +123,13 @@ if ($idCuestionarioVer) {
                                                 class="btn-contenido btn btn-sm btn-outline-secondary disabled"
                                                 title="<?php echo $tituloDisabled; ?>"
                                                 disabled>
-                                                Descargar PDF
+                                                PDF
+                                            </button>
+                                            <button
+                                                class="btn-contenido btn btn-sm btn-outline-secondary disabled"
+                                                title="<?php echo $tituloDisabled; ?>"
+                                                disabled>
+                                                Excel
                                             </button>
                                         <?php else: ?>
                                             <!-- Botones activos -->
@@ -135,10 +141,15 @@ if ($idCuestionarioVer) {
 
                                             <a
                                                 class="btn-contenido btn btn-sm btn-outline-secondary"
-                                                href="generar_reporte_pdf.php?id_evaluacion=<?php echo $ev['id_evaluacion']; ?>"
+                                                href="../api/reportes/reporte_individual_pdf.php?id_evaluacion=<?php echo $ev['id_evaluacion']; ?>"
                                                 target="_blank">
-                                                Descargar PDF
+                                                PDF
                                             </a>
+                                            <a class="btn-contenido btn btn-sm btn-outline-secondary"
+                                                href="../api/reportes/reporte_individual_excel.php?id_evaluacion=<?php echo $ev['id_evaluacion']; ?>">
+                                                Excel
+                                            </a>
+
                                         <?php endif; ?>
                                     </div>
                                 </td>
