@@ -90,27 +90,59 @@ if ($idCuestionarioVer) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($evaluaciones as $ev): ?>
+                        <?php foreach ($evaluaciones as $ev):
+                            $esPendiente = strtolower($ev['estado']) === 'pendiente';
+                            $disabledAttr = $esPendiente ? 'disabled' : '';
+                            $claseDisabled = $esPendiente ? 'disabled' : '';
+                            $tituloDisabled = $esPendiente ? 'Evaluación pendiente. Aún no hay resultados.' : ''; ?>
+
                             <tr>
                                 <td><?php echo htmlspecialchars($ev['nombre_completo']); ?></td>
                                 <td><?php echo htmlspecialchars(date("d/m/Y H:i", strtotime($ev['fecha_aplicacion']))); ?></td>
                                 <td><?php echo htmlspecialchars($ev['estado']); ?></td>
                                 <td>
-                                    <?php
-                                    // Mostrar nivel guardado en estado (si usas otro campo, ajusta)
-                                    echo htmlspecialchars($ev['nivel_global'] ?? 'No disponible');
-                                    ?>
+                                    <?php if ($esPendiente): ?>
+                                        <span class="text-muted">—</span>
+                                    <?php else: ?>
+                                        <?php echo htmlspecialchars($ev['nivel_global'] ?? 'No disponible'); ?>
+                                    <?php endif; ?>
                                 </td>
+
                                 <td>
                                     <div class="botones">
-                                        <a class="btn-contenido btn btn-sm btn-outline-primary" href="detalle_resultado.php?id_evaluacion=<?php echo $ev['id_evaluacion']; ?>">
-                                            Ver resultado
-                                        </a>
-                                        <a class="btn-contenido btn btn-sm btn-outline-secondary" href="generar_reporte_pdf.php?id_evaluacion=<?php echo $ev['id_evaluacion']; ?>" target="_blank">
-                                            Descargar PDF
-                                        </a>
+                                        <?php if ($esPendiente): ?>
+                                            <!-- Botones deshabilitados -->
+                                            <button
+                                                class="btn-contenido btn btn-sm btn-outline-primary disabled"
+                                                title="<?php echo $tituloDisabled; ?>"
+                                                disabled>
+                                                Ver resultado
+                                            </button>
+
+                                            <button
+                                                class="btn-contenido btn btn-sm btn-outline-secondary disabled"
+                                                title="<?php echo $tituloDisabled; ?>"
+                                                disabled>
+                                                Descargar PDF
+                                            </button>
+                                        <?php else: ?>
+                                            <!-- Botones activos -->
+                                            <a
+                                                class="btn-contenido btn btn-sm btn-outline-primary"
+                                                href="detalle_resultado.php?id_evaluacion=<?php echo $ev['id_evaluacion']; ?>">
+                                                Ver resultado
+                                            </a>
+
+                                            <a
+                                                class="btn-contenido btn btn-sm btn-outline-secondary"
+                                                href="generar_reporte_pdf.php?id_evaluacion=<?php echo $ev['id_evaluacion']; ?>"
+                                                target="_blank">
+                                                Descargar PDF
+                                            </a>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
+
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

@@ -50,7 +50,7 @@ if ($idCuestionarioVer) {
 }
 ?>
 <body>
-    <h2 class="titulo-resultados mb-3">Panel de Resultados</h2>
+    <h2 class="titulo-resultados mb-3"style="font-size: 2.5rem; text-align: center; padding: 2rem; color: #011640">Panel de Resultados</h2>
 
     <div class="cuestionarios-aplicados card mb-4">
         <div class="card-header"><strong>Cuestionarios aplicados</strong></div>

@@ -37,7 +37,7 @@
         <div class="iconos">
           <div class="usuario">
             <a href="login/login.php" class="btn btn-outline-primary d-flex align-items-center gap-2">
-              <svg style="color: white;" class="icon" xmlns="http://www.w3.org/2000/svg"
+              <svg class="btn-icon icon" xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" fill="none"
                 stroke-linecap="round" stroke-linejoin="round"
@@ -143,7 +143,6 @@
         <img src="../src/img/img2.png" alt="blog" class="img-blog">
       </div>
     </div>
-</body>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -160,6 +159,12 @@
     María José Ochoa Uscanga | Adán Noé Corro Rojas
   </p>
 </footer>
+<style>
+  .btn-icon {
+    color: #fff;
+}
+
+</style>
 </body>
 
 </html>
