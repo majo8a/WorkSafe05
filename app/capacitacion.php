@@ -56,7 +56,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
-                <div class="modal-body">
+                <div class="modal-body" style="color:black">
                     <p><strong>Tema:</strong> {{ modalData.tema }}</p>
                     <p>{{ modalData.descripcion }}</p>
                     <p><strong>Fechas:</strong> {{ modalData.fecha_inicio }} - {{ modalData.fecha_fin }}</p>
