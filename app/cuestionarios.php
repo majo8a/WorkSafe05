@@ -87,7 +87,9 @@ $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
 ?>
 
 <body>
-    <a href="lista_cuestionarios.php" class="btn-volver btn btn-sm btn-secondary">Volver</a>
+    <a href="lista_cuestionarios.php" class="btn btn-primary btn-volver-cuestionarios">
+        ← Volver
+    </a>
     <div class="contenedor-cuestionario">
         <div class="info-cuestionario">
             <p class="contador-preguntas">
@@ -129,9 +131,13 @@ $preguntasJson = json_encode($preguntas, JSON_UNESCAPED_UNICODE);
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="controlador/cuestionarios.js"></script>
     <style>
-        .btn-volver {
-            padding: 3px 8px;
-            font-size: 12px;
+        .btn-volver-cuestionarios {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 2rem;
+    font-size: 12px;
+    width: auto;
+    border-radius: 6px;
         }
     </style>
 </body>
