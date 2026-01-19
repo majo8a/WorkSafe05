@@ -26,36 +26,60 @@ function verificarProgreso() {
     .then((res) => res.json())
     .then((data) => {
       if (data.existe) {
-        // 🔁 YA EXISTE PROGRESO
         idEvaluacion = data.id_evaluacion;
         mostrarModalContinuar();
       } else {
-        // 🆕 PRIMERA VEZ
         mostrarModalBienvenida();
       }
     })
-    .catch((err) => {
-      console.error(err);
+    .catch(() => {
       mostrarModalBienvenida();
     });
 }
 
 // =============================
-// MODAL BIENVENIDA (PRIMERA VEZ)
+// MODAL BIENVENIDA
 // =============================
 function mostrarModalBienvenida() {
   Swal.fire({
     title: "Bienvenido al cuestionario",
     html: `
-            <p>Este cuestionario se guardará automáticamente.</p>
-            <p>Si sales, podrás continuar después desde donde lo dejaste.</p>
-        `,
+      <p>Este cuestionario se guardará automáticamente.</p>
+      <p>Podrás continuar después si sales.</p>
+    `,
     icon: "info",
     confirmButtonText: "Comenzar",
     allowOutsideClick: false,
-  }).then(() => {
-    mostrarPregunta();
+  }).then((result) => {
+    if (result.isConfirmed) {
+      iniciarEvaluacion();
+    }
   });
+}
+
+// =============================
+// INICIAR / MARCAR PENDIENTE
+// =============================
+function iniciarEvaluacion() {
+  fetch("../api/evaluacion/iniciar_evaluacion.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      idCuestionario: idCuestionario,
+    }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        idEvaluacion = data.idEvaluacion;
+        mostrarPregunta();
+      } else {
+        Swal.fire("Error", data.message, "error");
+      }
+    })
+    .catch(() => {
+      Swal.fire("Error", "No se pudo iniciar la evaluación", "error");
+    });
 }
 
 // =============================
@@ -64,7 +88,7 @@ function mostrarModalBienvenida() {
 function mostrarModalContinuar() {
   Swal.fire({
     title: "Cuestionario en progreso",
-    text: "Tienes un cuestionario sin finalizar. ¿Qué deseas hacer?",
+    text: "Tienes un cuestionario sin finalizar",
     icon: "question",
     showCancelButton: true,
     confirmButtonText: "Continuar",
@@ -105,8 +129,7 @@ function cargarRespuestasGuardadas() {
 
       mostrarPregunta();
     })
-    .catch((err) => {
-      console.error("Error al cargar respuestas", err);
+    .catch(() => {
       mostrarPregunta();
     });
 }
@@ -121,12 +144,10 @@ function reiniciarCuestionario() {
     body: `idEvaluacion=${idEvaluacion}`,
   })
     .then((res) => res.json())
-    .then((data) => {
-      if (data.success) {
-        respuestasUsuario.fill(null);
-        indicePreguntaActual = 0;
-        mostrarPregunta();
-      }
+    .then(() => {
+      respuestasUsuario.fill(null);
+      indicePreguntaActual = 0;
+      iniciarEvaluacion();
     });
 }
 
@@ -148,7 +169,6 @@ function mostrarPregunta() {
     boton.innerText = opcion.etiqueta;
     boton.classList.add("btn", "btn-primary", "m-1");
 
-    // 🔑 Marcar respuesta guardada
     if (
       respuestasUsuario[indicePreguntaActual] !== null &&
       Number(respuestasUsuario[indicePreguntaActual]) ===
@@ -191,11 +211,7 @@ function mostrarPregunta() {
 // =============================
 function mostrarSiguientePregunta() {
   if (respuestasUsuario[indicePreguntaActual] === null) {
-    Swal.fire({
-      title: "Respuesta requerida",
-      text: "Selecciona una respuesta para continuar.",
-      icon: "warning",
-    });
+    Swal.fire("Respuesta requerida", "Selecciona una opción", "warning");
     return;
   }
   indicePreguntaActual++;
@@ -208,7 +224,7 @@ function mostrarAnteriorPregunta() {
 }
 
 // =============================
-// GUARDAR RESPUESTA PARCIAL
+// GUARDADO PARCIAL
 // =============================
 function guardarRespuestaParcial(idPregunta, idOpcion, valor) {
   fetch("../api/respuesta/guardar_respuesta_parcial.php", {
@@ -235,19 +251,39 @@ function guardarRespuestaParcial(idPregunta, idOpcion, valor) {
 // =============================
 function finalizarCuestionario() {
   if (respuestasUsuario.includes(null)) {
-    Swal.fire({
-      title: "Faltan respuestas",
-      text: "Debes responder todas las preguntas antes de finalizar.",
-      icon: "warning",
-    });
+    Swal.fire(
+      "Faltan respuestas",
+      "Debes responder todas las preguntas",
+      "warning",
+    );
     return;
   }
 
-  Swal.fire({
-    title: "Cuestionario finalizado",
-    text: "Gracias por completar el cuestionario.",
-    icon: "success",
-  }).then(() => {
-    window.location.href = "agradecimiento.php";
-  });
+  const datos = {
+    idCuestionario: idCuestionario,
+    respuestas: respuestasUsuario,
+  };
+
+  fetch("../api/guardar_respuestas.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(datos),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        Swal.fire(
+          "Cuestionario finalizado",
+          "Gracias por completar el cuestionario",
+          "success",
+        ).then(() => {
+          window.location.href = "agradecimiento.php";
+        });
+      } else {
+        Swal.fire("Error", data.error, "error");
+      }
+    })
+    .catch(() => {
+      Swal.fire("Error", "No se pudo guardar el cuestionario", "error");
+    });
 }

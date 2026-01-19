@@ -478,27 +478,46 @@ FOR EACH ROW
 BEGIN
     DECLARE done INT DEFAULT 0;
     DECLARE idCuestionario INT;
+
     DECLARE curCuestionarios CURSOR FOR 
-        SELECT id_cuestionario FROM Cuestionario;
+        SELECT id_cuestionario
+        FROM Cuestionario
+        WHERE estado = 'activo';
 
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
 
-    OPEN curCuestionarios;
+    -- ✔ SOLO crear evaluaciones si el rol NO es 1 ni 2
+    IF NEW.id_rol NOT IN (1, 2) THEN
 
-    loop_cuestionarios: LOOP
-        FETCH curCuestionarios INTO idCuestionario;
-        IF done = 1 THEN
-            LEAVE loop_cuestionarios;
-        END IF;
+        OPEN curCuestionarios;
 
-        INSERT INTO Evaluacion (id_usuario, id_cuestionario, fecha_aplicacion, estado)
-        VALUES (NEW.id_usuario, idCuestionario, NOW(), 'pendiente');
-    END LOOP;
+        loop_cuestionarios: LOOP
+            FETCH curCuestionarios INTO idCuestionario;
+            IF done = 1 THEN
+                LEAVE loop_cuestionarios;
+            END IF;
 
-    CLOSE curCuestionarios;
+            INSERT INTO Evaluacion (
+                id_usuario,
+                id_cuestionario,
+                fecha_aplicacion,
+                estado
+            )
+            VALUES (
+                NEW.id_usuario,
+                idCuestionario,
+                NOW(),
+                'Asignado'
+            );
+        END LOOP;
+
+        CLOSE curCuestionarios;
+    END IF;
+
 END$$
 
 DELIMITER ;
+
 
 DELIMITER $$
 

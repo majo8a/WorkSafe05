@@ -59,44 +59,13 @@ try {
     $idUsuarioNuevo = $stmt->insert_id;
     $stmt->close();
 
-    $sqlCuest = "
-        SELECT id_cuestionario
-        FROM Cuestionario
-        WHERE estado = 'activo'
-        ORDER BY fecha_creacion DESC
-        LIMIT 1
-    ";
-
-    $resCuest = $db->query($sqlCuest);
-
-    if (!$resCuest || $resCuest->num_rows === 0) {
-        throw new Exception("Usuario creado, pero no hay cuestionario activo para asignar");
-    }
-
-    $idCuestionario = $resCuest->fetch_assoc()['id_cuestionario'];
-
-    $stmtEval = $db->prepare("
-        INSERT INTO Evaluacion
-        (id_usuario, id_cuestionario, estado, fecha_aplicacion)
-        VALUES (?, ?, 'pendiente', NOW())
-    ");
-
-    $stmtEval->bind_param("ii", $idUsuarioNuevo, $idCuestionario);
-
-    if (!$stmtEval->execute()) {
-        throw new Exception("Error al asignar la evaluación: " . $stmtEval->error);
-    }
-
-    $stmtEval->close();
-
     $db->commit();
 
     echo json_encode([
         "status" => "success",
-        "message" => "Usuario y evaluación creados correctamente",
+        "message" => "Usuario creado correctamente. Las evaluaciones fueron asignadas automáticamente.",
         "id_usuario" => $idUsuarioNuevo
     ]);
-
 } catch (Exception $e) {
 
     $db->rollback();
