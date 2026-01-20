@@ -507,7 +507,7 @@ BEGIN
                 NEW.id_usuario,
                 idCuestionario,
                 NOW(),
-                'Asignado'
+                'asignado'
             );
         END LOOP;
 
